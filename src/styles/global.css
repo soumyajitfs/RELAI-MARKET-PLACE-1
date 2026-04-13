@@ -765,8 +765,17 @@ html, body {
 }
 
 /* Customer Lifecycle analytics hub — sub-use case cards + in-page detail panel */
+.customer-lifecycle-analytics-page .lifecycle-sub-grid {
+  align-items: start;
+}
+
 .customer-lifecycle-analytics-page .lifecycle-sub-card {
   cursor: default;
+  transition:
+    transform 0.28s cubic-bezier(0.34, 1.2, 0.64, 1),
+    box-shadow 0.28s ease,
+    border-color 0.28s ease,
+    opacity 0.28s ease;
 }
 
 .customer-lifecycle-analytics-page .lifecycle-sub-card:hover {
@@ -775,10 +784,41 @@ html, body {
   border-color: var(--gray-border);
 }
 
-.customer-lifecycle-analytics-page .lifecycle-sub-card-selected,
+/* Other cards slightly recede so the active use case reads clearly */
+.customer-lifecycle-analytics-page .lifecycle-sub-grid .lifecycle-sub-card:not(.lifecycle-sub-card-selected) {
+  opacity: 0.9;
+}
+
+.customer-lifecycle-analytics-page .lifecycle-sub-grid .lifecycle-sub-card:not(.lifecycle-sub-card-selected):hover {
+  opacity: 0.96;
+}
+
+/* Active use case after View — zoom, ring, stronger shadow, tinted header */
+.customer-lifecycle-analytics-page .lifecycle-sub-card-selected {
+  opacity: 1;
+  transform: scale(1.04);
+  z-index: 2;
+  border-width: 2px;
+  border-color: rgba(102, 126, 234, 0.75);
+  box-shadow:
+    0 16px 48px rgba(19, 51, 142, 0.22),
+    0 0 0 4px rgba(102, 126, 234, 0.14);
+}
+
 .customer-lifecycle-analytics-page .lifecycle-sub-card-selected:hover {
-  border-color: rgba(102, 126, 234, 0.45);
-  box-shadow: 0 8px 28px rgba(19, 51, 142, 0.15);
+  transform: scale(1.04);
+  box-shadow:
+    0 18px 52px rgba(19, 51, 142, 0.26),
+    0 0 0 4px rgba(102, 126, 234, 0.18);
+  border-color: rgba(102, 126, 234, 0.85);
+}
+
+.customer-lifecycle-analytics-page .lifecycle-sub-card-selected .card-header {
+  background: linear-gradient(180deg, #c4dcff 0%, #a8cdfb 100%);
+}
+
+.customer-lifecycle-analytics-page .lifecycle-sub-card-selected .card-header h5 {
+  color: #0d2866;
 }
 
 .customer-lifecycle-analytics-page .lifecycle-sub-card-body {

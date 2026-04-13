@@ -9,6 +9,8 @@ const CustomerLifecycleSubCard = ({
 }) => (
   <div
     className={`marketplace-card lifecycle-sub-card ${isSelected ? 'lifecycle-sub-card-selected' : ''}`}
+    aria-current={isSelected ? 'true' : undefined}
+    data-selected={isSelected ? 'true' : undefined}
   >
     <div className="card-header">
       <h5>{title}</h5>

@@ -48,6 +48,18 @@ const formatDisplayValue = (val) => {
   return String(val);
 };
 
+/** Maps API category strings to global `.category-badge.{high|medium|low}` (same as other ML marketplace tables). */
+const getCategoryBadgeClass = (category) => {
+  if (category == null || category === '') return null;
+  const s = String(category).trim().toLowerCase();
+  if (s === 'high' || s === 'super high') return 'high';
+  if (s === 'medium') return 'medium';
+  if (s === 'low') return 'low';
+  return null;
+};
+
+const isCategoryOutputColumn = (key) => /^category$/i.test(String(key));
+
 function selectValueMatchesOption(spec, val) {
   if (!spec.options?.length) return true;
   const first = spec.options[0];
@@ -378,9 +390,22 @@ const CustomerLifecycleSimulationPanel = ({ generateKey, modelTitle }) => {
     return <td key={key}>{formatDisplayValue(val)}</td>;
   };
 
-  const renderOutputValueCell = (key, val) => (
-    <td key={key}>{formatDisplayValue(val)}</td>
-  );
+  const renderOutputValueCell = (key, val) => {
+    if (isCategoryOutputColumn(key)) {
+      const label = formatDisplayValue(val);
+      const badgeClass = getCategoryBadgeClass(val);
+      return (
+        <td key={key} style={{ textAlign: 'center' }}>
+          {badgeClass ? (
+            <span className={`category-badge ${badgeClass}`}>{label}</span>
+          ) : (
+            label
+          )}
+        </td>
+      );
+    }
+    return <td key={key}>{formatDisplayValue(val)}</td>;
+  };
 
   const selectedShapRow = useMemo(() => {
     if (!selectedOutputId) return null;
@@ -618,7 +643,7 @@ const CustomerLifecycleSimulationPanel = ({ generateKey, modelTitle }) => {
           </div>
 
           {lifecycleShapData && (
-            <CustomerLifecycleShapAnalysis shapData={lifecycleShapData} />
+            <CustomerLifecycleShapAnalysis shapData={lifecycleShapData} generateKey={generateKey} />
           )}
         </>
       )}

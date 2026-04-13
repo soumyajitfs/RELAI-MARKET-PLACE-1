@@ -23,8 +23,9 @@ const probabilityLabelMap = {
 
 /**
  * Same layout as PatientCollectability ShapAnalysis; driven by buildLifecycleShapData.
+ * @param {{ shapData: object, generateKey?: string }} props — `customer_value` (Lifetime Value) uses neutral labels without category prefix.
  */
-const CustomerLifecycleShapAnalysis = ({ shapData }) => {
+const CustomerLifecycleShapAnalysis = ({ shapData, generateKey }) => {
   const features = useMemo(() => shapData?.features || [], [shapData]);
   const predictedCategory = shapData?.predictedCategory || '';
   const categoryDisplayLabel = shapData?.categoryDisplayLabel || predictedCategory;
@@ -65,8 +66,13 @@ const CustomerLifecycleShapAnalysis = ({ shapData }) => {
   const theme = CAT_THEME[predictedCategory] || CAT_THEME.Low;
   const resolvedCategory = predictedCategory || 'Low';
   const resolvedDisplayCategory = categoryDisplayLabel || resolvedCategory;
-  /** Lifecycle models: badge shows use-case name only (no "High —" / "Medium —" prefix). */
-  const catBadgeLabel = categoryContextLabel;
+
+  const isCustomerLifetimeValue = generateKey === 'customer_value';
+
+  /** Regression (Lifetime Value): badge is only the model name. Classification lifecycle: "Category — model name". */
+  const catBadgeLabel = isCustomerLifetimeValue
+    ? categoryContextLabel
+    : `${resolvedDisplayCategory} — ${categoryContextLabel}`;
 
   const isLow = predictedCategory === 'Low';
   const probabilityLabel =
@@ -76,7 +82,19 @@ const CustomerLifecycleShapAnalysis = ({ shapData }) => {
 
   const withFactorContext = (text) =>
     factorContextLabel ? `${text} ${factorContextLabel}` : text;
-  const singleLabel = withFactorContext('TOP FACTORS');
+
+  /** Lifetime Value (regression): "TOP FACTORS". Other lifecycle models: TOP HIGH/MEDIUM/LOW FACTORS from category. */
+  const singleLabel = isCustomerLifetimeValue
+    ? withFactorContext('TOP FACTORS')
+    : categoryDisplayLabel
+      ? withFactorContext(`TOP ${String(categoryDisplayLabel).toUpperCase()} FACTORS`)
+      : predictedCategory === 'Super High'
+        ? withFactorContext('TOP SUPER HIGH FACTORS')
+        : predictedCategory === 'High'
+          ? withFactorContext('TOP HIGH FACTORS')
+          : predictedCategory === 'Low'
+            ? withFactorContext('TOP LOW FACTORS')
+            : withFactorContext('TOP MEDIUM FACTORS');
 
   const allFactors = [...top3Toward, ...top3Against];
   const maxAbsAll = allFactors.length > 0 ? Math.max(...allFactors.map((t) => Math.abs(t.impact))) : 1;
