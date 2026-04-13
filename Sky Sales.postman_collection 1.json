@@ -1,0 +1,131 @@
+{
+  "info": {
+    "_postman_id": "945b622f-2d5a-4a78-8f34-00ad885f5655",
+    "name": "Sky Sales",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40564629"
+  },
+  "item": [
+    {
+      "name": "Generate",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "997hhEo876NHJo2AMbXl1i78895deK",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://ml-market-backend-sales-optimization.azurewebsites.net/api/sales/accounts/generate",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-sales-optimization",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "sales",
+            "accounts",
+            "generate"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Generate",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://ml-market-backend-sales-optimization.azurewebsites.net/api/sales/accounts/generate",
+              "protocol": "https",
+              "host": [
+                "ml-market-backend-sales-optimization",
+                "azurewebsites",
+                "net"
+              ],
+              "path": [
+                "api",
+                "sales",
+                "accounts",
+                "generate"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Length",
+              "value": "3242"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 09 Mar 2026 12:45:58 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "uvicorn"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"Response\": {\n        \"StatusCode\": 200,\n        \"Message\": \"Success\",\n        \"ResponseInfo\": {\n            \"data\": [\n                {\n                    \"interactionid\": \"INT1000802\",\n                    \"Customer_Account\": \"71951426816\",\n                    \"Agent_ID\": \"A1045\",\n                    \"Agent_tenure\": \"OJT(0-3 months)\",\n                    \"Location\": \"Bangalore\",\n                    \"Customer_Tenure_Segment\": \"Silver(0-3yrs)\",\n                    \"AHT_sec\": 650,\n                    \"Compliance_Miss\": 0,\n                    \"Num of existing product\": 1,\n                    \"Services\": \"Triple Play Bundle\",\n                    \"channel\": \"chat\",\n                    \"number_of_prior_calls_90d\": 1,\n                    \"time_since_last_success\": 35,\n                    \"call_sequence_position\": 1,\n                    \"escalation_flag\": 0,\n                    \"time_of_day_bucket\": \"Afternoon\",\n                    \"seasonal_factor\": 1,\n                    \"pitchtype\": \"Retention Save\",\n                    \"primaryproductoffered\": \"Triple Play Bundle\",\n                    \"compliancescore\": 0.8265,\n                    \"sentimentscore\": 1.03,\n                    \"last_nps\": 6,\n                    \"day_of_week\": \"Wednesday\"\n                },\n                {\n                    \"interactionid\": \"INT2208375\",\n                    \"Customer_Account\": \"84126049075\",\n                    \"Agent_ID\": \"A1265\",\n                    \"Agent_tenure\": \"BAU (above 3 months)\",\n                    \"Location\": \"Hyderabad\",\n                    \"Customer_Tenure_Segment\": \"Platinum (8-15yrs)\",\n                    \"AHT_sec\": 590,\n                    \"Compliance_Miss\": 0,\n                    \"Num of existing product\": 4,\n                    \"Services\": \"Mobile 5GB SIM\",\n                    \"channel\": \"chat\",\n                    \"number_of_prior_calls_90d\": 4,\n                    \"time_since_last_success\": 29,\n                    \"call_sequence_position\": 2,\n                    \"escalation_flag\": 0,\n                    \"time_of_day_bucket\": \"Afternoon\",\n                    \"seasonal_factor\": 1.15,\n                    \"pitchtype\": \"Upsell Add-on\",\n                    \"primaryproductoffered\": \"Broadband Superfast\",\n                    \"compliancescore\": 0.841,\n                    \"sentimentscore\": 0.43,\n                    \"last_nps\": 3,\n                    \"day_of_week\": \"Thursday\"\n                },\n                {\n                    \"interactionid\": \"INT1001002\",\n                    \"Customer_Account\": \"88506680776\",\n                    \"Agent_ID\": \"A1265\",\n                    \"Agent_tenure\": \"OJT(0-3 months)\",\n                    \"Location\": \"Hyderabad\",\n                    \"Customer_Tenure_Segment\": \"Platinum (8-15yrs)\",\n                    \"AHT_sec\": 650,\n                    \"Compliance_Miss\": 0,\n                    \"Num of existing product\": 1,\n                    \"Services\": \"Mobile 5GB SIM\",\n                    \"channel\": \"Voice\",\n                    \"number_of_prior_calls_90d\": 2,\n                    \"time_since_last_success\": 83,\n                    \"call_sequence_position\": 3,\n                    \"escalation_flag\": 0,\n                    \"time_of_day_bucket\": \"Afternoon\",\n                    \"seasonal_factor\": 1.2,\n                    \"pitchtype\": \"Upsell Add-on\",\n                    \"primaryproductoffered\": \"Broadband Superfast\",\n                    \"compliancescore\": 0.8455,\n                    \"sentimentscore\": 0.88,\n                    \"last_nps\": 8.1,\n                    \"day_of_week\": \"Friday\"\n                },\n                {\n                    \"interactionid\": \"INT9413570\",\n                    \"Customer_Account\": \"87688733909\",\n                    \"Agent_ID\": \"A1045\",\n                    \"Agent_tenure\": \"BAU (above 3 months)\",\n                    \"Location\": \"Bangalore\",\n                    \"Customer_Tenure_Segment\": \"Platinum (8-15yrs)\",\n                    \"AHT_sec\": 749,\n                    \"Compliance_Miss\": 0,\n                    \"Num of existing product\": 4,\n                    \"Services\": \"Mobile Unlimited SIM\",\n                    \"channel\": \"chat\",\n                    \"number_of_prior_calls_90d\": 0,\n                    \"time_since_last_success\": 89,\n                    \"call_sequence_position\": 3,\n                    \"escalation_flag\": 0,\n                    \"time_of_day_bucket\": \"Afternoon\",\n                    \"seasonal_factor\": 1.06,\n                    \"pitchtype\": \"Retention Save\",\n                    \"primaryproductoffered\": \"Entertainment\",\n                    \"compliancescore\": 0.8708,\n                    \"sentimentscore\": 0.85,\n                    \"last_nps\": 1.5,\n                    \"day_of_week\": \"Monday\"\n                },\n                {\n                    \"interactionid\": \"INT5512086\",\n                    \"Customer_Account\": \"75575760891\",\n                    \"Agent_ID\": \"A1265\",\n                    \"Agent_tenure\": \"BAU (above 3 months)\",\n                    \"Location\": \"Mumbai\",\n                    \"Customer_Tenure_Segment\": \"Platinum (8-15yrs)\",\n                    \"AHT_sec\": 506,\n                    \"Compliance_Miss\": 1,\n                    \"Num of existing product\": 2,\n                    \"Services\": \"Triple Play Bundle\",\n                    \"channel\": \"chat\",\n                    \"number_of_prior_calls_90d\": 3,\n                    \"time_since_last_success\": 87,\n                    \"call_sequence_position\": 3,\n                    \"escalation_flag\": 0,\n                    \"time_of_day_bucket\": \"Afternoon\",\n                    \"seasonal_factor\": 1.04,\n                    \"pitchtype\": \"Retention Save\",\n                    \"primaryproductoffered\": \"Triple Play Bundle\",\n                    \"compliancescore\": 0.941,\n                    \"sentimentscore\": 0.71,\n                    \"last_nps\": 6.9,\n                    \"day_of_week\": \"Friday\"\n                }\n            ],\n            \"modelName\": \"Sales Conversion Generator\",\n            \"recordCount\": 5,\n            \"responseTimeMs\": 0\n        }\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Predict",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "997hhEo876NHJo2AMbXl1i78895deK",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "[\r\n                {\r\n                    \"interactionid\": \"INT3259179\",\r\n                    \"Customer_Account\": \"87426489341\",\r\n                    \"Agent_ID\": \"A1760\",\r\n                    \"Agent_tenure\": \"BAU (above 3 months)\",\r\n                    \"Location\": \"Hyderabad\",\r\n                    \"Customer_Tenure_Segment\": \"Silver(0-3yrs)\",\r\n                    \"AHT_sec\": 739,\r\n                    \"Compliance_Miss\": 0,\r\n                    \"Num of existing product\": 4,\r\n                    \"Services\": \"Cinema\",\r\n                    \"channel\": \"Voice\",\r\n                    \"number_of_prior_calls_90d\": 4,\r\n                    \"time_since_last_success\": 28,\r\n                    \"call_sequence_position\": 2,\r\n                    \"escalation_flag\": 1,\r\n                    \"time_of_day_bucket\": \"Morning\",\r\n                    \"seasonal_factor\": 0.83,\r\n                    \"pitchtype\": \"Retention Save\",\r\n                    \"primaryproductoffered\": \"Entertainment\",\r\n                    \"compliancescore\": 0.8864,\r\n                    \"sentimentscore\": 0.91,\r\n                    \"last_nps\": 3.2,\r\n                    \"day_of_week\": \"Wednesday\"\r\n                }\r\n]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://ml-market-backend-sales-optimization.azurewebsites.net/api/sales/accounts/predict",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-sales-optimization",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "sales",
+            "accounts",
+            "predict"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

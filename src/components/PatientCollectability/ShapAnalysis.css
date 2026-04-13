@@ -1,0 +1,430 @@
+/* ============================================= */
+/* SHAP ANALYSIS SECTION                         */
+/* ============================================= */
+.shap-analysis-section {
+  margin-top: 28px;
+  font-family: inherit;
+}
+
+.shap-analysis-section hr {
+  border: none;
+  border-top: 1px solid #e2e8f0;
+  margin: 0 0 22px;
+}
+
+.shap-analysis-section h4 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1e293b;
+  letter-spacing: -0.3px;
+}
+
+
+/* ============================================= */
+/* SHAP CARD — elevated, clean                   */
+/* ============================================= */
+.shap-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 6px 24px rgba(0,0,0,0.045);
+  overflow: visible;
+  background: #ffffff;
+}
+
+.shap-card .card-body {
+  padding: 28px 28px 22px;
+}
+
+.shap-title {
+  font-size: 19px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 20px 0;
+  letter-spacing: -0.4px;
+}
+
+
+/* ============================================= */
+/* TWO-COLUMN LAYOUT                             */
+/* ============================================= */
+.shap-two-col {
+  display: flex;
+  gap: 0;
+  min-height: 380px;
+}
+
+/* Left: chart */
+.shap-col-chart {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Right: info panel */
+.shap-col-info {
+  flex: 0 0 520px;
+  border-left: 1px solid #e2e8f0;
+  padding-left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+
+/* ============================================= */
+/* INFO PANEL — CATEGORY BADGE                   */
+/* ============================================= */
+.info-badges {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.shap-cat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 6px 16px;
+  border-radius: 8px;
+  border: 1.5px solid;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+
+/* ============================================= */
+/* PREDICTED PROBABILITY                         */
+/* ============================================= */
+.shap-prob-box-bottom {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 18px 20px;
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.shap-prob-box-bottom--compact {
+  flex: 0 0 auto;
+}
+
+.prob-label-bottom {
+  font-size: 12px;
+  font-weight: 800;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.prob-value-bottom {
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  line-height: 1.05;
+}
+
+
+/* ============================================= */
+/* DIVIDER                                       */
+/* ============================================= */
+.info-divider {
+  height: 1px;
+  background: #e2e8f0;
+  margin: 16px 0;
+}
+
+
+/* ============================================= */
+/* FACTORS TWO-COLUMN GRID                       */
+/* ============================================= */
+.factors-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.top-factors-label--toward i {
+  color: #10b981;
+}
+
+.top-factors-label--against i {
+  color: #ef4444;
+}
+
+
+/* ============================================= */
+/* TOP FACTORS                                   */
+/* ============================================= */
+.top-factors-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.top-factors-label {
+  font-size: 12px;
+  font-weight: 800;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.top-factors-label i {
+  font-size: 13px;
+  color: #6366f1;
+}
+
+/* Single factor card */
+.tf-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.tf-row:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border-color: #cbd5e1;
+}
+
+.tf-rank {
+  font-size: 11px;
+  font-weight: 800;
+  min-width: 24px;
+  padding-top: 2px;
+}
+
+.tf-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.tf-name-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.tf-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #1e293b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tf-score {
+  font-size: 13px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.tf-val {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  display: block;
+  margin: 3px 0 7px;
+}
+
+.tf-bar-track {
+  height: 4px;
+  background: #f1f5f9;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.tf-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+/* ============================================= */
+/* CHART HEADER ROW — FEATURES | Category | FV   */
+/* ============================================= */
+.shap-chart-header {
+  margin-bottom: 2px;
+  border-bottom: 2px solid #e2e8f0;
+  background: #f8fafc;
+  border-radius: 6px 6px 0 0;
+}
+
+.shap-chart-header__left,
+.shap-chart-header__right {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #475569;
+}
+
+.shap-chart-header__center {
+  font-size: 15px;
+  color: #1e293b;
+  letter-spacing: 0.3px;
+}
+
+.shap-chart-header__right {
+  color: #6366f1;
+}
+
+
+/* ============================================= */
+/* FEATURE VALUES COLUMN                         */
+/* ============================================= */
+.shap-chart-wrapper {
+  position: relative;
+}
+
+.shap-left-body {
+  display: flex;
+  align-items: stretch;
+  position: relative;
+}
+
+.shap-feature-col {
+  position: relative;
+  width: 52%;
+  padding-right: 14px;
+  overflow: hidden;
+}
+
+.shap-feature-name-row {
+  position: absolute;
+  right: 14px;
+  left: 8px;
+  text-align: right;
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+  line-height: 1.15;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: clip;
+}
+
+.shap-feature-separator {
+  flex: 0 0 2px;
+  width: 2px;
+  background: #e2e8f0;
+}
+
+.shap-bars-col {
+  width: 48%;
+  padding-left: 10px;
+}
+
+.shap-chart-wrapper .col-5 {
+  border-left: 2px solid #e2e8f0;
+}
+
+.fv-row {
+  display: flex;
+  align-items: center;
+  min-height: 22px;
+}
+
+.fv-badge {
+  display: inline-block;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fv-badge:hover {
+  transform: translateX(2px);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.fv-badge--pos {
+  background: rgba(16, 185, 129, 0.06);
+  color: #065f46;
+  border: 1px solid rgba(16, 185, 129, 0.18);
+}
+
+.fv-badge--neg {
+  background: rgba(239, 68, 68, 0.05);
+  color: #991b1b;
+  border: 1px solid rgba(239, 68, 68, 0.16);
+}
+
+
+/* ============================================= */
+/* LEGEND                                        */
+/* ============================================= */
+.shap-legend {
+  font-size: 12.5px;
+  color: #94a3b8;
+  padding: 12px 0 0;
+  letter-spacing: 0.1px;
+}
+
+.legend-green {
+  color: #10b981;
+  font-weight: 700;
+}
+
+.legend-red {
+  color: #ef4444;
+  font-weight: 700;
+}
+
+
+/* ============================================= */
+/* RESPONSIVE                                    */
+/* ============================================= */
+@media (max-width: 1200px) {
+  .shap-col-info {
+    flex: 0 0 420px;
+  }
+}
+
+@media (max-width: 991px) {
+  .shap-two-col {
+    flex-direction: column;
+  }
+  .shap-col-info {
+    flex: none;
+    border-left: none;
+    border-top: 1px solid #e2e8f0;
+    padding-left: 0;
+    padding-top: 18px;
+    margin-top: 18px;
+  }
+  .factors-two-col {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .factors-two-col {
+    grid-template-columns: 1fr;
+  }
+}

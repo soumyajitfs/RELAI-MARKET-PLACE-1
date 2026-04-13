@@ -1,0 +1,60 @@
+body {
+    font-family: 'Chivo';
+}
+
+.logo {
+    height: 40px;
+    width: 40px;
+}
+
+.header {
+    width: 904px;
+    height: 57px;
+    /* Converted rgb(210, 231, 252) to #D2E7FC and rgb(255, 255, 255) to #FFFFFF */
+    background: linear-gradient(90deg, #D2E7FC 0%, #FFFFFF 51%);
+}
+
+.solution-name {
+    font-size: 24px;
+    font-weight: 400;
+    /* Converted rgb(0, 0, 0) to #000000 */
+    color: #000000;
+}
+
+.button {
+    width: 69.5px;
+    height: 28.5px;
+    /* Converted rgb(19, 51, 142) to #13338E */
+    background-color: #13338E;
+    font-size: 12px;
+    /* Converted rgb(255, 255, 255) to #FFFFFF */
+    color: #FFFFFF;
+}
+
+.menu-container {
+    /* Converted rgb(255, 255, 255) to #FFFFFF */
+    background-color: #FFFFFF;
+    font-size: 14px;
+}
+
+.menu-item {
+    color: #000000;
+    background-color: transparent;
+}
+
+.menu-item-selected {
+    color: #FFFFFF;
+    background-color: #ff4400;
+}
+
+.screen-heading {
+    /* Converted rgb(208, 230, 251) to #D0E6FB */
+    background-color: #D0E6FB;
+    font-size: 12px; 
+    /* Converted rgb(19, 51, 142) to #13338E */
+    color: #13338E;
+}
+
+.screen-background {
+    background-color: #F7F7F7;
+}

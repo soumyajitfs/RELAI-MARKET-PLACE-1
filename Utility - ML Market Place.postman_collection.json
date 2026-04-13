@@ -1,0 +1,198 @@
+{
+  "info": {
+    "_postman_id": "921464f4-5c00-4310-b555-f0241d11cca4",
+    "name": "Utility - ML Market Place",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40564629"
+  },
+  "item": [
+    {
+      "name": "Generate Raw Samples",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "997hhEo876NHJo2AMbXl1i78895deK",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://ml-market-backend-utility.azurewebsites.net/api/utilities/accounts/generate?n=10",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-utility",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "utilities",
+            "accounts",
+            "generate"
+          ],
+          "query": [
+            {
+              "key": "n",
+              "value": "10"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Generate Raw Samples",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://ml-market-backend-utility.azurewebsites.net/api/utilities/accounts/generate?n=10",
+              "protocol": "https",
+              "host": [
+                "ml-market-backend-utility",
+                "azurewebsites",
+                "net"
+              ],
+              "path": [
+                "api",
+                "utilities",
+                "accounts",
+                "generate"
+              ],
+              "query": [
+                {
+                  "key": "n",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Length",
+              "value": "3516"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 16 Feb 2026 08:37:34 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "uvicorn"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"Response\": {\n        \"StatusCode\": 200,\n        \"Message\": \"Success\",\n        \"ResponseInfo\": {\n            \"data\": [\n                {\n                    \"acct_id\": 24795,\n                    \"budget_billing_flag\": \"Yes\",\n                    \"low_income_flag\": \"Yes\",\n                    \"pct_on_time_payments_12m\": 0.73,\n                    \"payment_channel_primary\": \"IVR\",\n                    \"arrears_balance\": 599.6,\n                    \"max_dpd_12m\": 9,\n                    \"delinquency_count_12m\": 1,\n                    \"rpc_success_ratio\": 0.39,\n                    \"ptp_kept_count\": 4,\n                    \"ptp_broken_count\": 0,\n                    \"arrangement_enrolled_flag\": \"No\",\n                    \"tu_score\": 588,\n                    \"complaint_count\": 1\n                },\n                {\n                    \"acct_id\": 37216,\n                    \"budget_billing_flag\": \"Yes\",\n                    \"low_income_flag\": \"Yes\",\n                    \"pct_on_time_payments_12m\": 0.87,\n                    \"payment_channel_primary\": \"Agent\",\n                    \"arrears_balance\": 147.01,\n                    \"max_dpd_12m\": 10,\n                    \"delinquency_count_12m\": 4,\n                    \"rpc_success_ratio\": 0.71,\n                    \"ptp_kept_count\": 0,\n                    \"ptp_broken_count\": 3,\n                    \"arrangement_enrolled_flag\": \"Yes\",\n                    \"tu_score\": 740,\n                    \"complaint_count\": 3\n                },\n                {\n                    \"acct_id\": 21662,\n                    \"budget_billing_flag\": \"Yes\",\n                    \"low_income_flag\": \"Yes\",\n                    \"pct_on_time_payments_12m\": 0.8,\n                    \"payment_channel_primary\": \"Cash\",\n                    \"arrears_balance\": 1118.03,\n                    \"max_dpd_12m\": 25,\n                    \"delinquency_count_12m\": 2,\n                    \"rpc_success_ratio\": 0.64,\n                    \"ptp_kept_count\": 2,\n                    \"ptp_broken_count\": 0,\n                    \"arrangement_enrolled_flag\": \"Yes\",\n                    \"tu_score\": 564,\n                    \"complaint_count\": 3\n                },\n                {\n                    \"acct_id\": 22128,\n                    \"budget_billing_flag\": \"No\",\n                    \"low_income_flag\": \"No\",\n                    \"pct_on_time_payments_12m\": 0.7,\n                    \"payment_channel_primary\": \"Agent\",\n                    \"arrears_balance\": 408.29,\n                    \"max_dpd_12m\": 23,\n                    \"delinquency_count_12m\": 3,\n                    \"rpc_success_ratio\": 0.49,\n                    \"ptp_kept_count\": 2,\n                    \"ptp_broken_count\": 1,\n                    \"arrangement_enrolled_flag\": \"Yes\",\n                    \"tu_score\": 692,\n                    \"complaint_count\": 1\n                },\n                {\n                    \"acct_id\": 31789,\n                    \"budget_billing_flag\": \"No\",\n                    \"low_income_flag\": \"No\",\n                    \"pct_on_time_payments_12m\": 0.69,\n                    \"payment_channel_primary\": \"Agent\",\n                    \"arrears_balance\": 699.66,\n                    \"max_dpd_12m\": 56,\n                    \"delinquency_count_12m\": 0,\n                    \"rpc_success_ratio\": 0.49,\n                    \"ptp_kept_count\": 0,\n                    \"ptp_broken_count\": 2,\n                    \"arrangement_enrolled_flag\": \"Yes\",\n                    \"tu_score\": 568,\n                    \"complaint_count\": 0\n                },\n                {\n                    \"acct_id\": 16622,\n                    \"budget_billing_flag\": \"No\",\n                    \"low_income_flag\": \"Yes\",\n                    \"pct_on_time_payments_12m\": 0.44,\n                    \"payment_channel_primary\": \"Agent\",\n                    \"arrears_balance\": 328.74,\n                    \"max_dpd_12m\": 7,\n                    \"delinquency_count_12m\": 2,\n                    \"rpc_success_ratio\": 0.43,\n                    \"ptp_kept_count\": 0,\n                    \"ptp_broken_count\": 3,\n                    \"arrangement_enrolled_flag\": \"No\",\n                    \"tu_score\": 443,\n                    \"complaint_count\": 0\n                },\n                {\n                    \"acct_id\": 18639,\n                    \"budget_billing_flag\": \"No\",\n                    \"low_income_flag\": \"Yes\",\n                    \"pct_on_time_payments_12m\": 0.75,\n                    \"payment_channel_primary\": \"Online\",\n                    \"arrears_balance\": 542.11,\n                    \"max_dpd_12m\": 19,\n                    \"delinquency_count_12m\": 4,\n                    \"rpc_success_ratio\": 0.43,\n                    \"ptp_kept_count\": 1,\n                    \"ptp_broken_count\": 1,\n                    \"arrangement_enrolled_flag\": \"Yes\",\n                    \"tu_score\": 730,\n                    \"complaint_count\": 0\n                },\n                {\n                    \"acct_id\": 36216,\n                    \"budget_billing_flag\": \"Yes\",\n                    \"low_income_flag\": \"No\",\n                    \"pct_on_time_payments_12m\": 0.96,\n                    \"payment_channel_primary\": \"Online\",\n                    \"arrears_balance\": 165.8,\n                    \"max_dpd_12m\": 3,\n                    \"delinquency_count_12m\": 1,\n                    \"rpc_success_ratio\": 0.92,\n                    \"ptp_kept_count\": 4,\n                    \"ptp_broken_count\": 0,\n                    \"arrangement_enrolled_flag\": \"Yes\",\n                    \"tu_score\": 770,\n                    \"complaint_count\": 0\n                },\n                {\n                    \"acct_id\": 28855,\n                    \"budget_billing_flag\": \"Yes\",\n                    \"low_income_flag\": \"Yes\",\n                    \"pct_on_time_payments_12m\": 0.85,\n                    \"payment_channel_primary\": \"Cash\",\n                    \"arrears_balance\": 938.43,\n                    \"max_dpd_12m\": 9,\n                    \"delinquency_count_12m\": 1,\n                    \"rpc_success_ratio\": 0.34,\n                    \"ptp_kept_count\": 3,\n                    \"ptp_broken_count\": 2,\n                    \"arrangement_enrolled_flag\": \"No\",\n                    \"tu_score\": 511,\n                    \"complaint_count\": 1\n                },\n                {\n                    \"acct_id\": 24541,\n                    \"budget_billing_flag\": \"No\",\n                    \"low_income_flag\": \"Yes\",\n                    \"pct_on_time_payments_12m\": 0.48,\n                    \"payment_channel_primary\": \"Cash\",\n                    \"arrears_balance\": 1358.53,\n                    \"max_dpd_12m\": 33,\n                    \"delinquency_count_12m\": 4,\n                    \"rpc_success_ratio\": 0.24,\n                    \"ptp_kept_count\": 0,\n                    \"ptp_broken_count\": 4,\n                    \"arrangement_enrolled_flag\": \"No\",\n                    \"tu_score\": 424,\n                    \"complaint_count\": 2\n                }\n            ],\n            \"modelName\": \"Utility Collections Generator\",\n            \"recordCount\": 10,\n            \"responseTimeMs\": 0\n        }\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Predicting",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "997hhEo876NHJo2AMbXl1i78895deK",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "[\r\n                {\r\n                    \"acct_id\": 30253,\r\n                    \"budget_billing_flag\": \"Yes\",\r\n                    \"low_income_flag\": \"Yes\",\r\n                    \"pct_on_time_payments_12m\": 1,\r\n                    \"payment_channel_primary\": \"Online\",\r\n                    \"arrears_balance\": 345.61,\r\n                    \"max_dpd_12m\": 26,\r\n                    \"delinquency_count_12m\": 0,\r\n                    \"rpc_success_ratio\": 1,\r\n                    \"ptp_kept_count\": 2,\r\n                    \"ptp_broken_count\": 0,\r\n                    \"arrangement_enrolled_flag\": \"No\",\r\n                    \"tu_score\": 700,\r\n                    \"complaint_count\": 0\r\n                }\r\n]\r\n\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://ml-market-backend-utility.azurewebsites.net/api/utilities/accounts/predict",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-utility",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "utilities",
+            "accounts",
+            "predict"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Predicting",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "[\r\n                {\r\n                    \"acct_id\": 30253,\r\n                    \"budget_billing_flag\": \"Yes\",\r\n                    \"low_income_flag\": \"Yes\",\r\n                    \"pct_on_time_payments_12m\": 1,\r\n                    \"payment_channel_primary\": \"Online\",\r\n                    \"arrears_balance\": 345.61,\r\n                    \"max_dpd_12m\": 26,\r\n                    \"delinquency_count_12m\": 0,\r\n                    \"rpc_success_ratio\": 1,\r\n                    \"ptp_kept_count\": 2,\r\n                    \"ptp_broken_count\": 0,\r\n                    \"arrangement_enrolled_flag\": \"No\",\r\n                    \"tu_score\": 700,\r\n                    \"complaint_count\": 0\r\n                }\r\n]\r\n\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://ml-market-backend-utility.azurewebsites.net/api/utilities/accounts/predict",
+              "protocol": "https",
+              "host": [
+                "ml-market-backend-utility",
+                "azurewebsites",
+                "net"
+              ],
+              "path": [
+                "api",
+                "utilities",
+                "accounts",
+                "predict"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Length",
+              "value": "729"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 16 Feb 2026 08:37:12 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "uvicorn"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"Response\": {\n        \"StatusCode\": 200,\n        \"Message\": \"Success\",\n        \"ResponseInfo\": {\n            \"data\": [\n                {\n                    \"acct_id\": 30253,\n                    \"probability\": 0.148,\n                    \"probability_percent\": \"14.8%\",\n                    \"category\": \"High\",\n                    \"tu_score\": 700,\n                    \"shap_values\": [\n                        {\n                            \"feature\": \"TU Score\",\n                            \"impact\": 2.831\n                        },\n                        {\n                            \"feature\": \"Arrears Balance\",\n                            \"impact\": 2.4326\n                        },\n                        {\n                            \"feature\": \"Complaint Count\",\n                            \"impact\": -1.7567\n                        },\n                        {\n                            \"feature\": \"RPC Success Ratio\",\n                            \"impact\": 1.0365\n                        },\n                        {\n                            \"feature\": \"PTP Broken Count\",\n                            \"impact\": -0.7942\n                        },\n                        {\n                            \"feature\": \"Delinquency Count\",\n                            \"impact\": -0.6099\n                        },\n                        {\n                            \"feature\": \"Budget Billing\",\n                            \"impact\": -0.4509\n                        },\n                        {\n                            \"feature\": \"Max Days Past Due\",\n                            \"impact\": -0.2622\n                        },\n                        {\n                            \"feature\": \"Arrangement Enrolled\",\n                            \"impact\": 0.1869\n                        },\n                        {\n                            \"feature\": \"Low Income\",\n                            \"impact\": -0.1361\n                        }\n                    ]\n                }\n            ],\n            \"modelName\": \"Pay Propensity Model\",\n            \"recordCount\": 1,\n            \"responseTimeMs\": 16\n        }\n    }\n}"
+        }
+      ]
+    }
+  ]
+}
