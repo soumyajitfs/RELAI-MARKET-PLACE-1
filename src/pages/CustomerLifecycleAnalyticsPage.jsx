@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CustomerLifecycleSubCard from '../components/CustomerLifecycle/CustomerLifecycleSubCard';
 import CustomerLifecycleModelDetailBanner from '../components/CustomerLifecycle/CustomerLifecycleModelDetailBanner';
 import CustomerLifecycleSimulationPanel from '../components/CustomerLifecycle/CustomerLifecycleSimulationPanel';
 import customerLifecycleSubUseCases from '../data/customerLifecycleSubUseCases';
@@ -27,16 +26,18 @@ const CustomerLifecycleAnalyticsPage = () => {
         <h1 className="lifecycle-hub-title">Customer Lifecycle analytics</h1>
       </div>
 
-      <div className="card-grid lifecycle-sub-grid">
+      <div className="lifecycle-sub-button-row" role="tablist" aria-label="Customer lifecycle models">
         {customerLifecycleSubUseCases.map((item) => (
-          <CustomerLifecycleSubCard
+          <button
             key={item.id}
-            title={item.title}
-            description={item.description}
-            problemType={item.problemType}
-            isSelected={selectedId === item.id}
-            onViewClick={() => setSelectedId(item.id)}
-          />
+            type="button"
+            role="tab"
+            className={`lifecycle-sub-btn ${selectedId === item.id ? 'active' : ''}`}
+            aria-selected={selectedId === item.id}
+            onClick={() => setSelectedId(item.id)}
+          >
+            {item.title}
+          </button>
         ))}
       </div>
 

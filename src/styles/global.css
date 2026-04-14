@@ -764,77 +764,39 @@ html, body {
   cursor: not-allowed;
 }
 
-/* Customer Lifecycle analytics hub — sub-use case cards + in-page detail panel */
-.customer-lifecycle-analytics-page .lifecycle-sub-grid {
-  align-items: start;
+/* Customer Lifecycle analytics hub — model selector buttons + detail panel */
+.customer-lifecycle-analytics-page .lifecycle-sub-button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
 }
 
-.customer-lifecycle-analytics-page .lifecycle-sub-card {
-  cursor: default;
-  transition:
-    transform 0.28s cubic-bezier(0.34, 1.2, 0.64, 1),
-    box-shadow 0.28s ease,
-    border-color 0.28s ease,
-    opacity 0.28s ease;
-}
-
-.customer-lifecycle-analytics-page .lifecycle-sub-card:hover {
-  transform: none;
-  box-shadow: var(--shadow-md);
-  border-color: var(--gray-border);
-}
-
-/* Other cards slightly recede so the active use case reads clearly */
-.customer-lifecycle-analytics-page .lifecycle-sub-grid .lifecycle-sub-card:not(.lifecycle-sub-card-selected) {
-  opacity: 0.9;
-}
-
-.customer-lifecycle-analytics-page .lifecycle-sub-grid .lifecycle-sub-card:not(.lifecycle-sub-card-selected):hover {
-  opacity: 0.96;
-}
-
-/* Active use case after View — zoom, ring, stronger shadow, tinted header */
-.customer-lifecycle-analytics-page .lifecycle-sub-card-selected {
-  opacity: 1;
-  transform: scale(1.04);
-  z-index: 2;
-  border-width: 2px;
-  border-color: rgba(102, 126, 234, 0.75);
-  box-shadow:
-    0 16px 48px rgba(19, 51, 142, 0.22),
-    0 0 0 4px rgba(102, 126, 234, 0.14);
-}
-
-.customer-lifecycle-analytics-page .lifecycle-sub-card-selected:hover {
-  transform: scale(1.04);
-  box-shadow:
-    0 18px 52px rgba(19, 51, 142, 0.26),
-    0 0 0 4px rgba(102, 126, 234, 0.18);
-  border-color: rgba(102, 126, 234, 0.85);
-}
-
-.customer-lifecycle-analytics-page .lifecycle-sub-card-selected .card-header {
-  background: linear-gradient(180deg, #c4dcff 0%, #a8cdfb 100%);
-}
-
-.customer-lifecycle-analytics-page .lifecycle-sub-card-selected .card-header h5 {
-  color: #0d2866;
-}
-
-.customer-lifecycle-analytics-page .lifecycle-sub-card-body {
-  min-height: 140px;
-}
-
-.customer-lifecycle-analytics-page .problem-type-badge {
-  background: rgba(19, 51, 142, 0.06);
-  color: #13338e;
-  padding: 5px 14px;
+.customer-lifecycle-analytics-page .lifecycle-sub-btn {
+  padding: 8px 22px;
   border-radius: var(--radius-full);
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border: 1px solid rgba(19, 51, 142, 0.2);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  border: 1.5px solid var(--gray-200);
+  background: white;
+  color: var(--primary-dark);
+  letter-spacing: 0.2px;
+}
+
+.customer-lifecycle-analytics-page .lifecycle-sub-btn:hover {
+  border-color: var(--accent-purple);
+  color: var(--accent-purple);
+  background: rgba(102, 126, 234, 0.04);
+  box-shadow: var(--shadow-sm);
+}
+
+.customer-lifecycle-analytics-page .lifecycle-sub-btn.active {
+  background: var(--gradient-orange);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 16px rgba(223, 96, 20, 0.35);
 }
 
 .customer-lifecycle-analytics-page .lifecycle-hub-header {
@@ -1962,6 +1924,14 @@ html, body {
   .action-btn {
     width: 100%;
     justify-content: center;
+  }
+
+  .customer-lifecycle-analytics-page .lifecycle-sub-button-row {
+    gap: 8px;
+  }
+
+  .customer-lifecycle-analytics-page .lifecycle-sub-btn {
+    width: 100%;
   }
 }
 
