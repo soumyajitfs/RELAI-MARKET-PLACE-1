@@ -23,6 +23,15 @@ const getTierColor = (tier) => {
   return '#b8860b';
 };
 
+/** Full tier label in UI (backend sends GREEN / AMBER / RED only). */
+const formatEwsRiskTierLabel = (tier) => {
+  const t = String(tier || '').trim().toUpperCase();
+  if (t === 'GREEN') return 'GREEN — Low risk';
+  if (t === 'AMBER') return 'AMBER — Medium risk';
+  if (t === 'RED') return 'RED — High risk';
+  return tier ? String(tier) : '—';
+};
+
 const formatDiscreteOpt = (v) => {
   if (v === -1) return '-1 (N/A)';
   if (typeof v === 'number' && Math.abs(v) < 1) return String(Math.round(v * 10000) / 10000);
@@ -319,7 +328,9 @@ const EwsDataTable = ({
                     </span>
                   </td>
                   <td>
-                    <span className={`category-badge ${getTierClass(row.riskTier)}`}>{row.riskTier || '—'}</span>
+                    <span className={`category-badge ${getTierClass(row.riskTier)}`} style={{ whiteSpace: 'normal', lineHeight: 1.25 }}>
+                      {formatEwsRiskTierLabel(row.riskTier)}
+                    </span>
                   </td>
                   {showInputCols && renderInputCells(row)}
                 </tr>

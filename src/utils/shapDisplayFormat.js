@@ -32,3 +32,23 @@ export function formatShapFeatureValueForUi(val) {
   const rounded = Math.round(n * 10000) / 10000;
   return String(rounded);
 }
+
+/** ~zero SHAP (treat as neutral styling). */
+export const negligibleShapImpact = (v) =>
+  v == null || (typeof v === 'number' && (!Number.isFinite(v) || Math.abs(v) < 1e-9));
+
+/** Raw direction: positive vs negative contribution. */
+export const rawShapImpactTone = (impact) => {
+  if (negligibleShapImpact(impact)) return 'neutral';
+  return impact > 0 ? 'pos' : 'neg';
+};
+
+/**
+ * Map SHAP value to bar/badge palette key.
+ * When invertRiskColors (EWS), positive contributions use the “risk” (red) palette.
+ */
+export const chartVisualTone = (impact, invertRiskColors) => {
+  const r = rawShapImpactTone(impact);
+  if (r === 'neutral' || !invertRiskColors) return r;
+  return r === 'pos' ? 'neg' : 'pos';
+};

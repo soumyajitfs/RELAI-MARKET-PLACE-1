@@ -42,9 +42,9 @@ const PdModelBanner = () => {
                 Output
               </div>
               <div className="output-badges">
-                <span className="badge-high">Green — Low default risk</span>
-                <span className="badge-medium">Amber — Borderline</span>
-                <span className="badge-low">Red — High default risk</span>
+                <span className="badge-high">GREEN — Low risk</span>
+                <span className="badge-medium">AMBER — Medium risk</span>
+                <span className="badge-low">RED — High risk</span>
               </div>
             </div>
           </div>

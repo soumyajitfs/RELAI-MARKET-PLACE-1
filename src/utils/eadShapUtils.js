@@ -118,5 +118,7 @@ export const buildEadShapData = (row) => {
     factorContextLabel: '',
     legendHighText: 'Increases predicted CCF contribution',
     legendLowText: 'Decreases predicted CCF contribution',
+    /** SHAP pills to the right of x=0 so small negatives do not sit on the axis line. */
+    impactLabelsOnRight: true,
   };
 };

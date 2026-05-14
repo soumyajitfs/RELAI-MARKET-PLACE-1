@@ -96,8 +96,10 @@ export const buildPdShapData = (row) => {
     probability: Number.isFinite(probability) ? probability : 0,
     categoryContextLabel: 'Borrower Default Prediction',
     factorContextLabel: '',
-    legendHighText: 'Increases probability of default',
-    legendLowText: 'Decreases probability of default',
+    /** Same semantics as EWS: higher default risk from positive SHAP → red bar. */
+    invertShapImpactColors: true,
+    legendHighText: 'Green increases probability of low risk',
+    legendLowText: 'Red increases probability of high risk',
   };
 };
 

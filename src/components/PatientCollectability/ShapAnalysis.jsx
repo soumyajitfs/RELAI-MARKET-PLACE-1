@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import ShapChart from './ShapChart';
-import { formatShapFeatureValueForUi, formatShapImpactLabel } from '../../utils/shapDisplayFormat';
+import { formatShapFeatureValueForUi, formatShapImpactLabel, chartVisualTone } from '../../utils/shapDisplayFormat';
 import './ShapAnalysis.css';
 
 /* ── Refined category palette ── */
@@ -9,6 +9,28 @@ const CAT_THEME = {
   High:   { color: '#047857', bg: 'rgba(16,185,129,0.07)', border: '#10b981' },
   Medium: { color: '#92400e', bg: 'rgba(245,158,11,0.07)', border: '#f59e0b' },
   Low:    { color: '#b91c1c', bg: 'rgba(239,68,68,0.07)',  border: '#ef4444' },
+};
+
+/** EWS: fill up to six factor cards (Amber-style) even when SHAP is one-sided. */
+const splitFactorsEwsStyle = (sorted) => {
+  const positiveSorted = sorted.filter((f) => f.impact > 0).sort((a, b) => b.impact - a.impact);
+  const negativeSorted = sorted.filter((f) => f.impact < 0).sort((a, b) => a.impact - b.impact);
+  let left = positiveSorted.slice(0, 3);
+  let right = negativeSorted.slice(0, 3);
+  const taken = new Set([...left, ...right].map((f) => f.name));
+  const byAbs = [...sorted].sort((a, b) => Math.abs(b.impact) - Math.abs(a.impact));
+  for (const f of byAbs) {
+    if (taken.has(f.name)) continue;
+    if (left.length + right.length >= 6) break;
+    if (left.length < 3) {
+      left.push(f);
+      taken.add(f.name);
+    } else if (right.length < 3) {
+      right.push(f);
+      taken.add(f.name);
+    }
+  }
+  return { leftFactors: left.slice(0, 3), rightFactors: right.slice(0, 3) };
 };
 
 const ShapAnalysis = ({ shapData }) => {
@@ -22,12 +44,18 @@ const ShapAnalysis = ({ shapData }) => {
   const factorContextLabel = shapData?.factorContextLabel || '';
   const legendHighText = shapData?.legendHighText || 'Increases probability toward High P2P';
   const legendLowText = shapData?.legendLowText || 'Decreases probability toward Low P2P';
+  const invertShapImpactColors = shapData?.invertShapImpactColors === true;
+  const impactLabelsOnRight = shapData?.impactLabelsOnRight === true;
 
   // For High/Low: show top 6 same-direction factors (3 left, 3 right)
   // For Medium: keep existing toward/against behavior
   const { leftFactors, rightFactors } = useMemo(() => {
     if (features.length === 0) return { leftFactors: [], rightFactors: [] };
     const sorted = [...features];
+
+    if (invertShapImpactColors) {
+      return splitFactorsEwsStyle(sorted);
+    }
 
     if (predictedCategory === 'High' || predictedCategory === 'Super High') {
       // Top 6 positive (green) factors only
@@ -48,11 +76,11 @@ const ShapAnalysis = ({ shapData }) => {
       const against = [...sorted];
       against.sort((a, b) => Math.abs(b.impact) - Math.abs(a.impact));
       // For medium, split positive toward and negative against
-      const positiveSorted = sorted.filter(f => f.impact >= 0).sort((a, b) => b.impact - a.impact);
-      const negativeSorted = sorted.filter(f => f.impact < 0).sort((a, b) => a.impact - b.impact);
+      const positiveSorted = sorted.filter((f) => f.impact > 0).sort((a, b) => b.impact - a.impact);
+      const negativeSorted = sorted.filter((f) => f.impact < 0).sort((a, b) => a.impact - b.impact);
       return { leftFactors: positiveSorted.slice(0, 3), rightFactors: negativeSorted.slice(0, 3) };
     }
-  }, [features, predictedCategory]);
+  }, [features, predictedCategory, invertShapImpactColors]);
 
   // Aliases for backward compat in rendering
   const top3Toward = leftFactors;
@@ -124,7 +152,13 @@ const ShapAnalysis = ({ shapData }) => {
 
             {/* ─── LEFT: Chart + Legend ─── */}
             <div className="shap-col-chart">
-              <ShapChart features={features} predictedCategory={predictedCategory} categoryLabel={chartCategoryLabel} />
+              <ShapChart
+                features={features}
+                predictedCategory={predictedCategory}
+                categoryLabel={chartCategoryLabel}
+                invertImpactColors={invertShapImpactColors}
+                impactLabelsOnRight={impactLabelsOnRight}
+              />
 
               <div className="shap-legend text-center mt-2">
                 <span className="legend-green">
@@ -167,9 +201,9 @@ const ShapAnalysis = ({ shapData }) => {
                 {/* LEFT column */}
                 <div className="top-factors-compact">
                   {top3Toward.map((f, idx) => {
-                    const isPos = f.impact >= 0;
-                    const barColor = isPos ? '#10b981' : '#ef4444';
-                    const scoreColor = isPos ? '#047857' : '#b91c1c';
+                    const t = chartVisualTone(f.impact, invertShapImpactColors);
+                    const barColor = t === 'pos' ? '#10b981' : t === 'neg' ? '#ef4444' : '#94a3b8';
+                    const scoreColor = t === 'pos' ? '#047857' : t === 'neg' ? '#b91c1c' : '#64748b';
                     const barW = (Math.abs(f.impact) / maxAbsAll) * 100;
                     return (
                       <div key={idx} className="tf-row">
@@ -196,9 +230,9 @@ const ShapAnalysis = ({ shapData }) => {
                 {/* RIGHT column */}
                 <div className="top-factors-compact">
                   {top3Against.map((f, idx) => {
-                    const isPos = f.impact >= 0;
-                    const barColor = isPos ? '#10b981' : '#ef4444';
-                    const scoreColor = isPos ? '#047857' : '#b91c1c';
+                    const t = chartVisualTone(f.impact, invertShapImpactColors);
+                    const barColor = t === 'pos' ? '#10b981' : t === 'neg' ? '#ef4444' : '#94a3b8';
+                    const scoreColor = t === 'pos' ? '#047857' : t === 'neg' ? '#b91c1c' : '#64748b';
                     const barW = (Math.abs(f.impact) / maxAbsAll) * 100;
                     const rankNum = idx + 4;
                     return (

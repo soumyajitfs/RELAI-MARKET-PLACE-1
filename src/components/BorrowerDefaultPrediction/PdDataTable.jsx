@@ -36,6 +36,15 @@ const getTierColor = (tier) => {
   return '#b8860b';
 };
 
+/** Full tier label (backend sends GREEN / AMBER / RED). */
+const formatPdRiskTierLabel = (tier) => {
+  const t = String(tier || '').trim().toUpperCase();
+  if (t === 'GREEN') return 'GREEN — Low risk';
+  if (t === 'AMBER') return 'AMBER — Medium risk';
+  if (t === 'RED') return 'RED — High risk';
+  return tier ? String(tier) : '—';
+};
+
 const formatDiscreteOpt = (v) => String(v);
 
 const PdDataTable = ({
@@ -292,7 +301,9 @@ const PdDataTable = ({
                     </span>
                   </td>
                   <td>
-                    <span className={`category-badge ${getTierClass(row.riskTier)}`}>{row.riskTier || '—'}</span>
+                    <span className={`category-badge ${getTierClass(row.riskTier)}`} style={{ whiteSpace: 'normal', lineHeight: 1.25 }}>
+                      {formatPdRiskTierLabel(row.riskTier)}
+                    </span>
                   </td>
                   {showInputCols && renderInputCells(row)}
                 </tr>

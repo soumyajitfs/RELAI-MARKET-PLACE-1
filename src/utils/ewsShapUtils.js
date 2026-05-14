@@ -112,8 +112,10 @@ export const buildEwsShapData = (row) => {
     probability: Number.isFinite(probability) ? probability : 0,
     categoryContextLabel: 'EWS Risk Tier',
     factorContextLabel: '',
-    legendHighText: 'Increases probability toward GREEN (lower near-term stress)',
-    legendLowText: 'Increases probability toward RED (higher near-term stress)',
+    /** EWS: positive SHAP = higher stress → red; negative = lower stress → green. */
+    invertShapImpactColors: true,
+    legendHighText: 'Green increases probability of low risk',
+    legendLowText: 'Red increases probability of high risk',
   };
 };
 
