@@ -29,28 +29,27 @@ const EadModelBanner = () => {
             <div className="stat-card">
               <div className="stat-label">
                 <span className="stat-icon brown"></span>
-                ROC-AUC
+                Training Data
               </div>
               <div className="stat-value">
-                <span className="big">0.5154</span>
+                <span className="big">10,000</span>
+                <span className="small">records</span>
               </div>
             </div>
 
             <div className="stat-card">
               <div className="stat-label">
                 <span className="stat-icon yellow"></span>
-                Observations
+                Output
               </div>
-              <div className="stat-value">
-                <span className="big">5,000</span>
-              </div>
+              <div className="stat-value">Expected CCF %</div>
             </div>
           </div>
         </div>
 
         <div className="banner-right">
           <div className="accuracy-card">
-            <span className="accuracy-label">CCF accuracy</span>
+            <span className="accuracy-label">Accuracy</span>
             <span className="accuracy-value">59.0%</span>
           </div>
         </div>

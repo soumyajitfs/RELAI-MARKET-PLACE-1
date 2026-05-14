@@ -29,10 +29,11 @@ const PdModelBanner = () => {
             <div className="stat-card">
               <div className="stat-label">
                 <span className="stat-icon brown"></span>
-                Model quality (test / OOT)
+                Training Data
               </div>
               <div className="stat-value">
-                <span className="big">AUC 0.820</span>
+                <span className="big">5000</span>
+                <span className="small">records</span>
               </div>
             </div>
 
@@ -52,7 +53,7 @@ const PdModelBanner = () => {
 
         <div className="banner-right">
           <div className="accuracy-card">
-            <span className="accuracy-label">Accuracy (test)</span>
+            <span className="accuracy-label">Accuracy</span>
             <span className="accuracy-value">90.7%</span>
           </div>
         </div>

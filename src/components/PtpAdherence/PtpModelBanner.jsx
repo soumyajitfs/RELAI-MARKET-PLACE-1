@@ -29,10 +29,11 @@ const PtpModelBanner = () => {
             <div className="stat-card">
               <div className="stat-label">
                 <span className="stat-icon brown"></span>
-                Model quality
+                Training Data
               </div>
               <div className="stat-value">
-                <span className="big">AUC 0.949</span>
+                <span className="big">6000</span>
+                <span className="small">records</span>
               </div>
             </div>
 

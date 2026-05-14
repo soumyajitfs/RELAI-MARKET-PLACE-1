@@ -1078,6 +1078,19 @@ html, body {
   font-weight: 600;
 }
 
+/* Large count + muted suffix (e.g. Training Data: 5000 records) */
+.stat-value:has(> .big + .small) {
+  display: inline-flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 0 6px;
+}
+
+.stat-value:has(> .big + .small) .small {
+  margin-left: 0;
+  margin-bottom: 2px;
+}
+
 .output-badges {
   display: flex;
   gap: 6px;
