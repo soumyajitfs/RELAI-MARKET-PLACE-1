@@ -1,0 +1,188 @@
+================================================================================
+         PTP KEPT MODEL - ACCEPTABLE VALUES SUMMARY FOR ALL COLUMNS
+================================================================================
+
+  Model Used   : XGBoost (binary:logistic)
+  Accuracy     : 88.7% (AUC: 0.9487 | Gini: 0.8973 | KS: 0.7848)
+  Target       : ptp_kept (1 = Kept, 0 = Not Kept)
+  Total Features Used : 80 numeric + 9 categorical = 122 after encoding
+
+--------------------------------------------------------------------------------
+  OUTPUT TIER
+--------------------------------------------------------------------------------
+
+  Column Name  : ptp_risk
+  Description  : RAG classification based on predicted probability score
+
+  Value   | Probability Range     | Meaning                        | Hex Colour
+  --------|-----------------------|--------------------------------|------------
+  Green  | prob >= 0.70          | Likely Kept — low risk         | #46fd35
+  Amber  | 0.40 <= prob < 0.70   | Borderline — monitor closely   | #f5b400
+  Red    | prob < 0.40           | Likely Broken — high risk      | #B71C1C
+
+================================================================================
+ INPUT FEATURES
+================================================================================
+
+========================
+ A. BINARY FLAG COLUMNS  (0 or 1 only)
+========================
+
+  Column Name                          | Type | Acceptable Values | Description
+  -------------------------------------|------|-------------------|------------------------------------------
+  is_restructured_flag                 | int  | 0 or 1            | Loan has been restructured (1=Yes, 0=No)
+  moratorium_exited_flag               | int  | 0 or 1            | Borrower exited moratorium (1=Yes, 0=No)
+  is_cosigner_on_loan_flag             | int  | 0 or 1            | Co-signer present on loan (1=Yes, 0=No)
+  salary_account_flag                  | int  | 0 or 1            | Loan account is salary account (1=Yes, 0=No)
+  roll_rate_flag_current_to_next_bucket| int  | 0 or 1            | Likely to roll to next DPD bucket (1=Yes, 0=No)
+  never_cured_flag_12m                 | int  | 0 or 1            | Never cured delinquency in 12m (1=Yes, 0=No)
+  nach_mandate_active                  | int  | 0 or 1            | NACH auto-debit mandate active (1=Yes, 0=No)
+  digital_payment_enabled_flag         | int  | 0 or 1            | Digital payment enabled (1=Yes, 0=No)
+  first_time_ptp_flag                  | int  | 0 or 1            | First ever PTP for this borrower (1=Yes, 0=No)
+  ptp_aligned_with_salary              | int  | 0 or 1            | PTP date aligns with salary date (1=Yes, 0=No)
+  ptp_amount_rounded_flag              | int  | 0 or 1            | PTP amount is a round number (1=Yes, 0=No)
+  right_party_contact_flag             | int  | 0 or 1            | Contact confirmed as borrower (1=Yes, 0=No)
+  digital_payment_link_sent_flag       | int  | 0 or 1            | Digital payment link sent (1=Yes, 0=No)
+  digital_payment_link_clicked_flag    | int  | 0 or 1            | Digital payment link clicked (1=Yes, 0=No)
+  salary_credited_flag_last_30d        | int  | 0 or 1            | Salary credited in last 30 days (1=Yes, 0=No)
+  salary_date_passed_flag              | int  | 0 or 1            | Salary date passed this month (1=Yes, 0=No)
+  is_month_end_flag                    | int  | 0 or 1            | PTP created in last 5 days of month (1=Yes, 0=No)
+  is_festival_period_flag              | int  | 0 or 1            | PTP created during festival period (1=Yes, 0=No)
+
+
+========================
+ B. NUMERICAL COLUMNS - INTEGER
+========================
+
+  Column Name                           | Type | Min   | Max    | Median | Description
+  --------------------------------------|------|-------|--------|--------|----------------------------------------------
+  sequence_number                       | int  | 1     | 12     | 2      | Sequential PTP number for this account
+  contact_hour                          | int  | 9     | 20     | 14     | Hour of day contact was made (24hr format)
+  days_to_ptp_date                      | int  | 1     | 30     | 6      | Days from contact date to promised payment date
+  months_on_book                        | int  | 3     | 39     | 8      | Months since loan was disbursed
+  borrower_age                          | int  | 24    | 61     | 42     | Borrower age in years
+  salary_date_day_of_month              | int  | 0     | 31     | 27     | Day of month salary is typically credited
+  dpd_days                              | int  | 0     | 364    | 39     | Exact days past due on current delinquency
+  dpd_bucket                            | int  | 0     | 5      | 2      | DPD severity bucket (0=least, 5=most overdue)
+  max_dpd_6m                            | int  | 0     | 421    | 51     | Maximum DPD reached in last 6 months
+  consecutive_months_delinq             | int  | 0     | 12     | 1      | Consecutive months in current delinquency
+  dpd_cycles_in_current_delinquency     | int  | 0     | 13     | 2      | Complete DPD cycles in current episode
+  bounce_count_6m                       | int  | 0     | 6      | 1      | Payment bounces (failed ECS/NACH) in 6 months
+  days_since_last_payment               | int  | 0     | 257    | 24     | Days since any payment was made
+  n_payments_last_6m                    | int  | 0     | 6      | 4      | Number of payments made in last 6 months
+  prev_ptp_count_lifetime               | int  | 0     | 11     | 1      | Total PTPs made across entire loan history
+  hist_ptp_count_3m                     | int  | 0     | 4      | 1      | Number of PTPs made in last 3 months
+  hist_ptp_count_12m                    | int  | 0     | 10     | 1      | Number of PTPs made in last 12 months
+  consecutive_broken_ptps               | int  | 0     | 10     | 0      | Consecutive PTPs broken before current one
+  avg_days_to_ptp_hist                  | int  | 1     | 30     | 7      | Average days taken to fulfil a PTP historically
+  ptp_day_of_week                       | int  | 0     | 6      | 3      | Day of week PTP was created (0=Mon, 6=Sun)
+  contact_attempt_number                | int  | 1     | 23     | 3      | Which contact attempt number this is
+  call_duration_sec                     | int  | 0     | 3996   | 52     | Duration of collection call in seconds (999=error)
+  n_contacts_last_30d                   | int  | 1     | 33     | 7      | Total contact attempts in last 30 days
+  n_successful_contacts_last_30d        | int  | 1     | 18     | 3      | Successful contact attempts in last 30 days
+  n_unsuccessful_contacts_last_30d      | int  | 0     | 26     | 4      | Failed contact attempts in last 30 days
+  rpc_count_last_30d                    | int  | 0     | 13     | 2      | Right Party Connect count in last 30 days
+  days_since_last_rpc                   | int  | 1     | 365    | 15     | Days since last Right Party Connect (9999=never)
+  cumulative_call_minutes_last_30d      | int  | 0     | 329    | 10     | Total call minutes with borrower in last 30 days
+  credit_score                          | int  | 408   | 900    | 656    | Current CIBIL credit score
+  cibil_change_6m                       | int  | -82   | 46     | -12    | CIBIL score change in last 6 months (-1=no data)
+  cibil_change_since_origination        | int  | -160  | 63     | -34    | CIBIL score change since loan origination (-1=no data)
+  n_delinquent_elsewhere                | int  | 0     | 8      | 1      | Number of other loans currently delinquent
+  n_new_enquiries_3m                    | int  | 0     | 8      | 1      | New credit enquiries in last 3 months
+  agent_experience_months               | int  | 7     | 109    | 31     | Agent experience in collections (months)
+  agent_tenure_on_this_account_months   | int  | 0     | 14     | 0      | Months this agent has handled this account
+  n_agents_worked_this_account_12m      | int  | 0     | 7      | 1      | Number of agents who worked this account in 12m
+  month_of_year                         | int  | 1     | 12     | 8      | Month when PTP was created (1=Jan, 12=Dec)
+
+
+========================
+ C. NUMERICAL COLUMNS - FLOAT (Continuous)
+========================
+
+  Column Name                           | Type  | Min          | Max           | Median   | Description
+  --------------------------------------|-------|--------------|---------------|----------|---------------------------------------------
+  emi_amount                            | float | 1,112.04     | 1,60,593.88   | 12,306   | Monthly EMI amount for this loan (INR)
+  outstanding_balance                   | float | 2,681.65     | 20,09,139.37  | 1,64,646 | Total outstanding loan balance (INR)
+  monthly_income                        | float | 20,000.00    | 3,00,000.00   | 44,832   | Borrower declared monthly income (INR)
+  ptp_amount                            | float | 1,000.00     | 1,75,938.96   | 12,000   | Rupee amount promised in this PTP (INR)
+  payment_regularity                    | float | 0.0          | 1.0           | 0.83     | Payment consistency score (0=irregular, 1=regular)
+  hist_ptp_kept_rate_lifetime           | float | 0.0          | 1.0           | 0.50     | Proportion of PTPs kept across entire history
+  hist_ptp_kept_rate_3m                 | float | 0.0          | 1.0           | 0.50     | Proportion of PTPs kept in last 3 months
+  hist_ptp_kept_rate_12m                | float | 0.0          | 1.0           | 0.50     | Proportion of PTPs kept in last 12 months
+  ptp_partial_kept_rate_hist            | float | 0.0          | 1.0           | 0.00     | Historical rate of partial PTP payments
+  avg_ptp_amount_to_emi_hist            | float | 0.68         | 1.26          | 1.00     | Average ratio of PTP amount to EMI historically
+  ptp_to_emi_ratio                      | float | 0.63         | 1.29          | 0.99     | Current PTP amount divided by EMI amount
+  ptp_to_outstanding_ratio              | float | 0.02         | 1.18          | 0.06     | PTP amount as proportion of outstanding balance
+  ptp_day_of_week_sin                   | float | -0.97        | 0.97          | 0.00     | Sine encoding of PTP day of week (cyclical)
+  ptp_day_of_week_cos                   | float | -0.90        | 1.00          | -0.22    | Cosine encoding of PTP day of week (cyclical)
+  borrower_sentiment_score              | float | 0.0          | 1.0           | 0.61     | Sentiment score from collection call (0=negative, 1=positive)
+  contactability_score_3m               | float | 0.0          | 1.0           | 0.62     | Composite reachability score last 3 months
+  response_rate_to_sms_last_6m          | float | 0.0          | 0.96          | 0.32     | SMS response rate last 6 months (-1=no SMS sent)
+  current_foir                          | float | 0.08         | 1.50          | 0.45     | Fixed Obligation to Income Ratio (all loans)
+  income_to_emi_ratio                   | float | 0.19         | 100.51        | 3.74     | Monthly income divided by EMI amount
+  outstanding_to_income_ratio           | float | 0.04         | 63.37         | 3.52     | Outstanding balance divided by monthly income
+  days_since_salary_credit              | int   | 1            | 365           | 26       | Days since salary was credited (9999=no salary account)
+  bureau_overdue_amount_change_3m       | float | -69,415.96   | 89,738.34     | 7,974    | Change in total bureau overdue amount in 3 months
+  agent_ptp_kept_rate_overall           | float | 0.30         | 0.75          | 0.61     | Agent overall PTP kept rate across all borrowers
+  agent_ptp_kept_rate_on_similar_borrowers| float| 0.05        | 0.95          | 0.45     | Agent kept rate on similar borrower profiles
+  unemployment_rate_state               | float | 3.0          | 12.0          | 6.53     | State-level unemployment rate (macro signal)
+
+
+========================
+ D. CATEGORICAL COLUMNS
+========================
+
+  Column Name               | Acceptable Values
+  --------------------------|------------------------------------------------------------------
+  product_subtype           | Balance_Transfer_Loan, Flexi_Loan, Personal_Loan, Top_Up_Loan
+  employer_category         | Government, Informal, Large_Private, PSU, Self_Employed, Small_Private, Unemployed
+  last_ptp_outcome          | Broken, Full_Kept, Late_Kept, No_Prior_PTP, Partial_Kept
+  ptp_commitment_strength   | Conditional, Firm, Vague
+  reason_for_delinquency    | Business_Loss, Dispute, Family, Forgot, Job_Loss, Liquidity, Medical, Not_Disclosed, Other
+  contact_channel           | Call, Email, Field_Visit, IVR, SMS, WhatsApp
+  call_duration_bucket      | Long, Medium, Non_Voice, Short, Very_Long, Very_Short
+  preferred_contact_channel | Call, Email, Field_Visit, SMS, Unknown, WhatsApp
+  ivr_response_outcome      | Agent_Transfer, Hang_Up, No_IVR, Self_Service_Paid, Self_Service_Promise
+
+
+========================
+ E. SENTINEL / SURROGATE MISSING VALUES
+========================
+
+  The following columns use special numeric values to represent missing data.
+  These must be treated before model scoring — the pipeline handles this automatically.
+
+  Column Name                      | Sentinel Value | Meaning                        | Treatment Applied
+  ---------------------------------|----------------|--------------------------------|---------------------------
+  days_since_salary_credit         | 9999           | No salary account linked       | Cap at 365
+  days_since_last_rpc              | 9999           | Borrower never contacted       | Cap at 365
+  response_rate_to_sms_last_6m     | -1             | No SMS ever sent               | Replace with 0
+  cibil_change_6m                  | -1             | No CIBIL history available     | Replace with 0
+  cibil_change_since_origination   | -1             | No origination comparison      | Replace with 0
+  call_duration_sec                | 999            | Data entry / system error      | Replace with median
+
+
+================================================================================
+ MODEL DETAILS
+================================================================================
+
+  Model Used          : XGBoost (binary:logistic)
+  Training Split      : 60% Fit / 20% Validation / 20% OOT Test (temporal)
+  Features            : 122 (after one-hot encoding 9 categorical columns)
+
+  Performance Metrics (OOT Test Set):
+  ------------------------------------
+  AUC                 : 0.9487
+  Gini                : 0.8973
+  KS                  : 0.7848
+  Accuracy            : 88.7%
+  Sensitivity         : 89.9%
+  Specificity         : 87.5%
+  Precision           : 88.0%
+  F1 Score            : 0.8886
+  Brier Score         : 0.0854
+
+  Output Column       : ptp_risk
+  Output Values       : Yellow (#FDD835) | Orange (#F57C00) | Dark_Red (#B71C1C)
+
+================================================================================

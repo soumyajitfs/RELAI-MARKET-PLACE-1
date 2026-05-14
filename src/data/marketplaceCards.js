@@ -121,6 +121,45 @@ const marketplaceCards = [
     modelType: 'Classification',
     enabled: true,
     route: '/mortgage-underwriting'
+  },
+  {
+    id: 'ews-personal-loan-risk-scorer',
+    title: 'EWS Personal Loan Risk Scorer',
+    description:
+      'Identifies currently-performing personal loan borrowers at risk of missing payments within the next 6 months.',
+    vertical: 'BFS',
+    modelType: 'Classification',
+    enabled: true,
+    route: '/ews-personal-loan'
+  },
+  {
+    id: 'ptp-adherence-score',
+    title: 'PTP Adherence Score',
+    description:
+      'Predicts the likelihood of borrowers honoring their Promise to Pay to maximise collections recovery.',
+    vertical: 'BFS',
+    modelType: 'Classification',
+    enabled: true,
+    route: '/ptp-adherence'
+  },
+  {
+    id: 'borrower-default-prediction',
+    title: 'Borrower Default Prediction',
+    description:
+      'Predicts the likelihood of a borrower defaulting on payments using behavioral and financial indicators.',
+    vertical: 'BFS',
+    modelType: 'Classification',
+    enabled: true,
+    route: '/borrower-default-prediction'
+  },
+  {
+    id: 'credit-card-ead-prediction',
+    title: 'Credit Card EAD Prediction',
+    description: 'Predicts the expected credit card exposure at the time of default.',
+    vertical: 'BFS',
+    modelType: 'Forecasting',
+    enabled: true,
+    route: '/credit-card-ead-prediction'
   }
 ];
 

@@ -47,7 +47,7 @@ const Sidebar = () => {
           alt="Firstsource Logo" 
           className="sidebar-logo"
         />
-        <h2 className="sidebar-title">relAI Dashboard</h2>
+        <h2 className="sidebar-title">Kairos Dashboard</h2>
         <p className="sidebar-subtitle">AI Marketplace Navigator</p>
       </div>
 

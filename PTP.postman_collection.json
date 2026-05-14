@@ -1,0 +1,85 @@
+{
+  "info": {
+    "_postman_id": "f556d7df-eb4a-4be1-9d0e-cb40aff08636",
+    "name": "PTP",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40564629"
+  },
+  "item": [
+    {
+      "name": "Generate Accounts",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "ptp_internal_marketplace_key_2024",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://ml-market-backend-ptp.azurewebsites.net/api/ptp/accounts/generate",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-ptp",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "ptp",
+            "accounts",
+            "generate"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Predict",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "ptp_internal_marketplace_key_2024",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"ptp_ids\": [\r\n    \"PTP_00000317\",\r\n    \"PTP_00002242\",\r\n    \"PTP_00004837\",\r\n    \"PTP_00004957\",\r\n    \"PTP_00001227\"\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://ml-market-backend-ptp.azurewebsites.net/api/ptp/accounts/predict",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-ptp",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "ptp",
+            "accounts",
+            "predict"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

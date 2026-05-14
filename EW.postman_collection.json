@@ -1,0 +1,85 @@
+{
+  "info": {
+    "_postman_id": "3a10aa25-4a89-455d-8796-c805c720e4c0",
+    "name": "EW",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40564629"
+  },
+  "item": [
+    {
+      "name": "Generate Accounts",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "1234567890abcdef1234567890abcdef",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://ml-market-backend-ews.azurewebsites.net/api/ews/accounts/generate",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-ews",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "ews",
+            "accounts",
+            "generate"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Predict",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "1234567890abcdef1234567890abcdef",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "[                  { \"account_id\": \"EWS_00006249\",\r\n                    \"loan_amount\": 226573.33,\r\n                    \"tenure_months\": 41,\r\n                    \"months_on_book\": 21,\r\n                    \"months_to_maturity\": 20,\r\n                    \"loan_age_pct\": 0.5122,\r\n                    \"interest_rate\": 20.79,\r\n                    \"emi_amount\": 7765.09,\r\n                    \"outstanding_balance\": 130309.95,\r\n                    \"product_subtype\": \"Personal_Loan\",\r\n                    \"borrower_age\": 33,\r\n                    \"employer_category\": \"Informal\",\r\n                    \"employer_tenure_months\": 23,\r\n                    \"monthly_income_at_origination\": 20000.0,\r\n                    \"salary_account_flag\": 1,\r\n                    \"city_tier\": \"Tier_3\",\r\n                    \"residence_type\": \"Rented\",\r\n                    \"residence_stability_months\": 72,\r\n                    \"days_since_last_payment\": 22,\r\n                    \"last_payment_on_time_flag\": 1,\r\n                    \"last_payment_to_emi_ratio\": 0.9144,\r\n                    \"bounce_count_3m\": 0,\r\n                    \"bounce_count_12m\": 3,\r\n                    \"n_payments_after_due_date_6m\": 5,\r\n                    \"avg_days_late_6m\": 22.82,\r\n                    \"max_days_late_6m\": 26,\r\n                    \"late_payment_trend_6m_vs_12m\": 5.51,\r\n                    \"nach_mandate_active\": 0,\r\n                    \"n_nach_mandate_changes_12m\": 0,\r\n                    \"payment_regularity_6m\": 0.833,\r\n                    \"payment_regularity_12m\": 0.917,\r\n                    \"salary_credited_last_month_flag\": 1,\r\n                    \"n_months_salary_credited_6m\": 2,\r\n                    \"n_months_salary_credited_12m\": 6,\r\n                    \"salary_credit_trend_6m_vs_12m\": -0.1667,\r\n                    \"avg_salary_credit_amount_6m\": 17990.81,\r\n                    \"salary_credit_volatility_6m\": 0.0649,\r\n                    \"days_since_last_salary_credit\": 7,\r\n                    \"avg_balance_at_emi_due_3m\": 8774.69,\r\n                    \"min_balance_at_emi_due_3m\": 5646.73,\r\n                    \"n_account_debits_bounced_6m\": 0,\r\n                    \"ratio_emi_to_avg_credit_inflow_3m\": 0.5681,\r\n                    \"cibil_score_at_origination\": 618,\r\n                    \"cibil_score_at_observation\": 539,\r\n                    \"cibil_change_since_origination\": -79,\r\n                    \"cibil_change_3m\": -11,\r\n                    \"cibil_change_6m\": -74,\r\n                    \"cibil_change_12m\": -128,\r\n                    \"cibil_trend_flag_deteriorating\": 1,\r\n                    \"cibil_volatility_12m\": 49.24,\r\n                    \"n_active_tradelines\": 9,\r\n                    \"n_new_tradelines_6m\": 2,\r\n                    \"n_delinquent_elsewhere_30plus\": 2,\r\n                    \"n_delinquent_elsewhere_30plus_3m_change\": 2,\r\n                    \"bureau_total_outstanding\": 130309.95,\r\n                    \"bureau_total_outstanding_change_3m\": 130309.95,\r\n                    \"bureau_utilization\": 0.8238,\r\n                    \"bureau_utilization_change_3m\": 0.164,\r\n                    \"credit_card_utilization\": 0.621,\r\n                    \"credit_card_utilization_change_3m\": 0.1115,\r\n                    \"n_inquiries_3m\": 4,\r\n                    \"n_inquiries_6m\": 4,\r\n                    \"n_inquiries_12m\": 6,\r\n                    \"bureau_overdue_amount_at_observation\": 0.0,\r\n                    \"bureau_overdue_change_3m\": 0.0,\r\n                    \"oldest_tradeline_months\": 97,\r\n                    \"foir_at_origination\": 0.6286,\r\n                    \"current_foir\": 0.6075,\r\n                    \"foir_change_since_origination\": -0.0211,\r\n                    \"emi_burden_ratio\": 0.3883,\r\n                    \"outstanding_to_income_ratio\": 6.5155,\r\n                    \"n_product_holdings\": 5,\r\n                    \"cross_sell_acceptance_rate_12m\": 0.2206,\r\n                    \"digital_banking_engagement_score\": 0.2436,\r\n                    \"n_customer_service_complaints_6m\": 1,\r\n                    \"n_disputes_raised_12m\": 1,\r\n                    \"employer_industry\": \"Hospitality\",\r\n                    \"employer_industry_stress_flag\": 1,\r\n                    \"employer_distress_news_flag_6m\": 0,\r\n                    \"region_unemployment_rate\": 6.62,\r\n                    \"days_since_last_bank_interaction\": 17,\r\n                    \"n_transactions_last_30d\": 26,\r\n                    \"n_transactions_change_3m\": -1,\r\n                    \"address_change_flag_12m\": 1,\r\n                    \"mobile_change_flag_12m\": 1,\r\n                    \"unemployment_rate_national\": 6.74,\r\n                    \"inflation_rate\": 5.54,\r\n                    \"downturn_period_flag\": 1},\r\n                    { \"account_id\": \"EWS_00006249\",\r\n                    \"loan_amount\": 226573.33,\r\n                    \"tenure_months\": 41,\r\n                    \"months_on_book\": 21,\r\n                    \"months_to_maturity\": 20,\r\n                    \"loan_age_pct\": 0.5122,\r\n                    \"interest_rate\": 20.79,\r\n                    \"emi_amount\": 7765.09,\r\n                    \"outstanding_balance\": 130309.95,\r\n                    \"product_subtype\": \"Personal_Loan\",\r\n                    \"borrower_age\": 33,\r\n                    \"employer_category\": \"Informal\",\r\n                    \"employer_tenure_months\": 23,\r\n                    \"monthly_income_at_origination\": 20000.0,\r\n                    \"salary_account_flag\": 1,\r\n                    \"city_tier\": \"Tier_3\",\r\n                    \"residence_type\": \"Rented\",\r\n                    \"residence_stability_months\": 72,\r\n                    \"days_since_last_payment\": 22,\r\n                    \"last_payment_on_time_flag\": 1,\r\n                    \"last_payment_to_emi_ratio\": 0.9144,\r\n                    \"bounce_count_3m\": 0,\r\n                    \"bounce_count_12m\": 3,\r\n                    \"n_payments_after_due_date_6m\": 5,\r\n                    \"avg_days_late_6m\": 22.82,\r\n                    \"max_days_late_6m\": 26,\r\n                    \"late_payment_trend_6m_vs_12m\": 5.51,\r\n                    \"nach_mandate_active\": 0,\r\n                    \"n_nach_mandate_changes_12m\": 0,\r\n                    \"payment_regularity_6m\": 0.833,\r\n                    \"payment_regularity_12m\": 0.917,\r\n                    \"salary_credited_last_month_flag\": 1,\r\n                    \"n_months_salary_credited_6m\": 2,\r\n                    \"n_months_salary_credited_12m\": 6,\r\n                    \"salary_credit_trend_6m_vs_12m\": -0.1667,\r\n                    \"avg_salary_credit_amount_6m\": 17990.81,\r\n                    \"salary_credit_volatility_6m\": 0.0649,\r\n                    \"days_since_last_salary_credit\": 7,\r\n                    \"avg_balance_at_emi_due_3m\": 8774.69,\r\n                    \"min_balance_at_emi_due_3m\": 5646.73,\r\n                    \"n_account_debits_bounced_6m\": 0,\r\n                    \"ratio_emi_to_avg_credit_inflow_3m\": 0.5681,\r\n                    \"cibil_score_at_origination\": 618,\r\n                    \"cibil_score_at_observation\": 539,\r\n                    \"cibil_change_since_origination\": -79,\r\n                    \"cibil_change_3m\": -11,\r\n                    \"cibil_change_6m\": -74,\r\n                    \"cibil_change_12m\": -128,\r\n                    \"cibil_trend_flag_deteriorating\": 1,\r\n                    \"cibil_volatility_12m\": 49.24,\r\n                    \"n_active_tradelines\": 9,\r\n                    \"n_new_tradelines_6m\": 2,\r\n                    \"n_delinquent_elsewhere_30plus\": 2,\r\n                    \"n_delinquent_elsewhere_30plus_3m_change\": 2,\r\n                    \"bureau_total_outstanding\": 130309.95,\r\n                    \"bureau_total_outstanding_change_3m\": 130309.95,\r\n                    \"bureau_utilization\": 0.8238,\r\n                    \"bureau_utilization_change_3m\": 0.164,\r\n                    \"credit_card_utilization\": 0.621,\r\n                    \"credit_card_utilization_change_3m\": 0.1115,\r\n                    \"n_inquiries_3m\": 4,\r\n                    \"n_inquiries_6m\": 4,\r\n                    \"n_inquiries_12m\": 6,\r\n                    \"bureau_overdue_amount_at_observation\": 0.0,\r\n                    \"bureau_overdue_change_3m\": 0.0,\r\n                    \"oldest_tradeline_months\": 97,\r\n                    \"foir_at_origination\": 0.6286,\r\n                    \"current_foir\": 0.6075,\r\n                    \"foir_change_since_origination\": -0.0211,\r\n                    \"emi_burden_ratio\": 0.3883,\r\n                    \"outstanding_to_income_ratio\": 6.5155,\r\n                    \"n_product_holdings\": 5,\r\n                    \"cross_sell_acceptance_rate_12m\": 0.2206,\r\n                    \"digital_banking_engagement_score\": 0.2436,\r\n                    \"n_customer_service_complaints_6m\": 1,\r\n                    \"n_disputes_raised_12m\": 1,\r\n                    \"employer_industry\": \"Hospitality\",\r\n                    \"employer_industry_stress_flag\": 1,\r\n                    \"employer_distress_news_flag_6m\": 0,\r\n                    \"region_unemployment_rate\": 6.62,\r\n                    \"days_since_last_bank_interaction\": 17,\r\n                    \"n_transactions_last_30d\": 26,\r\n                    \"n_transactions_change_3m\": -1,\r\n                    \"address_change_flag_12m\": 1,\r\n                    \"mobile_change_flag_12m\": 1,\r\n                    \"unemployment_rate_national\": 6.74,\r\n                    \"inflation_rate\": 5.54,\r\n                    \"downturn_period_flag\": 1}\r\n                    ]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://ml-market-backend-ews.azurewebsites.net/api/ews/accounts/predict",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-ews",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "ews",
+            "accounts",
+            "predict"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

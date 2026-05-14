@@ -17,6 +17,10 @@ import UnderDevelopmentPage from './pages/UnderDevelopmentPage';
 import ClaimsDenialPage from './pages/ClaimsDenialPage';
 import MortgageUnderwritingPage from './pages/MortgageUnderwritingPage';
 import CustomerLifecycleAnalyticsPage from './pages/CustomerLifecycleAnalyticsPage';
+import EwsPersonalLoanPage from './pages/EwsPersonalLoanPage';
+import PtpAdherencePage from './pages/PtpAdherencePage';
+import BorrowerDefaultPredictionPage from './pages/BorrowerDefaultPredictionPage';
+import CreditCardEadPredictionPage from './pages/CreditCardEadPredictionPage';
 
 // Import styles
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -48,6 +52,10 @@ function App() {
           <Route path="/sales-optimization" element={withLayout(<SalesOptimizationPage />)} />
           <Route path="/late-payment-interest" element={withLayout(<LatePaymentInterestPage />)} />
           <Route path="/mortgage-underwriting" element={withLayout(<MortgageUnderwritingPage />)} />
+          <Route path="/ews-personal-loan" element={withLayout(<EwsPersonalLoanPage />)} />
+          <Route path="/ptp-adherence" element={withLayout(<PtpAdherencePage />)} />
+          <Route path="/borrower-default-prediction" element={withLayout(<BorrowerDefaultPredictionPage />)} />
+          <Route path="/credit-card-ead-prediction" element={withLayout(<CreditCardEadPredictionPage />)} />
           <Route
             path="/customer-lifecycle-analytics"
             element={withLayout(<CustomerLifecycleAnalyticsPage />)}

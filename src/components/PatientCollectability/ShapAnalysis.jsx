@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import ShapChart from './ShapChart';
+import { formatShapFeatureValueForUi, formatShapImpactLabel } from '../../utils/shapDisplayFormat';
 import './ShapAnalysis.css';
 
 /* ── Refined category palette ── */
@@ -11,9 +12,12 @@ const CAT_THEME = {
 };
 
 const ShapAnalysis = ({ shapData }) => {
-  const features = shapData?.features || [];
+  const features = useMemo(() => shapData?.features || [], [shapData]);
   const predictedCategory = shapData?.predictedCategory || '';
+  const themeCategory = shapData?.themeCategory ?? predictedCategory;
   const categoryDisplayLabel = shapData?.categoryDisplayLabel || predictedCategory;
+  /** Optional: chart-only title (e.g. Credit Card EAD “% EXPECTED CCF”) so badge/factors match other use cases. */
+  const chartHeaderLabel = shapData?.chartHeaderLabel ?? categoryDisplayLabel;
   const categoryContextLabel = shapData?.categoryContextLabel || 'Propensity to Pay (P2P)';
   const factorContextLabel = shapData?.factorContextLabel || '';
   const legendHighText = shapData?.legendHighText || 'Increases probability toward High P2P';
@@ -59,13 +63,17 @@ const ShapAnalysis = ({ shapData }) => {
   const { facsNumber, probability } = shapData;
   const pct = (probability * 100).toFixed(2);
 
-  const theme = CAT_THEME[predictedCategory] || CAT_THEME.Low;
+  const theme = CAT_THEME[themeCategory] || CAT_THEME.Low;
   const resolvedCategory = predictedCategory || 'Low';
   const resolvedDisplayCategory = categoryDisplayLabel || resolvedCategory;
-  const catBadgeLabel = `${resolvedDisplayCategory} — ${categoryContextLabel}`;
+  const chartCategoryLabel = chartHeaderLabel || resolvedDisplayCategory;
+  /** Credit Card EAD: badge is only the use-case name (no “Medium —” tier prefix). */
+  const catBadgeLabel =
+    categoryContextLabel === 'Credit Card EAD Prediction'
+      ? categoryContextLabel
+      : `${resolvedDisplayCategory} — ${categoryContextLabel}`;
 
-  const isHighType = predictedCategory === 'High' || predictedCategory === 'Super High';
-  const isLow = predictedCategory === 'Low';
+  const isLow = themeCategory === 'Low';
   const probabilityLabelMap = {
     Collectability: 'Collectability Probability',
     'Right Party Contact (RPC)': 'RPC Probability',
@@ -75,6 +83,10 @@ const ShapAnalysis = ({ shapData }) => {
     'Late Payment Risk': 'Late Interest Probability',
     'Claim Denial': 'Claim Denial Probability',
     'Underwriting Approval': 'Confidence Score Probability',
+    'EWS Risk Tier': 'Model confidence',
+    'PTP Adherence': 'PTP kept probability',
+    'Borrower Default Prediction': 'Probability of default',
+    'Credit Card EAD Prediction': 'Expected CCF (model output)',
   };
   const probabilityLabel = probabilityLabelMap[categoryContextLabel] || 'P2P Probability';
 
@@ -112,7 +124,7 @@ const ShapAnalysis = ({ shapData }) => {
 
             {/* ─── LEFT: Chart + Legend ─── */}
             <div className="shap-col-chart">
-              <ShapChart features={features} predictedCategory={predictedCategory} categoryLabel={resolvedDisplayCategory} />
+              <ShapChart features={features} predictedCategory={predictedCategory} categoryLabel={chartCategoryLabel} />
 
               <div className="shap-legend text-center mt-2">
                 <span className="legend-green">
@@ -158,7 +170,6 @@ const ShapAnalysis = ({ shapData }) => {
                     const isPos = f.impact >= 0;
                     const barColor = isPos ? '#10b981' : '#ef4444';
                     const scoreColor = isPos ? '#047857' : '#b91c1c';
-                    const sign = isPos ? '+' : '';
                     const barW = (Math.abs(f.impact) / maxAbsAll) * 100;
                     return (
                       <div key={idx} className="tf-row">
@@ -166,11 +177,13 @@ const ShapAnalysis = ({ shapData }) => {
                         <div className="tf-body">
                           <div className="tf-name-line">
                             <span className="tf-name">{f.name}</span>
-                            <span className="tf-score" style={{ color: scoreColor }}>
-                              {sign}{f.impact.toFixed(2)}
+                            <span className="tf-score" style={{ color: scoreColor }} title={`${f.impact}`}>
+                              {formatShapImpactLabel(f.impact)}
                             </span>
                           </div>
-                          <span className="tf-val">= {f.value}</span>
+                          <span className="tf-val" title={String(f.value)}>
+                            = {formatShapFeatureValueForUi(f.value)}
+                          </span>
                           <div className="tf-bar-track">
                             <div className="tf-bar-fill" style={{ width: `${barW}%`, background: barColor }} />
                           </div>
@@ -186,7 +199,6 @@ const ShapAnalysis = ({ shapData }) => {
                     const isPos = f.impact >= 0;
                     const barColor = isPos ? '#10b981' : '#ef4444';
                     const scoreColor = isPos ? '#047857' : '#b91c1c';
-                    const sign = isPos ? '+' : '';
                     const barW = (Math.abs(f.impact) / maxAbsAll) * 100;
                     const rankNum = idx + 4;
                     return (
@@ -195,11 +207,13 @@ const ShapAnalysis = ({ shapData }) => {
                         <div className="tf-body">
                           <div className="tf-name-line">
                             <span className="tf-name">{f.name}</span>
-                            <span className="tf-score" style={{ color: scoreColor }}>
-                              {sign}{f.impact.toFixed(2)}
+                            <span className="tf-score" style={{ color: scoreColor }} title={`${f.impact}`}>
+                              {formatShapImpactLabel(f.impact)}
                             </span>
                           </div>
-                          <span className="tf-val">= {f.value}</span>
+                          <span className="tf-val" title={String(f.value)}>
+                            = {formatShapFeatureValueForUi(f.value)}
+                          </span>
                           <div className="tf-bar-track">
                             <div className="tf-bar-fill" style={{ width: `${barW}%`, background: barColor }} />
                           </div>

@@ -4,7 +4,7 @@ const WelcomeHeader = () => {
   return (
     <div className="welcome-header">
       <h1>
-        Welcome to <span className="text-purple">relAI</span> - AI Marketplace
+        Welcome to <span className="text-purple">Kairos</span> - AI Marketplace
       </h1>
       <p className="welcome-subtitle">
         A one stop view for all the AI Models for your business needs.

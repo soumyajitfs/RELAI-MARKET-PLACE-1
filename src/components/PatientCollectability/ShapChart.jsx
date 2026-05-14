@@ -1,4 +1,5 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
+import { formatShapFeatureValueForUi, formatShapImpactLabel } from '../../utils/shapDisplayFormat';
 import { Bar } from 'react-chartjs-2';
 
 /* ── Refined colour palette ── */
@@ -102,7 +103,7 @@ const ShapChart = ({ features, predictedCategory, categoryLabel }) => {
         anchor: 'end',
         align: 'right',
         offset: 6,
-        formatter: (v) => `${v >= 0 ? '+' : ''}${v.toFixed(2)}`,
+        formatter: (v) => formatShapImpactLabel(Number(v)),
         font: { size: 11, weight: '700', family: "'Inter', sans-serif" },
         color: (ctx) => isPos(ctx.dataIndex) ? COLORS.posLabel : COLORS.negLabel,
         backgroundColor: (ctx) => isPos(ctx.dataIndex) ? COLORS.posLabelBg : COLORS.negLabelBg,
@@ -213,8 +214,11 @@ const ShapChart = ({ features, predictedCategory, categoryLabel }) => {
                   : { visibility: 'hidden' }
               }
             >
-              <span className={`fv-badge ${f.impact >= 0 ? 'fv-badge--pos' : 'fv-badge--neg'}`}>
-                {f.value}
+              <span
+                className={`fv-badge ${f.impact >= 0 ? 'fv-badge--pos' : 'fv-badge--neg'}`}
+                title={String(f.value)}
+              >
+                {formatShapFeatureValueForUi(f.value)}
               </span>
             </div>
           ))}

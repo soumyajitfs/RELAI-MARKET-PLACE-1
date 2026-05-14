@@ -152,6 +152,78 @@ module.exports = function (app) {
     })
   );
 
+  // PD (Borrower Default) backend — must come BEFORE the general /api proxy
+  app.use(
+    '/api/pd',
+    createProxyMiddleware({
+      target: 'https://ml-market-backend-pd.azurewebsites.net',
+      changeOrigin: true,
+      secure: false,
+      pathRewrite: restoreUpstreamPath('/api/pd'),
+      logLevel: 'debug',
+      onProxyRes: function (proxyRes, req, res) {
+        console.log('[Proxy-PD] Response from:', req.url, 'Status:', proxyRes.statusCode);
+      },
+      onError: function (err, req, res) {
+        console.error('[Proxy-PD] Error:', err.message);
+      },
+    })
+  );
+
+  // Credit Card EAD backend — must come BEFORE the general /api proxy
+  app.use(
+    '/api/creditcard',
+    createProxyMiddleware({
+      target: 'https://ml-market-backend-ead.azurewebsites.net',
+      changeOrigin: true,
+      secure: false,
+      pathRewrite: restoreUpstreamPath('/api/creditcard'),
+      logLevel: 'debug',
+      onProxyRes: function (proxyRes, req, res) {
+        console.log('[Proxy-EAD-CC] Response from:', req.url, 'Status:', proxyRes.statusCode);
+      },
+      onError: function (err, req, res) {
+        console.error('[Proxy-EAD-CC] Error:', err.message);
+      },
+    })
+  );
+
+  // PTP Adherence backend — must come BEFORE the general /api proxy
+  app.use(
+    '/api/ptp',
+    createProxyMiddleware({
+      target: 'https://ml-market-backend-ptp.azurewebsites.net',
+      changeOrigin: true,
+      secure: false,
+      pathRewrite: restoreUpstreamPath('/api/ptp'),
+      logLevel: 'debug',
+      onProxyRes: function (proxyRes, req, res) {
+        console.log('[Proxy-PTP] Response from:', req.url, 'Status:', proxyRes.statusCode);
+      },
+      onError: function (err, req, res) {
+        console.error('[Proxy-PTP] Error:', err.message);
+      },
+    })
+  );
+
+  // EWS Personal Loan backend — must come BEFORE the general /api proxy
+  app.use(
+    '/api/ews',
+    createProxyMiddleware({
+      target: 'https://ml-market-backend-ews.azurewebsites.net',
+      changeOrigin: true,
+      secure: false,
+      pathRewrite: restoreUpstreamPath('/api/ews'),
+      logLevel: 'debug',
+      onProxyRes: function (proxyRes, req, res) {
+        console.log('[Proxy-EWS] Response from:', req.url, 'Status:', proxyRes.statusCode);
+      },
+      onError: function (err, req, res) {
+        console.error('[Proxy-EWS] Error:', err.message);
+      },
+    })
+  );
+
   // Underwriter backend — must come BEFORE the general /api proxy
   app.use(
     '/api/uw',

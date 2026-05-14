@@ -1,0 +1,260 @@
+================================================================================
+         EWS MODEL — ACCEPTABLE VALUES SUMMARY & CONFIGURATION GUIDE
+================================================================================
+
+================================================================================
+ MODEL METADATA
+================================================================================
+
+  Model Name    : EWS Personal Loan Risk Scorer
+  Algorithm     : Gradient Boosting
+  Training Data : 11,200 loan account records
+  Accuracy      : 88%
+  Summary       : Identifies currently-performing personal loan borrowers at risk
+                  of missing payments within the next 6 months.
+
+  Output Risk Tiers:
+    🟢 GREEN  — Low risk. Stable repayment behaviour. No immediate action needed.
+    🟡 AMBER  — Medium risk. Early stress signals detected. Proactive monitoring.
+    🔴 RED    — High risk. Multiple stress signals present. Priority intervention.
+
+================================================================================
+ SENTINEL VALUE CONVENTION
+================================================================================
+
+  -1 is used as a "not applicable" sentinel (not a missing value) for columns
+  that require a lookback window longer than the account's history. Rules:
+
+    months_on_book < 12  → bounce_count_12m, late_payment_trend_6m_vs_12m,
+                           n_nach_mandate_changes_12m, payment_regularity_12m,
+                           n_months_salary_credited_12m, n_disputes_raised_12m,
+                           mobile_change_flag_12m
+
+    oldest_tradeline_months < 12  → cibil_change_12m, cibil_volatility_12m
+
+    salary_account_flag = 0  → salary_credited_last_month_flag,
+                               n_months_salary_credited_6m,
+                               salary_credit_trend_6m_vs_12m,
+                               avg_salary_credit_amount_6m,
+                               salary_credit_volatility_6m
+
+================================================================================
+ INTERNALLY DERIVED FEATURES (NOT USER INPUTS)
+================================================================================
+
+  These 8 features are in the model's final feature set but are computed
+  automatically by the preprocessing pipeline. Do NOT expose as editable fields.
+
+  flag_has_12m_history      Computed from months_on_book >= 12
+  flag_has_cibil_12m        Computed from oldest_tradeline_months >= 12
+  flag_cross_sell_offer     Computed from cross_sell_acceptance_rate_12m + mob
+  balance_coverage_at_emi   avg_balance_at_emi_due_3m / (emi_amount + 1)
+  stress_signal_count       Sum of 7 binary stress indicator conditions
+  cibil_monthly_velocity    cibil_change_3m / 3
+  emi_cashflow_coverage_gap ratio_emi_to_avg_credit_inflow_3m - emi_burden_ratio
+  salary_stress_flag        Derived from salary count and trend columns
+
+================================================================================
+ A. CATEGORICAL COLUMNS
+================================================================================
+
+  Column Name          | Acceptable Values
+  ---------------------|------------------------------------------------------------
+  employer_category    | Government, PSU, Large_Private, Small_Private,
+                       | Self_Employed, Informal
+  city_tier            | Tier_1, Tier_2, Tier_3
+  residence_type       | Owned, Rented, Parental, Company_Provided
+  employer_industry    | IT, Banking, Manufacturing, Retail, Hospitality,
+                       | Healthcare, Education, Construction, Agriculture,
+                       | Self_Employed_Services, Self_Employed_Trade, Other
+
+================================================================================
+ B. BINARY FLAG COLUMNS
+================================================================================
+
+  All binary columns accept 0 or 1 only, except where a sentinel of -1 applies
+  (see Sentinel Value Convention above).
+
+  Column Name                       | 0 means                  | 1 means
+  ----------------------------------|--------------------------|----------------------
+  salary_account_flag               | Salary not at this bank  | Salary credited here
+  last_payment_on_time_flag         | Payment was late         | Payment was on time
+  nach_mandate_active               | No NACH mandate          | NACH mandate active
+  salary_credited_last_month_flag   | Not credited last month  | Credited last month
+                                    | (-1 if no salary acct)   |
+  cibil_trend_flag_deteriorating    | Not deteriorating        | Both 3m & 6m negative
+  employer_industry_stress_flag     | Industry stable          | Industry under stress
+  employer_distress_news_flag_6m    | No distress news         | Distress news in 6m
+  downturn_period_flag              | Normal macro period      | Macro downturn period
+
+================================================================================
+ C. NUMERICAL COLUMNS (Integer / Discrete)
+================================================================================
+
+  Column Name                            | Range / Acceptable Values              | Notes
+  ---------------------------------------|----------------------------------------|------------------------------
+  bounce_count_3m                        | 0 – 3                                  | NACH/ECS failures, last 3m
+  bounce_count_12m                       | -1 or 0 – 7                            | -1 sentinel if mob < 12
+  n_payments_after_due_date_6m           | 0 – 6                                  | Late but caught-up payments
+  max_days_late_6m                       | 0 – 29                                 | Max lateness in days, 6m
+  n_nach_mandate_changes_12m             | -1 or 0 – 3                            | -1 sentinel if mob < 12
+  payment_regularity_6m                  | 0, 0.167, 0.333, 0.500, 0.667,         | Discrete set only: full_pay_months / 6
+                                         | 0.833, 1.000                           |
+  payment_regularity_12m                 | -1 or 0, 0.083, 0.167, 0.250, 0.333,  | -1 sentinel if mob < 12. Discrete only.
+                                         | 0.417, 0.500, 0.583, 0.667, 0.750,    |
+                                         | 0.833, 0.917, 1.000                    |
+  n_months_salary_credited_6m            | -1 or 0 – 6                            | -1 sentinel if no salary acct
+  n_months_salary_credited_12m           | -1 or 0 – 12                           | -1 sentinel if no salary acct or mob < 12
+  salary_credit_trend_6m_vs_12m          | -1 or -1.0 – 1.0                       | -1 sentinel. Derived ratio.
+  n_account_debits_bounced_6m            | 0 – 6                                  | Bounced debits on own account
+  n_active_tradelines                    | 1 – 15                                 | Minimum 1 (this loan itself)
+  n_new_tradelines_6m                    | 0 – 5                                  | New credit accounts opened, 6m
+  n_delinquent_elsewhere_30plus          | 0 – 10                                 | Other-lender 30+ DPD accounts
+  n_delinquent_elsewhere_30plus_3m_change| -2 – 2                                 | Change in above count over 3m
+  n_inquiries_3m                         | 0 – 8                                  | Hard credit inquiries, 3m
+  n_inquiries_6m                         | 0 – 10                                 | Must be >= n_inquiries_3m
+  n_inquiries_12m                        | 0 – 11                                 | Must be >= n_inquiries_6m
+  n_product_holdings                     | 1 – 8                                  | Active products at this bank
+  n_customer_service_complaints_6m       | 0 – 5                                  | Complaints raised, last 6m
+  n_disputes_raised_12m                  | -1 or 0 – 3                            | -1 sentinel if mob < 12
+  mobile_change_flag_12m                 | -1 or 0 or 1                           | -1 sentinel if mob < 12
+
+================================================================================
+ D. CONTINUOUS (Float) COLUMNS
+================================================================================
+
+  Column Name                          | Range                    | Notes
+  -------------------------------------|--------------------------|------------------------------
+  loan_amount                          | 50,000 – 2,500,000       | INR
+  months_on_book                       | 6 – 54                   | Eligibility minimum = 6
+  months_to_maturity                   | 6 – 54                   | Eligibility minimum = 6
+  loan_age_pct                         | 0.10 – 0.90              | Derived: mob / tenure
+  interest_rate                        | 10.0 – 28.0              | Annual rate (%)
+  emi_amount                           | > 0                      | INR. Derived from loan params.
+  outstanding_balance                  | 0 – loan_amount          | INR. Derived from amortisation.
+  borrower_age                         | 21 – 65                  | Years
+  employer_tenure_months               | 0 – (age-18) × 12        | Months with current employer
+  monthly_income_at_origination        | 20,000 – 300,000         | INR. Monthly income.
+  residence_stability_months           | 0 – (age-18) × 12        | Months at current address
+  days_since_last_payment              | 1 – 31                   | Bounded by C0 population scope
+  last_payment_to_emi_ratio            | 0.81 – 1.16              | Last payment / EMI
+  avg_days_late_6m                     | -16.37 – 37.96           | Negative = paid early on average
+  late_payment_trend_6m_vs_12m         | -1 or -8.60 – 7.21       | -1 sentinel if mob < 12
+  avg_salary_credit_amount_6m          | -1 or 20,000 – 300,000   | -1 sentinel. INR.
+  salary_credit_volatility_6m          | -1 or 0.0 – 2.0          | -1 sentinel. Std/mean ratio.
+  min_balance_at_emi_due_3m            | 279.74 – 378,574.22      | INR. Min balance on EMI due dates
+  cibil_score_at_observation           | 300 – 900                | CIBIL score at observation date
+  cibil_change_since_origination       | -600 – 600               | Score change since origination
+  cibil_change_6m                      | -600 – 600               | Positive = improved
+  cibil_change_12m                     | -1 or -600 – 600         | -1 sentinel if oldest tl < 12
+  cibil_volatility_12m                 | -1 or 0.60 – 75.65       | -1 sentinel if oldest tl < 12
+  bureau_total_outstanding             | 16,038 – 2,674,966       | INR. Must be >= outstanding_balance
+  bureau_total_outstanding_change_3m   | -186,405 – 316,401       | INR. Positive = took on more debt
+  bureau_utilization                   | 0.0 – 1.0                | Revolving outstanding / limit
+  bureau_utilization_change_3m         | -1.0 – 1.0               | Positive = utilization increased
+  credit_card_utilization              | 0.0 – 1.0                | Aggregate across all cards
+  credit_card_utilization_change_3m    | -1.0 – 1.0               | Positive = utilization increased
+  bureau_overdue_amount_at_observation | 0 – 56,621               | INR. Total overdue across bureau
+  bureau_overdue_change_3m             | -8,062 – 31,538          | INR. Positive = overdue grew
+  oldest_tradeline_months              | 7 – 146                  | Must be >= months_on_book
+  foir_at_origination                  | 0.20 – 0.70              | Fixed obligation / income at orig
+  current_foir                         | 0.01 – 0.85              | All EMIs / monthly income
+  emi_burden_ratio                     | 0.01 – 7.15              | This loan EMI / monthly income
+  outstanding_to_income_ratio          | 0.14 – 90.15             | Outstanding / monthly income
+  digital_banking_engagement_score     | 0.0 – 1.0                | Composite engagement score
+  days_since_last_bank_interaction     | 1 – 37                   | Days since any bank interaction
+  n_transactions_last_30d              | 0 – 200                  | Bank transactions, last 30 days
+  n_transactions_change_3m             | -100 – 50                | Recent 3m minus prior 3m count
+  inflation_rate                       | 2.0 – 10.0               | CPI inflation rate (%)
+
+================================================================================
+ FEATURE NAME TO HUMAN-READABLE LABEL MAPPING
+================================================================================
+
+  loan_amount                              →  Loan Amount (INR)
+  months_on_book                           →  Months on Book
+  months_to_maturity                       →  Months to Maturity
+  loan_age_pct                             →  Loan Age (% of Tenure)
+  interest_rate                            →  Interest Rate (%)
+  emi_amount                               →  Monthly EMI (INR)
+  outstanding_balance                      →  Outstanding Balance (INR)
+  borrower_age                             →  Borrower Age
+  employer_category                        →  Employer Category
+  employer_tenure_months                   →  Employer Tenure (Months)
+  monthly_income_at_origination            →  Monthly Income at Origination (INR)
+  salary_account_flag                      →  Salary Account with This Bank
+  city_tier                                →  City Tier
+  residence_type                           →  Residence Type
+  residence_stability_months               →  Residence Stability (Months)
+  days_since_last_payment                  →  Days Since Last Payment
+  last_payment_on_time_flag                →  Last Payment Was On Time
+  last_payment_to_emi_ratio                →  Last Payment to EMI Ratio
+  bounce_count_3m                          →  EMI Bounces (Last 3 Months)
+  bounce_count_12m                         →  EMI Bounces (Last 12 Months)
+  n_payments_after_due_date_6m             →  Late Payments — Caught Up (Last 6 Months)
+  avg_days_late_6m                         →  Average Days Late on Payment (6M)
+  max_days_late_6m                         →  Maximum Days Late on Payment (6M)
+  late_payment_trend_6m_vs_12m             →  Late Payment Trend (6M vs 12M)
+  nach_mandate_active                      →  NACH Auto-Debit Mandate Active
+  n_nach_mandate_changes_12m               →  NACH Mandate Changes (Last 12 Months)
+  payment_regularity_6m                    →  Payment Regularity (Last 6 Months)
+  payment_regularity_12m                   →  Payment Regularity (Last 12 Months)
+  salary_credited_last_month_flag          →  Salary Credited Last Month
+  n_months_salary_credited_6m              →  Months with Salary Credit (Last 6 Months)
+  n_months_salary_credited_12m             →  Months with Salary Credit (Last 12 Months)
+  salary_credit_trend_6m_vs_12m            →  Salary Credit Trend (6M vs 12M)
+  avg_salary_credit_amount_6m              →  Average Salary Credit Amount — 6M (INR)
+  salary_credit_volatility_6m              →  Salary Credit Volatility (Last 6 Months)
+  min_balance_at_emi_due_3m                →  Minimum Balance on EMI Due Date (3M, INR)
+  n_account_debits_bounced_6m              →  Bounced Debits on Bank Account (Last 6 Months)
+  cibil_score_at_observation               →  Current CIBIL Score
+  cibil_change_since_origination           →  CIBIL Score Change Since Loan Origination
+  cibil_change_6m                          →  CIBIL Score Change (Last 6 Months)
+  cibil_change_12m                         →  CIBIL Score Change (Last 12 Months)
+  cibil_trend_flag_deteriorating           →  CIBIL Score on Deteriorating Trend
+  cibil_volatility_12m                     →  CIBIL Score Volatility (Last 12 Months)
+  n_active_tradelines                      →  Number of Active Loan/Credit Accounts
+  n_new_tradelines_6m                      →  New Credit Accounts Opened (Last 6 Months)
+  n_delinquent_elsewhere_30plus            →  Accounts 30+ DPD at Other Lenders
+  n_delinquent_elsewhere_30plus_3m_change  →  Change in Other-Lender Delinquencies (3M)
+  bureau_total_outstanding                 →  Total Outstanding Across All Lenders (INR)
+  bureau_total_outstanding_change_3m       →  Change in Total Outstanding (Last 3 Months, INR)
+  bureau_utilization                       →  Revolving Credit Utilization (Bureau)
+  bureau_utilization_change_3m             →  Revolving Utilization Change (Last 3 Months)
+  credit_card_utilization                  →  Credit Card Utilization
+  credit_card_utilization_change_3m        →  Credit Card Utilization Change (Last 3 Months)
+  n_inquiries_3m                           →  Credit Inquiries (Last 3 Months)
+  n_inquiries_6m                           →  Credit Inquiries (Last 6 Months)
+  n_inquiries_12m                          →  Credit Inquiries (Last 12 Months)
+  bureau_overdue_amount_at_observation     →  Total Overdue Amount Across Bureau (INR)
+  bureau_overdue_change_3m                 →  Change in Bureau Overdue Amount (Last 3 Months, INR)
+  oldest_tradeline_months                  →  Age of Oldest Credit Account (Months)
+  foir_at_origination                      →  Fixed Obligation to Income Ratio at Origination
+  current_foir                             →  Current Fixed Obligation to Income Ratio
+  emi_burden_ratio                         →  This Loan's EMI as % of Income
+  outstanding_to_income_ratio              →  Outstanding Balance to Monthly Income Ratio
+  n_product_holdings                       →  Number of Products Held with This Bank
+  digital_banking_engagement_score         →  Digital Banking Engagement Score
+  n_customer_service_complaints_6m         →  Customer Service Complaints (Last 6 Months)
+  n_disputes_raised_12m                    →  Disputes Raised (Last 12 Months)
+  employer_industry                        →  Employer Industry
+  employer_industry_stress_flag            →  Employer Industry Under Stress
+  employer_distress_news_flag_6m           →  Employer Distress News in Last 6 Months
+  days_since_last_bank_interaction         →  Days Since Last Bank Interaction
+  n_transactions_last_30d                  →  Bank Transactions (Last 30 Days)
+  n_transactions_change_3m                 →  Transaction Count Change (Last 3 Months)
+  mobile_change_flag_12m                   →  Mobile Number Changed in Last 12 Months
+  inflation_rate                           →  Inflation Rate (%)
+  downturn_period_flag                     →  Macro Downturn Period
+  flag_has_12m_history                     →  Has 12-Month Behavioural History
+  flag_has_cibil_12m                       →  Has 12-Month CIBIL History
+  flag_cross_sell_offer                    →  Received Cross-Sell Offer
+  balance_coverage_at_emi                  →  Bank Balance Coverage at EMI Due Date
+  stress_signal_count                      →  Number of Active Stress Signals
+  cibil_monthly_velocity                   →  CIBIL Score Monthly Change Rate
+  emi_cashflow_coverage_gap                →  EMI vs Cashflow Coverage Gap
+  salary_stress_flag                       →  Salary Irregularity Detected
+
+================================================================================
+ END OF DOCUMENT
+================================================================================
