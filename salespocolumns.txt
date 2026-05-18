@@ -1,0 +1,210 @@
+interactionid: INT{random number, e.g., INT1000000 to INT9999999}
+Customer_Account: 70000000000 to 90000000000
+Agent_ID: Min = A1000, Max = A1998
+
+Agent_tenure:
+    OJT(0-3 months)
+    BAU (above 3 months)
+
+Location:
+    Bangalore
+    Hyderabad
+    Mumbai
+
+Customer_Tenure_Segment:
+    Silver(0-3yrs)
+    Gold(3-8yrs)
+    Platinum (8-15yrs)
+    Diamond(15+years)
+
+AHT_sec: Min = 650, Max = 1302
+
+Compliance_Miss:
+    0
+    1
+
+Num of existing product:
+    1
+    2
+    3
+
+Services:
+    Stream+Sports & Cinema+Sim & Device
+    Stream
+    Q Box(Dish antenna)
+    Sim & Device
+    BB & Talk
+    Stream+Sim & Device+Q Box(Dish antenna)
+    Stream+Q Box(Dish antenna)+BB & Talk
+    Q Box(Dish antenna)+BB & Talk
+    BB & Talk+Sports & Cinema+Q Box(Dish antenna)
+    Sim & Device+Sports & Cinema+Q Box(Dish antenna)
+    Sports & Cinema
+    Glass TV+Stream
+    Glass TV+BB & Talk
+    Q Box(Dish antenna)+Sports & Cinema
+    BB & Talk+Q Box(Dish antenna)+Glass TV
+    Q Box(Dish antenna)+Sim & Device+BB & Talk
+    Sports & Cinema+Glass TV
+    Q Box(Dish antenna)+Stream
+    Glass TV
+    Q Box(Dish antenna)+Sim & Device
+    BB & Talk+Glass TV+Sim & Device
+    Sim & Device+Stream+Glass TV
+    Sim & Device+Glass TV+Sports & Cinema
+    Q Box(Dish antenna)+Glass TV+BB & Talk
+    Stream+BB & Talk
+    Glass TV+Sim & Device
+    Glass TV+Stream+Q Box(Dish antenna)
+    Sim & Device+Stream+BB & Talk
+    Sports & Cinema+Sim & Device
+    Glass TV+BB & Talk+Sports & Cinema
+    Stream+Glass TV
+    BB & Talk+Q Box(Dish antenna)
+    BB & Talk+Glass TV
+    Q Box(Dish antenna)+BB & Talk+Sports & Cinema
+    Sports & Cinema+Sim & Device+Q Box(Dish antenna)
+    Sim & Device+Sports & Cinema
+    Stream+Sim & Device+Glass TV
+    Stream+Glass TV+Q Box(Dish antenna)
+    Stream+Sports & Cinema
+    Glass TV+Q Box(Dish antenna)+BB & Talk
+    BB & Talk+Sim & Device+Q Box(Dish antenna)
+    Glass TV+Sim & Device+Sports & Cinema
+    Sim & Device+Q Box(Dish antenna)
+    BB & Talk+Stream
+    Sim & Device+BB & Talk
+    Glass TV+Q Box(Dish antenna)
+    Sports & Cinema+Q Box(Dish antenna)+Sim & Device
+    Stream+Q Box(Dish antenna)
+    Glass TV+Q Box(Dish antenna)+Sports & Cinema
+    BB & Talk+Sports & Cinema
+    Q Box(Dish antenna)+Glass TV+Sports & Cinema
+    Q Box(Dish antenna)+Glass TV
+    Stream+Q Box(Dish antenna)+Glass TV
+    Sports & Cinema+Q Box(Dish antenna)
+    BB & Talk+Stream+Sim & Device
+    Sim & Device+Stream
+    Sim & Device+BB & Talk+Q Box(Dish antenna)
+    Stream+BB & Talk+Glass TV
+    Q Box(Dish antenna)+Stream+Sim & Device
+    Q Box(Dish antenna)+Glass TV+Stream
+    Sim & Device+BB & Talk+Sports & Cinema
+    Q Box(Dish antenna)+Sports & Cinema+Glass TV
+    Sports & Cinema+Stream+BB & Talk
+    Sports & Cinema+BB & Talk
+    Glass TV+Stream+BB & Talk
+    Q Box(Dish antenna)+BB & Talk+Glass TV
+    Glass TV+Sports & Cinema
+    Sports & Cinema+Sim & Device+Stream
+    Stream+Glass TV+Sports & Cinema
+    BB & Talk+Sim & Device
+    Sports & Cinema+BB & Talk+Glass TV
+    BB & Talk+Glass TV+Sports & Cinema
+    Sim & Device+Q Box(Dish antenna)+Glass TV
+    Glass TV+Sim & Device+BB & Talk
+    Q Box(Dish antenna)+BB & Talk+Sim & Device
+    Sports & Cinema+Stream+Q Box(Dish antenna)
+    Sports & Cinema+BB & Talk+Sim & Device
+    BB & Talk+Sports & Cinema+Sim & Device
+    Glass TV+Q Box(Dish antenna)+Stream
+    Sim & Device+Glass TV+BB & Talk
+    BB & Talk+Sports & Cinema+Stream
+    Q Box(Dish antenna)+Sports & Cinema+Sim & Device
+    Stream+Q Box(Dish antenna)+Sim & Device
+    BB & Talk+Stream+Glass TV
+    Glass TV+Sports & Cinema+Sim & Device
+    Sports & Cinema+Q Box(Dish antenna)+Glass TV
+    Sports & Cinema+Stream
+    BB & Talk+Sports & Cinema+Glass TV
+    Glass TV+Q Box(Dish antenna)+Sim & Device
+    BB & Talk+Sim & Device+Glass TV
+    Q Box(Dish antenna)+Sim & Device+Sports & Cinema
+    Q Box(Dish antenna)+Sports & Cinema+BB & Talk
+    Q Box(Dish antenna)+Sports & Cinema+Stream
+    Sports & Cinema+Sim & Device+Glass TV
+    Stream+BB & Talk+Sports & Cinema
+    Sports & Cinema+Glass TV+Q Box(Dish antenna)
+    Sim & Device+Q Box(Dish antenna)+Sports & Cinema
+    Sports & Cinema+Glass TV+BB & Talk
+    Sim & Device+Glass TV
+    Sports & Cinema+Q Box(Dish antenna)+BB & Talk
+    BB & Talk+Sim & Device+Stream
+    Sports & Cinema+BB & Talk+Stream
+    Glass TV+BB & Talk+Stream
+    Glass TV+BB & Talk+Sim & Device
+    Glass TV+Sim & Device+Stream
+    Sports & Cinema+Glass TV+Sim & Device
+    Q Box(Dish antenna)+Stream+Glass TV
+    Q Box(Dish antenna)+Glass TV+Sim & Device
+    Sim & Device+Sports & Cinema+Glass TV
+    Stream+Glass TV+Sim & Device
+    Stream+Sim & Device
+    Sim & Device+BB & Talk+Stream
+    BB & Talk+Q Box(Dish antenna)+Sports & Cinema
+    Stream+Sports & Cinema+BB & Talk
+    Sim & Device+Q Box(Dish antenna)+BB & Talk
+    Sim & Device+Stream+Sports & Cinema
+    Stream+Sim & Device+Sports & Cinema
+    Sim & Device+Q Box(Dish antenna)+Stream
+
+channel:
+    chat
+    Voice
+
+number_of_prior_calls_90d: Min = 0, Max = 9
+time_since_last_success: Min = 0, Max = 349
+
+call_sequence_position:
+    1
+    2
+    3
+    4
+
+escalation_flag:
+    0
+    1
+
+time_of_day_bucket:
+    Morning
+    Afternoon
+    Evening
+
+seasonal_factor:
+    1.0
+    1.2
+
+pitchtype:
+    Retention Save
+    Cross-sell Bundle
+    Upsell Add-on
+
+primaryproductoffered:
+    TV + Broadband Bundle
+    Broadband Superfast
+    Mobile 5GB SIM
+    Full Fibre 500
+    Talk Anytime
+    Cinema
+    Sports
+    Talk Evenings & Weekends
+    Kids
+    Full Fibre 150
+    Mobile 30GB SIM
+    Broadband Ultrafast
+    Triple Play Bundle
+    Entertainment
+    Mobile Unlimited SIM
+
+compliancescore: Min = 0.38, Max = 0.95
+sentimentscore: Min = 0.05, Max = 1.05
+last_nps: Min = 0.0, Max = 10.0
+
+day_of_week:
+    Monday
+    Tuesday
+    Wednesday
+    Thursday
+    Friday
+    Saturday
+    Sunday

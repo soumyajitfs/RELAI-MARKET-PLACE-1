@@ -1,0 +1,154 @@
+================================================================================
+         LGD MODEL - ACCEPTABLE VALUES SUMMARY FOR ALL COLUMNS
+================================================================================
+
+--------------------------------------------------------------------------------
+MODEL INFORMATION
+--------------------------------------------------------------------------------
+
+  Model Name        : Loss Given Default (LGD) Model — Mortgage Portfolio
+  Model Type        : Beta Regression
+  Algorithm         : statsmodels.genmod.GLM with Binomial family (logit link)
+  Feature Selection : Correlation Analysis + VIF Multicollinearity Check
+
+  Boundary Adjustment:
+    LGD values clipped to [0.0001, 0.9999] before fitting to satisfy
+    the Beta distribution requirement of strictly open interval (0, 1).
+
+  Explainability:
+ 
+    SHAP Expected Value (Base LGD) : 0.227982
+
+--------------------------------------------------------------------------------
+MODEL COEFFICIENTS
+--------------------------------------------------------------------------------
+
+  Parameter       | Coefficient   | p-value
+  ----------------|---------------|---------------------
+  const           | -2.995401     | 1.25e-115  
+  LTV             |  2.278719     | 2.47e-53  
+  LoanPurpose     |  0.789818     | 3.87e-06  
+
+
+--------------------------------------------------------------------------------
+PERFORMANCE METRICS (In-Sample)
+--------------------------------------------------------------------------------
+
+  Metric                    | Value
+  --------------------------|----------------
+  MAE                       | 0.2216
+  RMSE                      | 0.2930
+  R²                        | 0.2065
+  Prediction Bias           | 0.000021
+  Mean Actual LGD           | 0.2280
+  Mean Predicted LGD        | 0.2281
+  AIC                       | 2095.14
+  Deviance                  | 1338.59
+  Degrees of Freedom (Model)| 2
+  Observations              | 2,542
+
+
+================================================================================
+ FINAL MODEL FEATURES (Selected via Correlation + VIF)
+================================================================================
+
+  The following 2 features are used in the final trained model:
+
+    1. LTV          (Loan-to-Value Ratio)
+    2. LoanPurpose  (Loan Purpose Flag: 0 = Purchase, 1 = Refinance)
+
+================================================================================
+ INPUT FEATURES — ACCEPTABLE VALUES
+================================================================================
+
+----------------------------------------------------------------------------------------
+A. NUMERICAL COLUMNS — LOAN CHARACTERISTICS (Float)
+----------------------------------------------------------------------------------------
+
+  Column Name   | Type  | Min        | Max        | Description
+  --------------|-------|------------|------------|----------------------------------------------
+  LTV           | float | 0.0014     | 1.9841     | Loan-to-Value ratio.
+                |       |            |            | Values > 1.0 indicate negative equity
+                |       |            |            | (outstanding balance exceeds property value).
+
+  Notes:
+    - LTV is the single strongest predictor of LGD in this model.
+    - Higher LTV → higher predicted LGD (less collateral coverage).
+    - LTV > 1.0 is valid and observed in the dataset (distressed mortgages).
+    - Do NOT pass LTV as a percentage (e.g. use 0.75, not 75.0).
+
+----------------------------------------------------------------------------------------
+B. CATEGORICAL COLUMN — LOAN PURPOSE (Integer Flag)
+----------------------------------------------------------------------------------------
+
+  Column Name   | Type  | Allowed Values | Description
+  --------------|-------|----------------|----------------------------------------------
+  LoanPurpose   | int   | 0              | Purchase mortgage
+                |       | 1              | Refinance mortgage
+
+  Notes:
+    - Encoded as binary integer; do NOT pass string labels.
+    - Refinance loans (1) show higher predicted LGD than Purchase loans (0),
+      reflected in the positive coefficient (0.7898).
+
+================================================================================
+ IDENTIFIER COLUMN
+================================================================================
+
+  Column Name   | Type   | Format         | Example        | Description
+  --------------|--------|----------------|----------------|-------------------------
+  account_id    | string | PL_D_XXXXXX    | PL_D_000001    | Unique account identifier.
+                |        | (6-digit zero- |                | Passed through as-is;
+                |        |  padded suffix)|                | not used in model fitting.
+
+================================================================================
+ OUTPUT COLUMN
+================================================================================
+
+  Column Name      | Type  | Range     | Description
+  -----------------|-------|-----------|----------------------------------------------
+  lgd_predicted    | float | 0.0–1.0   | Predicted Loss Given Default (proportion)
+  lgd_percent      | str   | e.g.22.80%| Human-readable LGD as percentage string
+  (default_assumed)| —     | —         | Model applies to defaulted accounts only
+                   |       |           | (DefaultEvent = 1 in source data)
+
+================================================================================
+ SHAP EXPLAINABILITY OUTPUT
+================================================================================
+
+  Field           | Type  | Description
+  ----------------|-------|------------------------------------------------------
+  base_value      | float | Model baseline LGD (0.2280) — expected LGD before
+                  |       | any feature contribution is applied
+  shap_values     | list  | Per-feature marginal contributions to the prediction
+                  |       | Positive impact → increases predicted LGD
+                  |       | Negative impact → decreases predicted LGD
+
+  Features returned in SHAP output:
+    - "Loan-to-Value Ratio"   (maps to LTV)
+    - "Loan Purpose"          (maps to LoanPurpose)
+
+  Interpretation example:
+    base_value     =  0.2280   (average LGD across portfolio)
+    LTV impact     = +0.3486   (high LTV pushes LGD up significantly)
+    LoanPurpose    = +0.1515   (refinance adds further LGD risk)
+    ─────────────────────────
+    lgd_predicted  =  0.7281
+
+================================================================================
+ DATASET SUMMARY
+================================================================================
+
+  Field                        | Value
+  -----------------------------|-----------------------------
+  Total Records                | 2,542
+  LoanPurpose = 0 (Purchase)   | 2,357  (92.7%)
+  LoanPurpose = 1 (Refinance)  | 185    (7.3%)
+  LTV Range                    | 0.0014 – 1.9841
+  LGD Range                    | 0.00001 – 0.99999
+  Mean LGD                     | 0.2280
+  Population                   | Defaulted mortgages only (DefaultEvent = 1)
+
+================================================================================
+ END OF DOCUMENT
+================================================================================

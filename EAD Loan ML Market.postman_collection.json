@@ -1,0 +1,85 @@
+{
+  "info": {
+    "_postman_id": "aed509c1-4b9a-4592-9cd8-b2c523eeec8d",
+    "name": "EAD Loan ML Market",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40626210"
+  },
+  "item": [
+    {
+      "name": "Generate Accounts",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "997hhEo876NHJo2AMbXl1i78895deK",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://ml-market-backend-ead-loan.azurewebsites.net/api/ead/loans/generate",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-ead-loan",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "ead",
+            "loans",
+            "generate"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Predict",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "997hhEo876NHJo2AMbXl1i78895deK",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "[{\r\n                    \"loan_id\": 7378,\r\n                    \"credit_score\": 670,\r\n                    \"income\": 64134.14,\r\n                    \"age\": 39,\r\n                    \"employment_type\": \"Contract\",\r\n                    \"original_loan_amount\": 300247.04,\r\n                    \"interest_rate\": 0.152,\r\n                    \"original_tenure_months\": 48,\r\n                    \"topup_flag\": 0,\r\n                    \"restructured_flag\": 0,\r\n                    \"prior_delinquencies\": 2,\r\n                    \"months_since_orig\": 18,\r\n                    \"outstanding\": 549173.59,\r\n                    \"dpd\": 46,\r\n                    \"missed_running\": 3,\r\n                    \"emis_missed_6m\": 2,\r\n                    \"unemployment\": 6.8,\r\n                    \"gdp_growth\": 1.67,\r\n                    \"inflation\": 5.46,\r\n                    \"policy_rate\": 6.15\r\n                },\r\n                {\r\n                    \"loan_id\": 7270,\r\n                    \"credit_score\": 659,\r\n                    \"income\": 111999.13,\r\n                    \"age\": 60,\r\n                    \"employment_type\": \"Salaried\",\r\n                    \"original_loan_amount\": 411132.93,\r\n                    \"interest_rate\": 0.2507,\r\n                    \"original_tenure_months\": 60,\r\n                    \"topup_flag\": 0,\r\n                    \"restructured_flag\": 1,\r\n                    \"prior_delinquencies\": 0,\r\n                    \"months_since_orig\": 22,\r\n                    \"outstanding\": 620940.5,\r\n                    \"dpd\": 1,\r\n                    \"missed_running\": 1,\r\n                    \"emis_missed_6m\": 1,\r\n                    \"unemployment\": 10.58,\r\n                    \"gdp_growth\": 0.22,\r\n                    \"inflation\": 2.66,\r\n                    \"policy_rate\": 4.33\r\n                }]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://ml-market-backend-ead-loan.azurewebsites.net/api/ead/loans/predict",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-ead-loan",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "ead",
+            "loans",
+            "predict"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

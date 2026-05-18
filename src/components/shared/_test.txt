@@ -1,0 +1,11 @@
+﻿import React from 'react';
+
+const ForecastingUseCaseBanner = ({
+  badgeLabel,
+  description,
+  algorithm = 'Regression',
+  trainingRecords = '5,000',
+  outputLabel,
+  accuracy = '86%',
+}) => (
+  <motionless className="model-banner">

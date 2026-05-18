@@ -1,0 +1,186 @@
+{
+  "info": {
+    "_postman_id": "bdbc4c5a-e265-48ef-ba88-89d6230f8871",
+    "name": "Customer Churn",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40564629"
+  },
+  "item": [
+    {
+      "name": "Generate",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "997hhEo876NHJo2AMbXl1i78895deK",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://ml-market-backend-customer-churn.azurewebsites.net/api/churn/customers/generate",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-customer-churn",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "churn",
+            "customers",
+            "generate"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Generate",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://ml-market-backend-customer-churn.azurewebsites.net/api/churn/customers/generate",
+              "protocol": "https",
+              "host": [
+                "ml-market-backend-customer-churn",
+                "azurewebsites",
+                "net"
+              ],
+              "path": [
+                "api",
+                "churn",
+                "customers",
+                "generate"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Length",
+              "value": "3437"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 04 Mar 2026 06:30:54 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "uvicorn"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"Response\": {\n        \"StatusCode\": 200,\n        \"Message\": \"Success\",\n        \"ResponseInfo\": {\n            \"data\": [\n                {\n                    \"user_id\": \"F06O07\",\n                    \"subscription_type\": \"Digital\",\n                    \"plan_type\": \"Annual\",\n                    \"primary_device\": \"Desktop\",\n                    \"region\": \"North America\",\n                    \"most_read_category\": \"Finance\",\n                    \"last_campaign_engaged\": \"Retention Offer\",\n                    \"payment_method\": \"Credit Card\",\n                    \"signup_source\": \"Mobile App\",\n                    \"customer_age\": 62,\n                    \"avg_articles_per_week\": 4.2,\n                    \"article_skips_per_week\": 4,\n                    \"days_since_last_login\": 13,\n                    \"support_tickets_last_90d\": 0,\n                    \"email_open_rate\": 0.54,\n                    \"time_spent_per_session_mins\": 7.1,\n                    \"tenure_days\": 398,\n                    \"completion_rate\": 0.47,\n                    \"campaign_ctr\": 0.12,\n                    \"nps_score\": 45,\n                    \"sentiment_score\": 0.4,\n                    \"csat_score\": 3,\n                    \"discount_used_last_renewal\": \"Yes\",\n                    \"auto_renew\": \"Yes\",\n                    \"previous_renewal_status\": \"Auto\",\n                    \"downgrade_history\": \"No\"\n                },\n                {\n                    \"user_id\": \"JSS2D6\",\n                    \"subscription_type\": \"Espresso\",\n                    \"plan_type\": \"Annual\",\n                    \"primary_device\": \"Mobile\",\n                    \"region\": \"Europe\",\n                    \"most_read_category\": \"Technology\",\n                    \"last_campaign_engaged\": \"Survey\",\n                    \"payment_method\": \"Debit Card\",\n                    \"signup_source\": \"Web\",\n                    \"customer_age\": 52,\n                    \"avg_articles_per_week\": 1.1,\n                    \"article_skips_per_week\": 10,\n                    \"days_since_last_login\": 19,\n                    \"support_tickets_last_90d\": 4,\n                    \"email_open_rate\": 0.73,\n                    \"time_spent_per_session_mins\": 24.9,\n                    \"tenure_days\": 841,\n                    \"completion_rate\": 0.82,\n                    \"campaign_ctr\": 0.62,\n                    \"nps_score\": -1,\n                    \"sentiment_score\": 1.2,\n                    \"csat_score\": 5,\n                    \"discount_used_last_renewal\": \"Yes\",\n                    \"auto_renew\": \"Yes\",\n                    \"previous_renewal_status\": \"Auto\",\n                    \"downgrade_history\": \"No\"\n                },\n                {\n                    \"user_id\": \"AQXUTH\",\n                    \"subscription_type\": \"Digital+Print\",\n                    \"plan_type\": \"Annual\",\n                    \"primary_device\": \"Mobile\",\n                    \"region\": \"North America\",\n                    \"most_read_category\": \"Environment\",\n                    \"last_campaign_engaged\": \"Survey\",\n                    \"payment_method\": \"PayPal\",\n                    \"signup_source\": \"Web\",\n                    \"customer_age\": 35,\n                    \"avg_articles_per_week\": 7.7,\n                    \"article_skips_per_week\": 2,\n                    \"days_since_last_login\": 4,\n                    \"support_tickets_last_90d\": 1,\n                    \"email_open_rate\": 0.83,\n                    \"time_spent_per_session_mins\": 21.2,\n                    \"tenure_days\": 1340,\n                    \"completion_rate\": 0.73,\n                    \"campaign_ctr\": 0.29,\n                    \"nps_score\": 54,\n                    \"sentiment_score\": 1.3,\n                    \"csat_score\": 4,\n                    \"discount_used_last_renewal\": \"No\",\n                    \"auto_renew\": \"Yes\",\n                    \"previous_renewal_status\": \"Auto\",\n                    \"downgrade_history\": \"No\"\n                },\n                {\n                    \"user_id\": \"RHMG28\",\n                    \"subscription_type\": \"Espresso\",\n                    \"plan_type\": \"Annual\",\n                    \"primary_device\": \"Mobile\",\n                    \"region\": \"Others\",\n                    \"most_read_category\": \"Environment\",\n                    \"last_campaign_engaged\": \"Survey\",\n                    \"payment_method\": \"PayPal\",\n                    \"signup_source\": \"Mobile App\",\n                    \"customer_age\": 19,\n                    \"avg_articles_per_week\": 4.8,\n                    \"article_skips_per_week\": 6,\n                    \"days_since_last_login\": 76,\n                    \"support_tickets_last_90d\": 0,\n                    \"email_open_rate\": 0.72,\n                    \"time_spent_per_session_mins\": 26.2,\n                    \"tenure_days\": 1049,\n                    \"completion_rate\": 0.12,\n                    \"campaign_ctr\": 0.97,\n                    \"nps_score\": 89,\n                    \"sentiment_score\": -0.5,\n                    \"csat_score\": 5,\n                    \"discount_used_last_renewal\": \"Yes\",\n                    \"auto_renew\": \"Yes\",\n                    \"previous_renewal_status\": \"Manual\",\n                    \"downgrade_history\": \"No\"\n                },\n                {\n                    \"user_id\": \"EFFBHU\",\n                    \"subscription_type\": \"Espresso\",\n                    \"plan_type\": \"Monthly\",\n                    \"primary_device\": \"Mobile\",\n                    \"region\": \"Others\",\n                    \"most_read_category\": \"Environment\",\n                    \"last_campaign_engaged\": \"Survey\",\n                    \"payment_method\": \"PayPal\",\n                    \"signup_source\": \"Mobile App\",\n                    \"customer_age\": 19,\n                    \"avg_articles_per_week\": 1.5,\n                    \"article_skips_per_week\": 9,\n                    \"days_since_last_login\": 73,\n                    \"support_tickets_last_90d\": 10,\n                    \"email_open_rate\": 0.14,\n                    \"time_spent_per_session_mins\": 0.2,\n                    \"tenure_days\": 107,\n                    \"completion_rate\": 0.39,\n                    \"campaign_ctr\": 0.04,\n                    \"nps_score\": -67,\n                    \"sentiment_score\": -1.4,\n                    \"csat_score\": 1,\n                    \"discount_used_last_renewal\": \"Yes\",\n                    \"auto_renew\": \"No\",\n                    \"previous_renewal_status\": \"Manual\",\n                    \"downgrade_history\": \"Yes\"\n                }\n            ],\n            \"modelName\": \"Churn Customer Generator\",\n            \"recordCount\": 5,\n            \"responseTimeMs\": 8\n        }\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Predict",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "997hhEo876NHJo2AMbXl1i78895deK",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "[\r\n                {\r\n                    \"user_id\": \"7M9HQ7\",\r\n                    \"subscription_type\": \"Digital+Print\",\r\n                    \"plan_type\": \"Annual\",\r\n                    \"primary_device\": \"Mobile\",\r\n                    \"region\": \"Europe\",\r\n                    \"most_read_category\": \"Finance\",\r\n                    \"last_campaign_engaged\": \"Survey\",\r\n                    \"payment_method\": \"PayPal\",\r\n                    \"signup_source\": \"Referral\",\r\n                    \"customer_age\": 58,\r\n                    \"avg_articles_per_week\": 4.5,\r\n                    \"article_skips_per_week\": 5,\r\n                    \"days_since_last_login\": 14,\r\n                    \"support_tickets_last_90d\": 2,\r\n                    \"email_open_rate\": 0.59,\r\n                    \"time_spent_per_session_mins\": 8.3,\r\n                    \"tenure_days\": 303,\r\n                    \"completion_rate\": 0.5,\r\n                    \"campaign_ctr\": 0.15,\r\n                    \"nps_score\": 2,\r\n                    \"sentiment_score\": 0.5,\r\n                    \"csat_score\": 4,\r\n                    \"discount_used_last_renewal\": \"No\",\r\n                    \"auto_renew\": \"Yes\",\r\n                    \"previous_renewal_status\": \"Manual\",\r\n                    \"downgrade_history\": \"No\"\r\n                },\r\n                {\r\n                    \"user_id\": \"S06X6A\",\r\n                    \"subscription_type\": \"Digital+Print\",\r\n                    \"plan_type\": \"Annual\",\r\n                    \"primary_device\": \"Desktop\",\r\n                    \"region\": \"Others\",\r\n                    \"most_read_category\": \"Politics\",\r\n                    \"last_campaign_engaged\": \"Retention Offer\",\r\n                    \"payment_method\": \"Credit Card\",\r\n                    \"signup_source\": \"Mobile App\",\r\n                    \"customer_age\": 40,\r\n                    \"avg_articles_per_week\": 4.3,\r\n                    \"article_skips_per_week\": 1,\r\n                    \"days_since_last_login\": 5,\r\n                    \"support_tickets_last_90d\": 1,\r\n                    \"email_open_rate\": 0.94,\r\n                    \"time_spent_per_session_mins\": 16.5,\r\n                    \"tenure_days\": 942,\r\n                    \"completion_rate\": 0.77,\r\n                    \"campaign_ctr\": 0.36,\r\n                    \"nps_score\": 54,\r\n                    \"sentiment_score\": 0.4,\r\n                    \"csat_score\": 5,\r\n                    \"discount_used_last_renewal\": \"No\",\r\n                    \"auto_renew\": \"Yes\",\r\n                    \"previous_renewal_status\": \"Auto\",\r\n                    \"downgrade_history\": \"No\"\r\n                },\r\n                {\r\n                    \"user_id\": \"ZAFP6U\",\r\n                    \"subscription_type\": \"Digital+Print\",\r\n                    \"plan_type\": \"Monthly\",\r\n                    \"primary_device\": \"Tablet\",\r\n                    \"region\": \"Others\",\r\n                    \"most_read_category\": \"Environment\",\r\n                    \"last_campaign_engaged\": \"Survey\",\r\n                    \"payment_method\": \"PayPal\",\r\n                    \"signup_source\": \"Web\",\r\n                    \"customer_age\": 56,\r\n                    \"avg_articles_per_week\": 0.1,\r\n                    \"article_skips_per_week\": 9,\r\n                    \"days_since_last_login\": 36,\r\n                    \"support_tickets_last_90d\": 0,\r\n                    \"email_open_rate\": 0.67,\r\n                    \"time_spent_per_session_mins\": 5.1,\r\n                    \"tenure_days\": 1500,\r\n                    \"completion_rate\": 0.7,\r\n                    \"campaign_ctr\": 0.6,\r\n                    \"nps_score\": 76,\r\n                    \"sentiment_score\": -0.6,\r\n                    \"csat_score\": 4,\r\n                    \"discount_used_last_renewal\": \"No\",\r\n                    \"auto_renew\": \"No\",\r\n                    \"previous_renewal_status\": \"Auto\",\r\n                    \"downgrade_history\": \"No\"\r\n                },\r\n                {\r\n                    \"user_id\": \"N255GV\",\r\n                    \"subscription_type\": \"Espresso\",\r\n                    \"plan_type\": \"Monthly\",\r\n                    \"primary_device\": \"Tablet\",\r\n                    \"region\": \"North America\",\r\n                    \"most_read_category\": \"Politics\",\r\n                    \"last_campaign_engaged\": \"Newsletter Promo\",\r\n                    \"payment_method\": \"Credit Card\",\r\n                    \"signup_source\": \"Web\",\r\n                    \"customer_age\": 24,\r\n                    \"avg_articles_per_week\": 1.5,\r\n                    \"article_skips_per_week\": 8,\r\n                    \"days_since_last_login\": 93,\r\n                    \"support_tickets_last_90d\": 4,\r\n                    \"email_open_rate\": 0.05,\r\n                    \"time_spent_per_session_mins\": 1.0,\r\n                    \"tenure_days\": 37,\r\n                    \"completion_rate\": 0.39,\r\n                    \"campaign_ctr\": 0.05,\r\n                    \"nps_score\": -58,\r\n                    \"sentiment_score\": -1.1,\r\n                    \"csat_score\": 1,\r\n                    \"discount_used_last_renewal\": \"Yes\",\r\n                    \"auto_renew\": \"No\",\r\n                    \"previous_renewal_status\": \"Manual\",\r\n                    \"downgrade_history\": \"Yes\"\r\n                },\r\n                {\r\n                    \"user_id\": \"M5IC81\",\r\n                    \"subscription_type\": \"Digital+Print\",\r\n                    \"plan_type\": \"Annual\",\r\n                    \"primary_device\": \"Mobile\",\r\n                    \"region\": \"Others\",\r\n                    \"most_read_category\": \"Technology\",\r\n                    \"last_campaign_engaged\": \"Retention Offer\",\r\n                    \"payment_method\": \"PayPal\",\r\n                    \"signup_source\": \"Mobile App\",\r\n                    \"customer_age\": 72,\r\n                    \"avg_articles_per_week\": 7.6,\r\n                    \"article_skips_per_week\": 6,\r\n                    \"days_since_last_login\": 99,\r\n                    \"support_tickets_last_90d\": 4,\r\n                    \"email_open_rate\": 0.22,\r\n                    \"time_spent_per_session_mins\": 28.2,\r\n                    \"tenure_days\": 1322,\r\n                    \"completion_rate\": 0.72,\r\n                    \"campaign_ctr\": 0.72,\r\n                    \"nps_score\": -62,\r\n                    \"sentiment_score\": 0.6,\r\n                    \"csat_score\": 4,\r\n                    \"discount_used_last_renewal\": \"Yes\",\r\n                    \"auto_renew\": \"No\",\r\n                    \"previous_renewal_status\": \"Auto\",\r\n                    \"downgrade_history\": \"Yes\"\r\n                }\r\n]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://ml-market-backend-customer-churn.azurewebsites.net/api/churn/customers/predict",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-customer-churn",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "churn",
+            "customers",
+            "predict"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Predict",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "[\r\n                {\r\n                    \"user_id\": \"7M9HQ7\",\r\n                    \"subscription_type\": \"Digital+Print\",\r\n                    \"plan_type\": \"Annual\",\r\n                    \"primary_device\": \"Mobile\",\r\n                    \"region\": \"Europe\",\r\n                    \"most_read_category\": \"Finance\",\r\n                    \"last_campaign_engaged\": \"Survey\",\r\n                    \"payment_method\": \"PayPal\",\r\n                    \"signup_source\": \"Referral\",\r\n                    \"customer_age\": 58,\r\n                    \"avg_articles_per_week\": 4.5,\r\n                    \"article_skips_per_week\": 5,\r\n                    \"days_since_last_login\": 14,\r\n                    \"support_tickets_last_90d\": 2,\r\n                    \"email_open_rate\": 0.59,\r\n                    \"time_spent_per_session_mins\": 8.3,\r\n                    \"tenure_days\": 303,\r\n                    \"completion_rate\": 0.5,\r\n                    \"campaign_ctr\": 0.15,\r\n                    \"nps_score\": 2,\r\n                    \"sentiment_score\": 0.5,\r\n                    \"csat_score\": 4,\r\n                    \"discount_used_last_renewal\": \"No\",\r\n                    \"auto_renew\": \"Yes\",\r\n                    \"previous_renewal_status\": \"Manual\",\r\n                    \"downgrade_history\": \"No\"\r\n                },\r\n                {\r\n                    \"user_id\": \"S06X6A\",\r\n                    \"subscription_type\": \"Digital+Print\",\r\n                    \"plan_type\": \"Annual\",\r\n                    \"primary_device\": \"Desktop\",\r\n                    \"region\": \"Others\",\r\n                    \"most_read_category\": \"Politics\",\r\n                    \"last_campaign_engaged\": \"Retention Offer\",\r\n                    \"payment_method\": \"Credit Card\",\r\n                    \"signup_source\": \"Mobile App\",\r\n                    \"customer_age\": 40,\r\n                    \"avg_articles_per_week\": 4.3,\r\n                    \"article_skips_per_week\": 1,\r\n                    \"days_since_last_login\": 5,\r\n                    \"support_tickets_last_90d\": 1,\r\n                    \"email_open_rate\": 0.94,\r\n                    \"time_spent_per_session_mins\": 16.5,\r\n                    \"tenure_days\": 942,\r\n                    \"completion_rate\": 0.77,\r\n                    \"campaign_ctr\": 0.36,\r\n                    \"nps_score\": 54,\r\n                    \"sentiment_score\": 0.4,\r\n                    \"csat_score\": 5,\r\n                    \"discount_used_last_renewal\": \"No\",\r\n                    \"auto_renew\": \"Yes\",\r\n                    \"previous_renewal_status\": \"Auto\",\r\n                    \"downgrade_history\": \"No\"\r\n                },\r\n                {\r\n                    \"user_id\": \"ZAFP6U\",\r\n                    \"subscription_type\": \"Digital+Print\",\r\n                    \"plan_type\": \"Monthly\",\r\n                    \"primary_device\": \"Tablet\",\r\n                    \"region\": \"Others\",\r\n                    \"most_read_category\": \"Environment\",\r\n                    \"last_campaign_engaged\": \"Survey\",\r\n                    \"payment_method\": \"PayPal\",\r\n                    \"signup_source\": \"Web\",\r\n                    \"customer_age\": 56,\r\n                    \"avg_articles_per_week\": 0.1,\r\n                    \"article_skips_per_week\": 9,\r\n                    \"days_since_last_login\": 36,\r\n                    \"support_tickets_last_90d\": 0,\r\n                    \"email_open_rate\": 0.67,\r\n                    \"time_spent_per_session_mins\": 5.1,\r\n                    \"tenure_days\": 1500,\r\n                    \"completion_rate\": 0.7,\r\n                    \"campaign_ctr\": 0.6,\r\n                    \"nps_score\": 76,\r\n                    \"sentiment_score\": -0.6,\r\n                    \"csat_score\": 4,\r\n                    \"discount_used_last_renewal\": \"No\",\r\n                    \"auto_renew\": \"No\",\r\n                    \"previous_renewal_status\": \"Auto\",\r\n                    \"downgrade_history\": \"No\"\r\n                },\r\n                {\r\n                    \"user_id\": \"N255GV\",\r\n                    \"subscription_type\": \"Espresso\",\r\n                    \"plan_type\": \"Monthly\",\r\n                    \"primary_device\": \"Tablet\",\r\n                    \"region\": \"North America\",\r\n                    \"most_read_category\": \"Politics\",\r\n                    \"last_campaign_engaged\": \"Newsletter Promo\",\r\n                    \"payment_method\": \"Credit Card\",\r\n                    \"signup_source\": \"Web\",\r\n                    \"customer_age\": 24,\r\n                    \"avg_articles_per_week\": 1.5,\r\n                    \"article_skips_per_week\": 8,\r\n                    \"days_since_last_login\": 93,\r\n                    \"support_tickets_last_90d\": 4,\r\n                    \"email_open_rate\": 0.05,\r\n                    \"time_spent_per_session_mins\": 1.0,\r\n                    \"tenure_days\": 37,\r\n                    \"completion_rate\": 0.39,\r\n                    \"campaign_ctr\": 0.05,\r\n                    \"nps_score\": -58,\r\n                    \"sentiment_score\": -1.1,\r\n                    \"csat_score\": 1,\r\n                    \"discount_used_last_renewal\": \"Yes\",\r\n                    \"auto_renew\": \"No\",\r\n                    \"previous_renewal_status\": \"Manual\",\r\n                    \"downgrade_history\": \"Yes\"\r\n                },\r\n                {\r\n                    \"user_id\": \"M5IC81\",\r\n                    \"subscription_type\": \"Digital+Print\",\r\n                    \"plan_type\": \"Annual\",\r\n                    \"primary_device\": \"Mobile\",\r\n                    \"region\": \"Others\",\r\n                    \"most_read_category\": \"Technology\",\r\n                    \"last_campaign_engaged\": \"Retention Offer\",\r\n                    \"payment_method\": \"PayPal\",\r\n                    \"signup_source\": \"Mobile App\",\r\n                    \"customer_age\": 72,\r\n                    \"avg_articles_per_week\": 7.6,\r\n                    \"article_skips_per_week\": 6,\r\n                    \"days_since_last_login\": 99,\r\n                    \"support_tickets_last_90d\": 4,\r\n                    \"email_open_rate\": 0.22,\r\n                    \"time_spent_per_session_mins\": 28.2,\r\n                    \"tenure_days\": 1322,\r\n                    \"completion_rate\": 0.72,\r\n                    \"campaign_ctr\": 0.72,\r\n                    \"nps_score\": -62,\r\n                    \"sentiment_score\": 0.6,\r\n                    \"csat_score\": 4,\r\n                    \"discount_used_last_renewal\": \"Yes\",\r\n                    \"auto_renew\": \"No\",\r\n                    \"previous_renewal_status\": \"Auto\",\r\n                    \"downgrade_history\": \"Yes\"\r\n                }\r\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://ml-market-backend-customer-churn.azurewebsites.net/api/churn/customers/predict",
+              "protocol": "https",
+              "host": [
+                "ml-market-backend-customer-churn",
+                "azurewebsites",
+                "net"
+              ],
+              "path": [
+                "api",
+                "churn",
+                "customers",
+                "predict"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Length",
+              "value": "3142"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 04 Mar 2026 06:31:40 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "uvicorn"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"Response\": {\n        \"StatusCode\": 200,\n        \"Message\": \"Success\",\n        \"ResponseInfo\": {\n            \"data\": [\n                {\n                    \"user_id\": \"7M9HQ7\",\n                    \"prediction\": \"No Churn\",\n                    \"probability\": 0.0001,\n                    \"probability_percent\": \"0.0%\",\n                    \"churn_risk\": \"Low\",\n                    \"shap_values\": [\n                        {\n                            \"feature\": \"Avg Articles/Week\",\n                            \"impact\": -2.7721\n                        },\n                        {\n                            \"feature\": \"Days Since Last Login\",\n                            \"impact\": -1.6977\n                        },\n                        {\n                            \"feature\": \"Auto Renew\",\n                            \"impact\": -1.6256\n                        },\n                        {\n                            \"feature\": \"Discount Used Last Renewal\",\n                            \"impact\": -1.4691\n                        },\n                        {\n                            \"feature\": \"Plan Type\",\n                            \"impact\": -1.297\n                        },\n                        {\n                            \"feature\": \"Sentiment Score\",\n                            \"impact\": 0.3829\n                        },\n                        {\n                            \"feature\": \"Support Tickets (90d)\",\n                            \"impact\": -0.2751\n                        },\n                        {\n                            \"feature\": \"Campaign CTR\",\n                            \"impact\": 0.1613\n                        },\n                        {\n                            \"feature\": \"Customer Age\",\n                            \"impact\": 0.1107\n                        },\n                        {\n                            \"feature\": \"Completion Rate\",\n                            \"impact\": -0.0647\n                        }\n                    ]\n                },\n                {\n                    \"user_id\": \"S06X6A\",\n                    \"prediction\": \"No Churn\",\n                    \"probability\": 0,\n                    \"probability_percent\": \"0.0%\",\n                    \"churn_risk\": \"Low\",\n                    \"shap_values\": [\n                        {\n                            \"feature\": \"Avg Articles/Week\",\n                            \"impact\": -2.6516\n                        },\n                        {\n                            \"feature\": \"Days Since Last Login\",\n                            \"impact\": -1.9214\n                        },\n                        {\n                            \"feature\": \"Auto Renew\",\n                            \"impact\": -1.7495\n                        },\n                        {\n                            \"feature\": \"Discount Used Last Renewal\",\n                            \"impact\": -1.4533\n                        },\n                        {\n                            \"feature\": \"Plan Type\",\n                            \"impact\": -1.3405\n                        },\n                        {\n                            \"feature\": \"Support Tickets (90d)\",\n                            \"impact\": -0.8414\n                        },\n                        {\n                            \"feature\": \"Campaign CTR\",\n                            \"impact\": -0.2482\n                        },\n                        {\n                            \"feature\": \"NPS Score\",\n                            \"impact\": 0.157\n                        },\n                        {\n                            \"feature\": \"Tenure (Days)\",\n                            \"impact\": -0.1005\n                        },\n                        {\n                            \"feature\": \"Completion Rate\",\n                            \"impact\": 0.0957\n                        }\n                    ]\n                },\n                {\n                    \"user_id\": \"ZAFP6U\",\n                    \"prediction\": \"Churn\",\n                    \"probability\": 0.9999,\n                    \"probability_percent\": \"100.0%\",\n                    \"churn_risk\": \"High\",\n                    \"shap_values\": [\n                        {\n                            \"feature\": \"Avg Articles/Week\",\n                            \"impact\": 3.2537\n                        },\n                        {\n                            \"feature\": \"Auto Renew\",\n                            \"impact\": 3.207\n                        },\n                        {\n                            \"feature\": \"Days Since Last Login\",\n                            \"impact\": 2.6912\n                        },\n                        {\n                            \"feature\": \"Plan Type\",\n                            \"impact\": 2.2528\n                        },\n                        {\n                            \"feature\": \"Discount Used Last Renewal\",\n                            \"impact\": -0.7472\n                        },\n                        {\n                            \"feature\": \"Support Tickets (90d)\",\n                            \"impact\": -0.2748\n                        },\n                        {\n                            \"feature\": \"NPS Score\",\n                            \"impact\": 0.1909\n                        },\n                        {\n                            \"feature\": \"Sentiment Score\",\n                            \"impact\": -0.1832\n                        },\n                        {\n                            \"feature\": \"region_Others\",\n                            \"impact\": -0.1384\n                        },\n                        {\n                            \"feature\": \"CSAT Score\",\n                            \"impact\": -0.0981\n                        }\n                    ]\n                },\n                {\n                    \"user_id\": \"N255GV\",\n                    \"prediction\": \"Churn\",\n                    \"probability\": 0.9999,\n                    \"probability_percent\": \"100.0%\",\n                    \"churn_risk\": \"High\",\n                    \"shap_values\": [\n                        {\n                            \"feature\": \"Avg Articles/Week\",\n                            \"impact\": 3.1255\n                        },\n                        {\n                            \"feature\": \"Days Since Last Login\",\n                            \"impact\": 2.6177\n                        },\n                        {\n                            \"feature\": \"Auto Renew\",\n                            \"impact\": 2.3996\n                        },\n                        {\n                            \"feature\": \"Plan Type\",\n                            \"impact\": 1.8053\n                        },\n                        {\n                            \"feature\": \"Discount Used Last Renewal\",\n                            \"impact\": 1.0084\n                        },\n                        {\n                            \"feature\": \"Support Tickets (90d)\",\n                            \"impact\": 0.7555\n                        },\n                        {\n                            \"feature\": \"Customer Age\",\n                            \"impact\": -0.248\n                        },\n                        {\n                            \"feature\": \"Sentiment Score\",\n                            \"impact\": -0.2377\n                        },\n                        {\n                            \"feature\": \"NPS Score\",\n                            \"impact\": -0.1578\n                        },\n                        {\n                            \"feature\": \"Campaign CTR\",\n                            \"impact\": 0.0894\n                        }\n                    ]\n                },\n                {\n                    \"user_id\": \"M5IC81\",\n                    \"prediction\": \"No Churn\",\n                    \"probability\": 0.3632,\n                    \"probability_percent\": \"36.3%\",\n                    \"churn_risk\": \"High\",\n                    \"shap_values\": [\n                        {\n                            \"feature\": \"Plan Type\",\n                            \"impact\": -3.1289\n                        },\n                        {\n                            \"feature\": \"Avg Articles/Week\",\n                            \"impact\": -2.7833\n                        },\n                        {\n                            \"feature\": \"Days Since Last Login\",\n                            \"impact\": 2.0923\n                        },\n                        {\n                            \"feature\": \"Support Tickets (90d)\",\n                            \"impact\": 1.9983\n                        },\n                        {\n                            \"feature\": \"Auto Renew\",\n                            \"impact\": 1.4016\n                        },\n                        {\n                            \"feature\": \"Discount Used Last Renewal\",\n                            \"impact\": 1.0777\n                        },\n                        {\n                            \"feature\": \"NPS Score\",\n                            \"impact\": -0.3569\n                        },\n                        {\n                            \"feature\": \"Sentiment Score\",\n                            \"impact\": 0.3431\n                        },\n                        {\n                            \"feature\": \"Email Open Rate\",\n                            \"impact\": 0.3197\n                        },\n                        {\n                            \"feature\": \"Campaign CTR\",\n                            \"impact\": -0.1569\n                        }\n                    ]\n                }\n            ],\n            \"modelName\": \"Churn Prediction Model\",\n            \"recordCount\": 5,\n            \"responseTimeMs\": 659\n        }\n    }\n}"
+        }
+      ]
+    }
+  ]
+}

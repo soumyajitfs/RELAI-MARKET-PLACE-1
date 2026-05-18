@@ -1,0 +1,85 @@
+{
+  "info": {
+    "_postman_id": "1de9dc98-d951-47c8-bac7-161337dc6955",
+    "name": "cigna_lpi",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "41108299"
+  },
+  "item": [
+    {
+      "name": "https://ml-market-backend-ml-late-payment-interest.azurewebsites.net/api/lpi/accounts/generate",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "997hhEo876NHJo2AMbXl1i78895deK",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://ml-market-backend-ml-late-payment-interest.azurewebsites.net/api/lpi/accounts/generate",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-ml-late-payment-interest",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "lpi",
+            "accounts",
+            "generate"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "https://ml-market-backend-ml-late-payment-interest.azurewebsites.net/api/lpi/accounts/predict",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "997hhEo876NHJo2AMbXl1i78895deK",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "[{\r\n                    \"clmId\": \"CLM100150\",\r\n                    \"aaInd\": \"yes\",\r\n                    \"benopt\": \"MOAP0003\",\r\n                    \"billTyCd\": 133,\r\n                    \"clmBeginDt\": \"2019-07-15T00:00:00\",\r\n                    \"clmEndDt\": \"2020-12-19T00:00:00\",\r\n                    \"clmPcpInd\": \"no\",\r\n                    \"clmTyCd\": \"Inpatient\",\r\n                    \"erisaInd\": \"no\",\r\n                    \"formTyCd\": \"HCFA\",\r\n                    \"paperEdiCd\": \"Paper\",\r\n                    \"billProv_dervCpfTyCd2\": \"Inpatient Rehabilitation Facility\",\r\n                    \"billProv_ntCd\": \"Participating\",\r\n                    \"billProv_stCd\": \"Texas\",\r\n                    \"otherPayeeTyp\": \"Subscriber\",\r\n                    \"patDemo_patGndr\": \"Female\",\r\n                    \"patient_age\": 76,\r\n                    \"rndrProv_stCd\": \"Texas\",\r\n                    \"spProgElig_pathwellInd\": \"no\",\r\n                    \"allianceInd\": \"yes\",\r\n                    \"patDemo_rltnCd\": \"Other Dependent\",\r\n                    \"branch\": \"A011\",\r\n                    \"billProv_city\": \"Highlands Ranch\",\r\n                    \"clmAmt_totChrgAmt\": 4731,\r\n                    \"clmAmt_totAllowAmt\": 2532,\r\n                    \"clmAmt_totPatRespPriorReimAmt\": 10123,\r\n                    \"Funding type \": 16,\r\n                    \"chrgAmt\": 1677,\r\n                    \"ndc\": 9307302,\r\n                    \"posCd\": 11,\r\n                    \"preAuthInd\": \"Procedure Edit Criteria\",\r\n                    \"procCd\": \"G2211\",\r\n                    \"revnuCd\": 714,\r\n                    \"serviceId\": \"Lab Revenue OP\",\r\n                    \"diagCd\": \"R05\",\r\n                    \"adjustment indicator\": 1,\r\n                    \"lpi_flag\": 0,\r\n                    \"claimage\": 523,\r\n                    \"actual_lpi\": 0,\r\n                    \"lpi value\": 0.0\r\n                }]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://ml-market-backend-ml-late-payment-interest.azurewebsites.net/api/lpi/accounts/predict",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-ml-late-payment-interest",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "lpi",
+            "accounts",
+            "predict"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

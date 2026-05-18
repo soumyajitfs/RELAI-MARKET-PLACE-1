@@ -1,0 +1,131 @@
+RELAI MARKETPLACE - DEPLOYMENT CHANGES SUMMARY
+================================================
+
+1. server.js (NEW FILE)
+   - Created Express server to serve production build and proxy API routes
+   - Proxies 10 backend APIs to their respective Azure Web Apps
+   - Serves static files from build/ folder
+   - Falls back to index.html for client-side routing (SPA)
+   - Port: process.env.PORT (Azure) or 3000 (local)
+
+2. package.json
+   - Added dependencies: express, http-proxy-middleware
+   - Changed "start" script to "node server.js" (for Azure startup)
+   - Added "dev" script for local React development (react-scripts start)
+
+3. setupProxy.js (EXISTING - reference only, no changes)
+   - Dev proxy config used by react-scripts start
+   - 10 proxy routes:
+     /api/lpi            → ml-market-backend-ml-late-payment-interest.azurewebsites.net
+     /api/sales          → ml-market-backend-sales-optimization.azurewebsites.net
+     /api/collectability → ml-market-backend-collectability.azurewebsites.net
+     /api/claim-denial   → ml-market-backend-propensity-to-deny.azurewebsites.net
+     /api/churn          → ml-market-backend-customer-churn.azurewebsites.net
+     /api/aml            → ml-market-backend-aml.azurewebsites.net
+     /api/amex           → ml-market-backend-rpc.azurewebsites.net
+     /api/utilities      → ml-market-backend-utility.azurewebsites.net
+     /api/uw             → ml-market-backend-underwriter.azurewebsites.net
+     /api (catch-all)    → ml-market-backend-hcc.azurewebsites.net
+
+4. API Utils - Direct Backend Fallback (10 files updated)
+   - All API utility files now have direct backend URL fallback
+   - If proxy returns non-JSON response (e.g. SPA serves index.html), falls back to direct Azure backend URL
+   - Checks response content-type to detect HTML vs JSON responses
+   - Files updated:
+     src/utils/api.js               (HCC_REMOTE_BASE)
+     src/utils/amlApi.js            (AML_REMOTE_BASE)
+     src/utils/churnApi.js          (CHURN_REMOTE_BASE)
+     src/utils/salesApi.js          (SALES_REMOTE_BASE)
+     src/utils/collectabilityApi.js (COLLECTABILITY_REMOTE_BASE)
+     src/utils/lpiApi.js            (LPI_REMOTE_BASE)
+     src/utils/claimDenialApi.js    (CLAIM_DENIAL_REMOTE_BASE)
+     src/utils/mortgageUnderwritingApi.js (UNDERWRITING_REMOTE_BASE)
+     src/utils/rpcApi.js            (RPC_REMOTE_BASE)
+     src/utils/utilityApi.js        (UTILITY_REMOTE_BASE)
+
+5. src/authConfig.js
+   - Redirect URI now uses window.location.origin dynamically for both localhost and production
+   - Changed cacheLocation from 'sessionStorage' to 'localStorage' (persists login across browser sessions)
+
+6. src/msalInstance.js
+   - Fixed MSAL v4 initialization: chains initialize() → handleRedirectPromise() → setActiveAccount in a single promise (msalReady)
+   - Prevents "uninitialized_public_client_application" error in production
+   - After successful redirect, calls window.location.replace('/dashboard') BEFORE React mounts to prevent login page flash
+   - Returns a never-resolving promise to stop React from rendering on the stale /auth/callback URL
+   - On subsequent loads, reads accounts from localStorage and sets active account
+
+7. src/index.js
+   - Waits for msalReady promise before rendering the app
+   - Ensures MSAL is fully initialized and redirect is processed before any React component mounts
+
+8. src/pages/AuthCallbackPage.jsx
+   - Removed redundant handleRedirectPromise() call (already handled in msalInstance.js)
+   - Checks instance.getActiveAccount() directly (synchronous, no lag) for immediate redirect
+   - Simplified since redirect is now handled before React mounts
+
+9. src/components/auth/RequireAuth.jsx
+   - Added inProgress check (InteractionStatus) to wait while MSAL is processing redirects
+   - Added instance.getAllAccounts() fallback alongside useIsAuthenticated() hook
+   - Prevents brief flash of login page caused by React state lag
+
+10. src/pages/LoginPage.jsx
+    - Added guard: returns null (renders nothing) if user is authenticated, has accounts, or MSAL is processing
+    - Checks isAuthenticated, instance.getAllAccounts(), and inProgress BEFORE rendering login UI
+    - Prevents login page from ever flashing during auth transitions
+    - This was the key fix for the login page flash issue
+
+11. src/components/Layout/Sidebar.jsx (Logout)
+    - Bypassed MSAL's logoutRedirect() which was always showing Microsoft's account picker
+    - Manually clears MSAL cache from localStorage
+    - Constructs Azure AD logout URL manually with logout_hint parameter (user's email)
+    - logout_hint is dynamic — uses instance.getActiveAccount().username (works for all users)
+    - Navigates directly to Azure AD's v2.0 logout endpoint
+    - Skips the "which account to sign out?" picker
+
+12. src/styles/global.css
+    - Changed login background image from external Unsplash URL to local file (./login-bg.jpg)
+    - Unsplash was blocking hotlinking (403) in production
+
+13. src/styles/login-bg.jpg (NEW FILE)
+    - Local copy of login page background image
+
+14. src/utils/mortgageUnderwritingShapUtils.js
+    - Fixed SHAP label bug: non-approved decisions now correctly show Approved/Declined/Cancelled/Suspended
+    - Previously all non-approved decisions showed as "Cancelled"
+
+SSO FLOW:
+=========
+Login:
+  1. User clicks Login → MSAL's loginRedirect() → browser goes to Microsoft
+  2. User enters credentials → Microsoft redirects to /auth/callback#code=...
+  3. msalReady processes: initialize() → handleRedirectPromise() → exchanges code for tokens (PKCE)
+  4. Tokens + account stored in localStorage
+  5. window.location.replace('/dashboard') fires BEFORE React mounts (no flash)
+  6. Fresh page load at /dashboard → msalReady finds accounts in localStorage → dashboard renders
+
+Logout:
+  1. User clicks Logout → clears MSAL cache from localStorage
+  2. Navigates to Azure AD logout endpoint with logout_hint (user's email)
+  3. Azure AD ends session → redirects to /login
+
+Persistence:
+  - Uses localStorage → user stays logged in across browser sessions
+  - Token refresh handled automatically by MSAL
+
+DEPLOYMENT STEPS:
+=================
+Option A: Deploy with server.js (recommended - handles API proxying)
+  1. npm install
+  2. npm run build
+  3. Deploy root folder to Azure App Service via VS Code Azure extension
+  4. Set startup command: node server.js
+  5. Set app setting: SCM_DO_BUILD_DURING_DEPLOYMENT = true
+
+Option B: Deploy build folder only (requires CORS on backends)
+  1. npm install
+  2. npm run build
+  3. Deploy build/ folder to Azure App Service
+  4. Set startup command: pm2 serve /home/site/wwwroot --no-daemon --spa
+  5. Add https://relai-marketplace.azurewebsites.net as CORS origin on all 10 backends
+
+For local development: npm run dev (uses react-scripts start with setupProxy.js)

@@ -1,0 +1,85 @@
+{
+  "info": {
+    "_postman_id": "b5dd45df-b234-4c54-8a90-ba4139d9fd76",
+    "name": "EAD ML Market",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40564629"
+  },
+  "item": [
+    {
+      "name": "Generate Accounts",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "997hhEo876NHJo2AMbXl1i78895deK",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://ml-market-backend-ead.azurewebsites.net/api/creditcard/accounts/generate",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-ead",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "creditcard",
+            "accounts",
+            "generate"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Predict",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "997hhEo876NHJo2AMbXl1i78895deK",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "[                {\r\n                    \"Customer_ID\": 3503,\r\n                    \"Credit_Score\": 613,\r\n                    \"Utilization_Rate\": 0.359543,\r\n                    \"Months_on_Book\": 69,\r\n                    \"Past_Delinquencies\": 9,\r\n                    \"Payment_to_Income_Ratio\": 0.268023,\r\n                    \"Current_Exposure\": 3039.58,\r\n                    \"Undrawn_Limit\": 5414.42\r\n                }\r\n]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://ml-market-backend-ead.azurewebsites.net/api/creditcard/accounts/predict",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-ead",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "creditcard",
+            "accounts",
+            "predict"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "info": {
+    "_postman_id": "d21df54c-06f9-441f-a8b0-1d3c241695bf",
+    "name": "PD",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40564629"
+  },
+  "item": [
+    {
+      "name": "Generate Accounts",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "997hhEo876NHJo2AMbXl1i78895deK",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://ml-market-backend-pd.azurewebsites.net/api/pd/accounts/generate",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-pd",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "pd",
+            "accounts",
+            "generate"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Predict",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "997hhEo876NHJo2AMbXl1i78895deK",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "[                {\r\n                    \"account_id\": \"PD_001052\",\r\n                    \"interest_rate\": 21.79,\r\n                    \"months_on_book\": 3,\r\n                    \"avg_monthly_credit_6m\": 88731.25,\r\n                    \"current_foir\": 0.3084,\r\n                    \"bureau_utilization\": 0.6844,\r\n                    \"n_delinquent_elsewhere\": 0,\r\n                    \"n_times_30plus_prior_12m\": 5,\r\n                    \"bounce_count_prior_12m\": 3\r\n                },\r\n                {\r\n                    \"account_id\": \"PD_009064\",\r\n                    \"interest_rate\": 20.58,\r\n                    \"months_on_book\": 18,\r\n                    \"avg_monthly_credit_6m\": 60827.08,\r\n                    \"current_foir\": 0.0662,\r\n                    \"bureau_utilization\": 0.7214,\r\n                    \"n_delinquent_elsewhere\": 1,\r\n                    \"n_times_30plus_prior_12m\": 5,\r\n                    \"bounce_count_prior_12m\": 5\r\n                }]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://ml-market-backend-pd.azurewebsites.net/api/pd/accounts/predict",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-pd",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "pd",
+            "accounts",
+            "predict"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

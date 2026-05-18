@@ -1,0 +1,211 @@
+{
+  "info": {
+    "_postman_id": "464552eb-0709-4d74-a278-f667bce1231d",
+    "name": "UnderWriter",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40564629"
+  },
+  "item": [
+    {
+      "name": "Generate",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "underwriter889",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://ml-market-backend-underwriter.azurewebsites.net/api/uw/generate",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-underwriter",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "uw",
+            "generate"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Generate",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://ml-market-backend-underwriter.azurewebsites.net/api/uw/generate",
+              "protocol": "https",
+              "host": [
+                "ml-market-backend-underwriter",
+                "azurewebsites",
+                "net"
+              ],
+              "path": [
+                "api",
+                "uw",
+                "generate"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Length",
+              "value": "4112"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 23 Mar 2026 11:55:26 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "uvicorn"
+            },
+            {
+              "key": "x-ms-middleware-request-id",
+              "value": "00000000-0000-0000-0000-000000000000"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"Response\": {\n        \"StatusCode\": 200,\n        \"Message\": \"Success\",\n        \"ResponseInfo\": {\n            \"data\": [\n                {\n                    \"Applicant_ID\": \"APP-007888\",\n                    \"Alternative_Credit_Flag\": \"No\",\n                    \"Credit_Score\": 743,\n                    \"Loan_Amount\": 425383.25,\n                    \"Debt_to_Income_Ratio\": 48.73,\n                    \"Loan_Purpose\": \"PURCHASE\",\n                    \"Loan_Program_Type\": \"CONVENTIONAL\",\n                    \"Pre_Approval_Risk_Level\": \"High\",\n                    \"Income_Variance_Percent\": 22.16,\n                    \"Verified_Liquid_Assets\": 90198.68,\n                    \"Reserve_Months_x\": 6,\n                    \"Employer_Type\": \"Self_Employed\",\n                    \"Missing_Documents_Count\": 1,\n                    \"Cleaned_Income\": 149013.36,\n                    \"Appraisal_Condition_Issues\": null,\n                    \"Final_LTV_After_Appraisal\": null,\n                    \"Appraisal_Risk_Level\": \"MEDIUM\",\n                    \"Title_Risk_Level\": \"MEDIUM\",\n                    \"OFAC_Check_Status\": \"CLEAR\",\n                    \"SSN_Mismatch_Flag\": \"No\",\n                    \"Identity_Verified_Flag\": \"Yes\",\n                    \"MI_Required_Flag\": \"Yes\",\n                    \"Income_Verification_Status\": \"VERIFIED\",\n                    \"Asset_Verification_Status\": \"VERIFIED\",\n                    \"Flood_Insurance_Missing_Flag\": \"No\",\n                    \"AUS_Risk_Class\": \"B\",\n                    \"QM_Status\": \"Rebuttable\"\n                },\n                {\n                    \"Applicant_ID\": \"APP-008438\",\n                    \"Alternative_Credit_Flag\": \"No\",\n                    \"Credit_Score\": 605,\n                    \"Loan_Amount\": 698957.05,\n                    \"Debt_to_Income_Ratio\": 41.67,\n                    \"Loan_Purpose\": \"PURCHASE\",\n                    \"Loan_Program_Type\": \"CONVENTIONAL\",\n                    \"Pre_Approval_Risk_Level\": \"High\",\n                    \"Income_Variance_Percent\": 7.47,\n                    \"Verified_Liquid_Assets\": 104363.46,\n                    \"Reserve_Months_x\": 6,\n                    \"Employer_Type\": \"Public\",\n                    \"Missing_Documents_Count\": 2,\n                    \"Cleaned_Income\": 161261.88,\n                    \"Appraisal_Condition_Issues\": null,\n                    \"Final_LTV_After_Appraisal\": null,\n                    \"Appraisal_Risk_Level\": \"MEDIUM\",\n                    \"Title_Risk_Level\": \"LOW\",\n                    \"OFAC_Check_Status\": \"CLEAR\",\n                    \"SSN_Mismatch_Flag\": \"No\",\n                    \"Identity_Verified_Flag\": \"Yes\",\n                    \"MI_Required_Flag\": \"Yes\",\n                    \"Income_Verification_Status\": \"VERIFIED\",\n                    \"Asset_Verification_Status\": \"VERIFIED\",\n                    \"Flood_Insurance_Missing_Flag\": \"No\",\n                    \"AUS_Risk_Class\": \"C\",\n                    \"QM_Status\": \"Safe_Harbor\"\n                },\n                {\n                    \"Applicant_ID\": \"APP-007483\",\n                    \"Alternative_Credit_Flag\": \"No\",\n                    \"Credit_Score\": 758,\n                    \"Loan_Amount\": 835113.62,\n                    \"Debt_to_Income_Ratio\": 49.24,\n                    \"Loan_Purpose\": \"PURCHASE\",\n                    \"Loan_Program_Type\": \"CONVENTIONAL\",\n                    \"Pre_Approval_Risk_Level\": \"High\",\n                    \"Income_Variance_Percent\": 9.85,\n                    \"Verified_Liquid_Assets\": 289564.6,\n                    \"Reserve_Months_x\": 6,\n                    \"Employer_Type\": \"Private\",\n                    \"Missing_Documents_Count\": 4,\n                    \"Cleaned_Income\": 159697.86,\n                    \"Appraisal_Condition_Issues\": 1,\n                    \"Final_LTV_After_Appraisal\": 98.93,\n                    \"Appraisal_Risk_Level\": \"HIGH\",\n                    \"Title_Risk_Level\": \"LOW\",\n                    \"OFAC_Check_Status\": \"CLEAR\",\n                    \"SSN_Mismatch_Flag\": \"No\",\n                    \"Identity_Verified_Flag\": \"Yes\",\n                    \"MI_Required_Flag\": \"Yes\",\n                    \"Income_Verification_Status\": \"VERIFIED\",\n                    \"Asset_Verification_Status\": \"VERIFIED\",\n                    \"Flood_Insurance_Missing_Flag\": \"No\",\n                    \"AUS_Risk_Class\": \"B\",\n                    \"QM_Status\": \"Rebuttable\"\n                },\n                {\n                    \"Applicant_ID\": \"APP-007894\",\n                    \"Alternative_Credit_Flag\": \"No\",\n                    \"Credit_Score\": 678,\n                    \"Loan_Amount\": 530241.13,\n                    \"Debt_to_Income_Ratio\": 41.12,\n                    \"Loan_Purpose\": \"RATE_TERM_REFINANCE\",\n                    \"Loan_Program_Type\": \"NON_QM\",\n                    \"Pre_Approval_Risk_Level\": \"High\",\n                    \"Income_Variance_Percent\": 12.46,\n                    \"Verified_Liquid_Assets\": 102566.64,\n                    \"Reserve_Months_x\": 6,\n                    \"Employer_Type\": \"Self_Employed\",\n                    \"Missing_Documents_Count\": 2,\n                    \"Cleaned_Income\": 104516.77,\n                    \"Appraisal_Condition_Issues\": null,\n                    \"Final_LTV_After_Appraisal\": null,\n                    \"Appraisal_Risk_Level\": \"LOW\",\n                    \"Title_Risk_Level\": \"LOW\",\n                    \"OFAC_Check_Status\": \"CLEAR\",\n                    \"SSN_Mismatch_Flag\": \"No\",\n                    \"Identity_Verified_Flag\": \"Yes\",\n                    \"MI_Required_Flag\": \"No\",\n                    \"Income_Verification_Status\": \"PARTIAL\",\n                    \"Asset_Verification_Status\": \"VERIFIED\",\n                    \"Flood_Insurance_Missing_Flag\": \"No\",\n                    \"AUS_Risk_Class\": \"B\",\n                    \"QM_Status\": \"Non_QM\"\n                },\n                {\n                    \"Applicant_ID\": \"APP-009291\",\n                    \"Alternative_Credit_Flag\": \"No\",\n                    \"Credit_Score\": 749,\n                    \"Loan_Amount\": 452040.28,\n                    \"Debt_to_Income_Ratio\": 57.3,\n                    \"Loan_Purpose\": \"CASH_OUT_REFINANCE\",\n                    \"Loan_Program_Type\": \"NON_QM\",\n                    \"Pre_Approval_Risk_Level\": \"High\",\n                    \"Income_Variance_Percent\": 7.97,\n                    \"Verified_Liquid_Assets\": 387163.15,\n                    \"Reserve_Months_x\": 6,\n                    \"Employer_Type\": \"Government\",\n                    \"Missing_Documents_Count\": 4,\n                    \"Cleaned_Income\": 68235.93,\n                    \"Appraisal_Condition_Issues\": 0,\n                    \"Final_LTV_After_Appraisal\": 70.46,\n                    \"Appraisal_Risk_Level\": \"MEDIUM\",\n                    \"Title_Risk_Level\": \"MEDIUM\",\n                    \"OFAC_Check_Status\": \"CLEAR\",\n                    \"SSN_Mismatch_Flag\": \"No\",\n                    \"Identity_Verified_Flag\": \"Yes\",\n                    \"MI_Required_Flag\": \"No\",\n                    \"Income_Verification_Status\": \"PARTIAL\",\n                    \"Asset_Verification_Status\": \"PARTIAL\",\n                    \"Flood_Insurance_Missing_Flag\": \"No\",\n                    \"AUS_Risk_Class\": \"C\",\n                    \"QM_Status\": \"Non_QM\"\n                }\n            ],\n            \"modelName\": \"UW Sample Generator\",\n            \"recordCount\": 5,\n            \"responseTimeMs\": 76\n        }\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Predict",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "underwriter889",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "[\r\n                {\r\n                    \"Applicant_ID\": \"APP-007888\",\r\n                    \"Alternative_Credit_Flag\": \"No\",\r\n                    \"Credit_Score\": 743.0,\r\n                    \"Loan_Amount\": 425383.25,\r\n                    \"Debt_to_Income_Ratio\": 48.73,\r\n                    \"Loan_Purpose\": \"PURCHASE\",\r\n                    \"Loan_Program_Type\": \"CONVENTIONAL\",\r\n                    \"Pre_Approval_Risk_Level\": \"High\",\r\n                    \"Income_Variance_Percent\": 22.16,\r\n                    \"Verified_Liquid_Assets\": 90198.68,\r\n                    \"Reserve_Months_x\": 6,\r\n                    \"Employer_Type\": \"Self_Employed\",\r\n                    \"Missing_Documents_Count\": 1,\r\n                    \"Cleaned_Income\": 149013.36,\r\n                    \"Appraisal_Condition_Issues\": null,\r\n                    \"Final_LTV_After_Appraisal\": null,\r\n                    \"Appraisal_Risk_Level\": \"MEDIUM\",\r\n                    \"Title_Risk_Level\": \"MEDIUM\",\r\n                    \"OFAC_Check_Status\": \"CLEAR\",\r\n                    \"SSN_Mismatch_Flag\": \"No\",\r\n                    \"Identity_Verified_Flag\": \"Yes\",\r\n                    \"MI_Required_Flag\": \"Yes\",\r\n                    \"Income_Verification_Status\": \"VERIFIED\",\r\n                    \"Asset_Verification_Status\": \"VERIFIED\",\r\n                    \"Flood_Insurance_Missing_Flag\": \"No\",\r\n                    \"AUS_Risk_Class\": \"B\",\r\n                    \"QM_Status\": \"Rebuttable\"\r\n                },\r\n                {\r\n                    \"Applicant_ID\": \"APP-008438\",\r\n                    \"Alternative_Credit_Flag\": \"No\",\r\n                    \"Credit_Score\": 605.0,\r\n                    \"Loan_Amount\": 698957.05,\r\n                    \"Debt_to_Income_Ratio\": 41.67,\r\n                    \"Loan_Purpose\": \"PURCHASE\",\r\n                    \"Loan_Program_Type\": \"CONVENTIONAL\",\r\n                    \"Pre_Approval_Risk_Level\": \"High\",\r\n                    \"Income_Variance_Percent\": 7.47,\r\n                    \"Verified_Liquid_Assets\": 104363.46,\r\n                    \"Reserve_Months_x\": 6,\r\n                    \"Employer_Type\": \"Public\",\r\n                    \"Missing_Documents_Count\": 2,\r\n                    \"Cleaned_Income\": 161261.88,\r\n                    \"Appraisal_Condition_Issues\": null,\r\n                    \"Final_LTV_After_Appraisal\": null,\r\n                    \"Appraisal_Risk_Level\": \"MEDIUM\",\r\n                    \"Title_Risk_Level\": \"LOW\",\r\n                    \"OFAC_Check_Status\": \"CLEAR\",\r\n                    \"SSN_Mismatch_Flag\": \"No\",\r\n                    \"Identity_Verified_Flag\": \"Yes\",\r\n                    \"MI_Required_Flag\": \"Yes\",\r\n                    \"Income_Verification_Status\": \"VERIFIED\",\r\n                    \"Asset_Verification_Status\": \"VERIFIED\",\r\n                    \"Flood_Insurance_Missing_Flag\": \"No\",\r\n                    \"AUS_Risk_Class\": \"C\",\r\n                    \"QM_Status\": \"Safe_Harbor\"\r\n                },\r\n                {\r\n                    \"Applicant_ID\": \"APP-007483\",\r\n                    \"Alternative_Credit_Flag\": \"No\",\r\n                    \"Credit_Score\": 758.0,\r\n                    \"Loan_Amount\": 835113.62,\r\n                    \"Debt_to_Income_Ratio\": 49.24,\r\n                    \"Loan_Purpose\": \"PURCHASE\",\r\n                    \"Loan_Program_Type\": \"CONVENTIONAL\",\r\n                    \"Pre_Approval_Risk_Level\": \"High\",\r\n                    \"Income_Variance_Percent\": 9.85,\r\n                    \"Verified_Liquid_Assets\": 289564.6,\r\n                    \"Reserve_Months_x\": 6,\r\n                    \"Employer_Type\": \"Private\",\r\n                    \"Missing_Documents_Count\": 4,\r\n                    \"Cleaned_Income\": 159697.86,\r\n                    \"Appraisal_Condition_Issues\": 1.0,\r\n                    \"Final_LTV_After_Appraisal\": 98.93,\r\n                    \"Appraisal_Risk_Level\": \"HIGH\",\r\n                    \"Title_Risk_Level\": \"LOW\",\r\n                    \"OFAC_Check_Status\": \"CLEAR\",\r\n                    \"SSN_Mismatch_Flag\": \"No\",\r\n                    \"Identity_Verified_Flag\": \"Yes\",\r\n                    \"MI_Required_Flag\": \"Yes\",\r\n                    \"Income_Verification_Status\": \"VERIFIED\",\r\n                    \"Asset_Verification_Status\": \"VERIFIED\",\r\n                    \"Flood_Insurance_Missing_Flag\": \"No\",\r\n                    \"AUS_Risk_Class\": \"B\",\r\n                    \"QM_Status\": \"Rebuttable\"\r\n                },\r\n                {\r\n                    \"Applicant_ID\": \"APP-007894\",\r\n                    \"Alternative_Credit_Flag\": \"No\",\r\n                    \"Credit_Score\": 678.0,\r\n                    \"Loan_Amount\": 530241.13,\r\n                    \"Debt_to_Income_Ratio\": 41.12,\r\n                    \"Loan_Purpose\": \"RATE_TERM_REFINANCE\",\r\n                    \"Loan_Program_Type\": \"NON_QM\",\r\n                    \"Pre_Approval_Risk_Level\": \"High\",\r\n                    \"Income_Variance_Percent\": 12.46,\r\n                    \"Verified_Liquid_Assets\": 102566.64,\r\n                    \"Reserve_Months_x\": 6,\r\n                    \"Employer_Type\": \"Self_Employed\",\r\n                    \"Missing_Documents_Count\": 2,\r\n                    \"Cleaned_Income\": 104516.77,\r\n                    \"Appraisal_Condition_Issues\": null,\r\n                    \"Final_LTV_After_Appraisal\": null,\r\n                    \"Appraisal_Risk_Level\": \"LOW\",\r\n                    \"Title_Risk_Level\": \"LOW\",\r\n                    \"OFAC_Check_Status\": \"CLEAR\",\r\n                    \"SSN_Mismatch_Flag\": \"No\",\r\n                    \"Identity_Verified_Flag\": \"Yes\",\r\n                    \"MI_Required_Flag\": \"No\",\r\n                    \"Income_Verification_Status\": \"PARTIAL\",\r\n                    \"Asset_Verification_Status\": \"VERIFIED\",\r\n                    \"Flood_Insurance_Missing_Flag\": \"No\",\r\n                    \"AUS_Risk_Class\": \"B\",\r\n                    \"QM_Status\": \"Non_QM\"\r\n                },\r\n                {\r\n                    \"Applicant_ID\": \"APP-009291\",\r\n                    \"Alternative_Credit_Flag\": \"No\",\r\n                    \"Credit_Score\": 749.0,\r\n                    \"Loan_Amount\": 452040.28,\r\n                    \"Debt_to_Income_Ratio\": 57.3,\r\n                    \"Loan_Purpose\": \"CASH_OUT_REFINANCE\",\r\n                    \"Loan_Program_Type\": \"NON_QM\",\r\n                    \"Pre_Approval_Risk_Level\": \"High\",\r\n                    \"Income_Variance_Percent\": 7.97,\r\n                    \"Verified_Liquid_Assets\": 387163.15,\r\n                    \"Reserve_Months_x\": 6,\r\n                    \"Employer_Type\": \"Government\",\r\n                    \"Missing_Documents_Count\": 4,\r\n                    \"Cleaned_Income\": 68235.93,\r\n                    \"Appraisal_Condition_Issues\": 0.0,\r\n                    \"Final_LTV_After_Appraisal\": 70.46,\r\n                    \"Appraisal_Risk_Level\": \"MEDIUM\",\r\n                    \"Title_Risk_Level\": \"MEDIUM\",\r\n                    \"OFAC_Check_Status\": \"CLEAR\",\r\n                    \"SSN_Mismatch_Flag\": \"No\",\r\n                    \"Identity_Verified_Flag\": \"Yes\",\r\n                    \"MI_Required_Flag\": \"No\",\r\n                    \"Income_Verification_Status\": \"PARTIAL\",\r\n                    \"Asset_Verification_Status\": \"PARTIAL\",\r\n                    \"Flood_Insurance_Missing_Flag\": \"No\",\r\n                    \"AUS_Risk_Class\": \"C\",\r\n                    \"QM_Status\": \"Non_QM\"\r\n                }\r\n]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://ml-market-backend-underwriter.azurewebsites.net/api/uw/predict",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-underwriter",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "uw",
+            "predict"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Predict",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "[\r\n                {\r\n                    \"Applicant_ID\": \"APP-007888\",\r\n                    \"Alternative_Credit_Flag\": \"No\",\r\n                    \"Credit_Score\": 743.0,\r\n                    \"Loan_Amount\": 425383.25,\r\n                    \"Debt_to_Income_Ratio\": 48.73,\r\n                    \"Loan_Purpose\": \"PURCHASE\",\r\n                    \"Loan_Program_Type\": \"CONVENTIONAL\",\r\n                    \"Pre_Approval_Risk_Level\": \"High\",\r\n                    \"Income_Variance_Percent\": 22.16,\r\n                    \"Verified_Liquid_Assets\": 90198.68,\r\n                    \"Reserve_Months_x\": 6,\r\n                    \"Employer_Type\": \"Self_Employed\",\r\n                    \"Missing_Documents_Count\": 1,\r\n                    \"Cleaned_Income\": 149013.36,\r\n                    \"Appraisal_Condition_Issues\": null,\r\n                    \"Final_LTV_After_Appraisal\": null,\r\n                    \"Appraisal_Risk_Level\": \"MEDIUM\",\r\n                    \"Title_Risk_Level\": \"MEDIUM\",\r\n                    \"OFAC_Check_Status\": \"CLEAR\",\r\n                    \"SSN_Mismatch_Flag\": \"No\",\r\n                    \"Identity_Verified_Flag\": \"Yes\",\r\n                    \"MI_Required_Flag\": \"Yes\",\r\n                    \"Income_Verification_Status\": \"VERIFIED\",\r\n                    \"Asset_Verification_Status\": \"VERIFIED\",\r\n                    \"Flood_Insurance_Missing_Flag\": \"No\",\r\n                    \"AUS_Risk_Class\": \"B\",\r\n                    \"QM_Status\": \"Rebuttable\"\r\n                },\r\n                {\r\n                    \"Applicant_ID\": \"APP-008438\",\r\n                    \"Alternative_Credit_Flag\": \"No\",\r\n                    \"Credit_Score\": 605.0,\r\n                    \"Loan_Amount\": 698957.05,\r\n                    \"Debt_to_Income_Ratio\": 41.67,\r\n                    \"Loan_Purpose\": \"PURCHASE\",\r\n                    \"Loan_Program_Type\": \"CONVENTIONAL\",\r\n                    \"Pre_Approval_Risk_Level\": \"High\",\r\n                    \"Income_Variance_Percent\": 7.47,\r\n                    \"Verified_Liquid_Assets\": 104363.46,\r\n                    \"Reserve_Months_x\": 6,\r\n                    \"Employer_Type\": \"Public\",\r\n                    \"Missing_Documents_Count\": 2,\r\n                    \"Cleaned_Income\": 161261.88,\r\n                    \"Appraisal_Condition_Issues\": null,\r\n                    \"Final_LTV_After_Appraisal\": null,\r\n                    \"Appraisal_Risk_Level\": \"MEDIUM\",\r\n                    \"Title_Risk_Level\": \"LOW\",\r\n                    \"OFAC_Check_Status\": \"CLEAR\",\r\n                    \"SSN_Mismatch_Flag\": \"No\",\r\n                    \"Identity_Verified_Flag\": \"Yes\",\r\n                    \"MI_Required_Flag\": \"Yes\",\r\n                    \"Income_Verification_Status\": \"VERIFIED\",\r\n                    \"Asset_Verification_Status\": \"VERIFIED\",\r\n                    \"Flood_Insurance_Missing_Flag\": \"No\",\r\n                    \"AUS_Risk_Class\": \"C\",\r\n                    \"QM_Status\": \"Safe_Harbor\"\r\n                },\r\n                {\r\n                    \"Applicant_ID\": \"APP-007483\",\r\n                    \"Alternative_Credit_Flag\": \"No\",\r\n                    \"Credit_Score\": 758.0,\r\n                    \"Loan_Amount\": 835113.62,\r\n                    \"Debt_to_Income_Ratio\": 49.24,\r\n                    \"Loan_Purpose\": \"PURCHASE\",\r\n                    \"Loan_Program_Type\": \"CONVENTIONAL\",\r\n                    \"Pre_Approval_Risk_Level\": \"High\",\r\n                    \"Income_Variance_Percent\": 9.85,\r\n                    \"Verified_Liquid_Assets\": 289564.6,\r\n                    \"Reserve_Months_x\": 6,\r\n                    \"Employer_Type\": \"Private\",\r\n                    \"Missing_Documents_Count\": 4,\r\n                    \"Cleaned_Income\": 159697.86,\r\n                    \"Appraisal_Condition_Issues\": 1.0,\r\n                    \"Final_LTV_After_Appraisal\": 98.93,\r\n                    \"Appraisal_Risk_Level\": \"HIGH\",\r\n                    \"Title_Risk_Level\": \"LOW\",\r\n                    \"OFAC_Check_Status\": \"CLEAR\",\r\n                    \"SSN_Mismatch_Flag\": \"No\",\r\n                    \"Identity_Verified_Flag\": \"Yes\",\r\n                    \"MI_Required_Flag\": \"Yes\",\r\n                    \"Income_Verification_Status\": \"VERIFIED\",\r\n                    \"Asset_Verification_Status\": \"VERIFIED\",\r\n                    \"Flood_Insurance_Missing_Flag\": \"No\",\r\n                    \"AUS_Risk_Class\": \"B\",\r\n                    \"QM_Status\": \"Rebuttable\"\r\n                },\r\n                {\r\n                    \"Applicant_ID\": \"APP-007894\",\r\n                    \"Alternative_Credit_Flag\": \"No\",\r\n                    \"Credit_Score\": 678.0,\r\n                    \"Loan_Amount\": 530241.13,\r\n                    \"Debt_to_Income_Ratio\": 41.12,\r\n                    \"Loan_Purpose\": \"RATE_TERM_REFINANCE\",\r\n                    \"Loan_Program_Type\": \"NON_QM\",\r\n                    \"Pre_Approval_Risk_Level\": \"High\",\r\n                    \"Income_Variance_Percent\": 12.46,\r\n                    \"Verified_Liquid_Assets\": 102566.64,\r\n                    \"Reserve_Months_x\": 6,\r\n                    \"Employer_Type\": \"Self_Employed\",\r\n                    \"Missing_Documents_Count\": 2,\r\n                    \"Cleaned_Income\": 104516.77,\r\n                    \"Appraisal_Condition_Issues\": null,\r\n                    \"Final_LTV_After_Appraisal\": null,\r\n                    \"Appraisal_Risk_Level\": \"LOW\",\r\n                    \"Title_Risk_Level\": \"LOW\",\r\n                    \"OFAC_Check_Status\": \"CLEAR\",\r\n                    \"SSN_Mismatch_Flag\": \"No\",\r\n                    \"Identity_Verified_Flag\": \"Yes\",\r\n                    \"MI_Required_Flag\": \"No\",\r\n                    \"Income_Verification_Status\": \"PARTIAL\",\r\n                    \"Asset_Verification_Status\": \"VERIFIED\",\r\n                    \"Flood_Insurance_Missing_Flag\": \"No\",\r\n                    \"AUS_Risk_Class\": \"B\",\r\n                    \"QM_Status\": \"Non_QM\"\r\n                },\r\n                {\r\n                    \"Applicant_ID\": \"APP-009291\",\r\n                    \"Alternative_Credit_Flag\": \"No\",\r\n                    \"Credit_Score\": 749.0,\r\n                    \"Loan_Amount\": 452040.28,\r\n                    \"Debt_to_Income_Ratio\": 57.3,\r\n                    \"Loan_Purpose\": \"CASH_OUT_REFINANCE\",\r\n                    \"Loan_Program_Type\": \"NON_QM\",\r\n                    \"Pre_Approval_Risk_Level\": \"High\",\r\n                    \"Income_Variance_Percent\": 7.97,\r\n                    \"Verified_Liquid_Assets\": 387163.15,\r\n                    \"Reserve_Months_x\": 6,\r\n                    \"Employer_Type\": \"Government\",\r\n                    \"Missing_Documents_Count\": 4,\r\n                    \"Cleaned_Income\": 68235.93,\r\n                    \"Appraisal_Condition_Issues\": 0.0,\r\n                    \"Final_LTV_After_Appraisal\": 70.46,\r\n                    \"Appraisal_Risk_Level\": \"MEDIUM\",\r\n                    \"Title_Risk_Level\": \"MEDIUM\",\r\n                    \"OFAC_Check_Status\": \"CLEAR\",\r\n                    \"SSN_Mismatch_Flag\": \"No\",\r\n                    \"Identity_Verified_Flag\": \"Yes\",\r\n                    \"MI_Required_Flag\": \"No\",\r\n                    \"Income_Verification_Status\": \"PARTIAL\",\r\n                    \"Asset_Verification_Status\": \"PARTIAL\",\r\n                    \"Flood_Insurance_Missing_Flag\": \"No\",\r\n                    \"AUS_Risk_Class\": \"C\",\r\n                    \"QM_Status\": \"Non_QM\"\r\n                }\r\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://ml-market-backend-underwriter.azurewebsites.net/api/uw/predict",
+              "protocol": "https",
+              "host": [
+                "ml-market-backend-underwriter",
+                "azurewebsites",
+                "net"
+              ],
+              "path": [
+                "api",
+                "uw",
+                "predict"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Length",
+              "value": "3190"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 23 Mar 2026 11:55:54 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "uvicorn"
+            },
+            {
+              "key": "x-ms-middleware-request-id",
+              "value": "00000000-0000-0000-0000-000000000000"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"Response\": {\n        \"StatusCode\": 200,\n        \"Message\": \"Success\",\n        \"ResponseInfo\": {\n            \"data\": [\n                {\n                    \"Applicant_ID\": \"APP-007888\",\n                    \"decision\": \"Suspended\",\n                    \"confidence\": 0.7704,\n                    \"shap_values\": [\n                        {\n                            \"feature\": \"Missing_Documents_Count\",\n                            \"impact\": 0.7256\n                        },\n                        {\n                            \"feature\": \"Appraisal_Condition_Issues\",\n                            \"impact\": 0.721\n                        },\n                        {\n                            \"feature\": \"Final_LTV_After_Appraisal\",\n                            \"impact\": 0.536\n                        },\n                        {\n                            \"feature\": \"AUS_Risk_Class_C\",\n                            \"impact\": 0.2053\n                        },\n                        {\n                            \"feature\": \"Verified_Liquid_Assets\",\n                            \"impact\": -0.1304\n                        },\n                        {\n                            \"feature\": \"Appraisal_Risk_Level_LOW\",\n                            \"impact\": 0.1123\n                        },\n                        {\n                            \"feature\": \"AUS_Risk_Class_B\",\n                            \"impact\": 0.0785\n                        },\n                        {\n                            \"feature\": \"Appraisal_Risk_Level_MEDIUM\",\n                            \"impact\": -0.0778\n                        },\n                        {\n                            \"feature\": \"Income_Variance_Percent\",\n                            \"impact\": 0.0749\n                        },\n                        {\n                            \"feature\": \"Cleaned_Income\",\n                            \"impact\": -0.0386\n                        }\n                    ]\n                },\n                {\n                    \"Applicant_ID\": \"APP-008438\",\n                    \"decision\": \"Suspended\",\n                    \"confidence\": 0.629,\n                    \"shap_values\": [\n                        {\n                            \"feature\": \"Missing_Documents_Count\",\n                            \"impact\": 0.7502\n                        },\n                        {\n                            \"feature\": \"Appraisal_Condition_Issues\",\n                            \"impact\": 0.7408\n                        },\n                        {\n                            \"feature\": \"Final_LTV_After_Appraisal\",\n                            \"impact\": 0.5158\n                        },\n                        {\n                            \"feature\": \"AUS_Risk_Class_C\",\n                            \"impact\": -0.3223\n                        },\n                        {\n                            \"feature\": \"Credit_Score\",\n                            \"impact\": 0.3053\n                        },\n                        {\n                            \"feature\": \"Cleaned_Income\",\n                            \"impact\": -0.1784\n                        },\n                        {\n                            \"feature\": \"Debt_to_Income_Ratio\",\n                            \"impact\": 0.1505\n                        },\n                        {\n                            \"feature\": \"Verified_Liquid_Assets\",\n                            \"impact\": -0.1053\n                        },\n                        {\n                            \"feature\": \"Appraisal_Risk_Level_LOW\",\n                            \"impact\": 0.0964\n                        },\n                        {\n                            \"feature\": \"Loan_Amount\",\n                            \"impact\": 0.0714\n                        }\n                    ]\n                },\n                {\n                    \"Applicant_ID\": \"APP-007483\",\n                    \"decision\": \"Suspended\",\n                    \"confidence\": 0.6498,\n                    \"shap_values\": [\n                        {\n                            \"feature\": \"Missing_Documents_Count\",\n                            \"impact\": 0.8293\n                        },\n                        {\n                            \"feature\": \"Appraisal_Condition_Issues\",\n                            \"impact\": -0.3553\n                        },\n                        {\n                            \"feature\": \"Final_LTV_After_Appraisal\",\n                            \"impact\": -0.2251\n                        },\n                        {\n                            \"feature\": \"AUS_Risk_Class_B\",\n                            \"impact\": 0.1779\n                        },\n                        {\n                            \"feature\": \"Appraisal_Risk_Level_LOW\",\n                            \"impact\": 0.1739\n                        },\n                        {\n                            \"feature\": \"AUS_Risk_Class_C\",\n                            \"impact\": 0.1544\n                        },\n                        {\n                            \"feature\": \"Verified_Liquid_Assets\",\n                            \"impact\": 0.1064\n                        },\n                        {\n                            \"feature\": \"Appraisal_Risk_Level_MEDIUM\",\n                            \"impact\": 0.056\n                        },\n                        {\n                            \"feature\": \"Debt_to_Income_Ratio\",\n                            \"impact\": 0.051\n                        },\n                        {\n                            \"feature\": \"Cleaned_Income\",\n                            \"impact\": -0.0341\n                        }\n                    ]\n                },\n                {\n                    \"Applicant_ID\": \"APP-007894\",\n                    \"decision\": \"Suspended\",\n                    \"confidence\": 0.7014,\n                    \"shap_values\": [\n                        {\n                            \"feature\": \"Missing_Documents_Count\",\n                            \"impact\": 0.825\n                        },\n                        {\n                            \"feature\": \"Appraisal_Condition_Issues\",\n                            \"impact\": 0.7033\n                        },\n                        {\n                            \"feature\": \"Final_LTV_After_Appraisal\",\n                            \"impact\": 0.4622\n                        },\n                        {\n                            \"feature\": \"AUS_Risk_Class_C\",\n                            \"impact\": 0.1419\n                        },\n                        {\n                            \"feature\": \"AUS_Risk_Class_B\",\n                            \"impact\": 0.0784\n                        },\n                        {\n                            \"feature\": \"Appraisal_Risk_Level_LOW\",\n                            \"impact\": -0.0644\n                        },\n                        {\n                            \"feature\": \"Credit_Score\",\n                            \"impact\": -0.0481\n                        },\n                        {\n                            \"feature\": \"Debt_to_Income_Ratio\",\n                            \"impact\": 0.0469\n                        },\n                        {\n                            \"feature\": \"Verified_Liquid_Assets\",\n                            \"impact\": -0.0466\n                        },\n                        {\n                            \"feature\": \"Flood_Insurance_Missing_Flag_Yes\",\n                            \"impact\": -0.0283\n                        }\n                    ]\n                },\n                {\n                    \"Applicant_ID\": \"APP-009291\",\n                    \"decision\": \"Declined\",\n                    \"confidence\": 0.6002,\n                    \"shap_values\": [\n                        {\n                            \"feature\": \"AUS_Risk_Class_C\",\n                            \"impact\": 0.9656\n                        },\n                        {\n                            \"feature\": \"Cleaned_Income\",\n                            \"impact\": -0.6637\n                        },\n                        {\n                            \"feature\": \"Credit_Score\",\n                            \"impact\": -0.6432\n                        },\n                        {\n                            \"feature\": \"Title_Risk_Level_LOW\",\n                            \"impact\": 0.3685\n                        },\n                        {\n                            \"feature\": \"Title_Risk_Level_MEDIUM\",\n                            \"impact\": -0.3662\n                        },\n                        {\n                            \"feature\": \"Debt_to_Income_Ratio\",\n                            \"impact\": 0.3013\n                        },\n                        {\n                            \"feature\": \"Loan_Amount\",\n                            \"impact\": -0.2115\n                        },\n                        {\n                            \"feature\": \"Final_LTV_After_Appraisal\",\n                            \"impact\": -0.1402\n                        },\n                        {\n                            \"feature\": \"Loan_Purpose_PURCHASE\",\n                            \"impact\": 0.1165\n                        },\n                        {\n                            \"feature\": \"Loan_Purpose_RATE_TERM_REFINANCE\",\n                            \"impact\": 0.0809\n                        }\n                    ]\n                }\n            ],\n            \"modelName\": \"Underwriting Risk Model\",\n            \"recordCount\": 5,\n            \"responseTimeMs\": 133\n        }\n    }\n}"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "info": {
+    "_postman_id": "9cbfa747-b713-47b1-9040-f39fcf74a4a7",
+    "name": "LGD ML Market",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40626210"
+  },
+  "item": [
+    {
+      "name": "Generate Accounts",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "997hhEo876NHJo2AMbXl1i78895deK",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://ml-market-backend-lgd.azurewebsites.net/api/lgd/records/generate",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-lgd",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "lgd",
+            "records",
+            "generate"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Predict",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "997hhEo876NHJo2AMbXl1i78895deK",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "[                  {\"account_id\": \"PL_D_002099\",\r\n                    \"ltv\": 0.647617,\r\n                    \"loan_purpose\": 0\r\n                },\r\n                {\r\n                    \"account_id\": \"PL_D_000556\",\r\n                    \"ltv\": 0.51167,\r\n                    \"loan_purpose\": 0\r\n                }]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://ml-market-backend-lgd.azurewebsites.net/api/lgd/records/predict",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-lgd",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "lgd",
+            "records",
+            "predict"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

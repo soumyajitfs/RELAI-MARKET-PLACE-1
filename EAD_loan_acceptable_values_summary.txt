@@ -1,0 +1,248 @@
+================================================================================
+     EAD_Loan_MODEL — ACCEPTABLE VALUES SUMMARY FOR ALL COLUMNS
+================================================================================
+
+--------------------------------------------------------------------------------
+MODEL INFORMATION
+--------------------------------------------------------------------------------
+
+  Model Name        : Exposure at Default (EAD) Model — Retail Unsecured Personal Loans
+  Model Type        : K-Factor Regression (EAD = K × Outstanding Balance)
+  Algorithm         : XGBoost Regressor (Gradient Boosted Trees)
+  Target Variable   : K-factor  (K = EAD_at_default / Outstanding_at_observation)
+  Panel Structure   : Customer-month panel (12 months pre-default observation window)
+
+  Hyperparameters:
+    n_estimators    : 300
+    learning_rate   : 0.05
+    max_depth       : 4
+    subsample       : 0.8
+    colsample_bytree: 0.8
+    random_state    : 42
+
+
+  EAD Calculation:
+    predicted_ead = K_final × outstanding_balance
+
+--------------------------------------------------------------------------------
+PERFORMANCE METRICS
+--------------------------------------------------------------------------------
+
+Row-level K-factor  — MAE: 0.0571 ,  RMSE: 0.0790,   R²: 0.5718
+Row-level EAD       — MAE: 14,812.45  , RMSE: 21,515.95 ,   R²: 0.9735
+Loan-level K-factor — MAE: 0.0443, R²: 0.6976
+Loan-level EAD      — MAE: 11,358.13 ,   R²: 0.9845
+
+
+  Calibration Layers:
+    Long-run mean K            : ~1.00
+    Downturn mean K            : ~1.055
+    Downturn scalar            :  1.0553
+    MoC factor                 :  1.05
+
+================================================================================
+ FINAL MODEL FEATURES (32 total — 19 input + 13 derived)
+================================================================================
+
+  19 INPUT FEATURES (provided by user):
+  -----------------------------------------------------
+    Loan Static       : credit_score, income, age, employment_type,
+                        original_loan_amount, interest_rate,
+                        original_tenure_months, topup_flag,
+                        restructured_flag, prior_delinquencies
+
+    Loan Dynamic      : months_since_orig, outstanding, dpd,
+                        missed_running, emis_missed_6m
+
+    Macroeconomic     : unemployment, gdp_growth, inflation, policy_rate
+
+  13 DERIVED FEATURES (auto-computed in backend — NOT required in API input):
+  ---------------------------------------------------------------------------
+    downturn_flag        = 1 if unemployment > 8 else 0
+    severe_dpd_flag      = 1 if dpd > 30 else 0
+    multiple_missed_flag = 1 if emis_missed_6m >= 3 else 0
+    dti                  = (outstanding / original_tenure_months) / (income / 12)
+    high_dti_flag        = 1 if dti > 0.50 else 0
+    payment_to_income    = same as dti
+    tenure_progression   = months_since_orig / original_tenure_months
+    utilisation          = outstanding / original_loan_amount
+    subprime_flag        = 1 if credit_score < 600 else 0
+    economic_stress      = unemployment + inflation
+    emp_Contract         = 1 if employment_type == "Contract" else 0
+    emp_Salaried         = 1 if employment_type == "Salaried" else 0
+    emp_SelfEmployed     = 1 if employment_type == "SelfEmployed" else 0
+    emp_Unemployed       = 1 if employment_type == "Unemployed" else 0
+
+================================================================================
+ INPUT FEATURES — ACCEPTABLE VALUES
+================================================================================
+
+----------------------------------------------------------------------------------------
+A. NUMERICAL COLUMNS — LOAN STATIC (Float / Int)
+----------------------------------------------------------------------------------------
+
+  Column Name              | Type  | Min      | Max       | Description
+  -------------------------|-------|----------|-----------|----------------------------
+  credit_score             | float | 300      | 900       | Borrower credit score.
+                           |       |          |           | < 600 triggers subprime_flag.
+  income                   | float | 15,000   | 250,000   | Annual income (currency).
+  age                      | int   | 21       | 65        | Borrower age in years.
+  original_loan_amount     | float | 50,000   | 1,000,000 | Original disbursed amount.
+  interest_rate            | float | 0.06     | 0.35      | Annual rate as decimal.
+                           |       |          |           | Pass 0.15 NOT 15.0.
+  original_tenure_months   | int   | 12       | 84        | Loan tenure in months.
+                           |       |          |           | Allowed: 24,36,48,60,72,84
+  topup_flag               | int   | 0        | 1         | 1 = loan has a top-up.
+                           |       |          |           | Strongest K-factor driver.
+  restructured_flag        | int   | 0        | 1         | 1 = loan was restructured.
+  prior_delinquencies      | int   | 0        | 10        | Count of prior delinquencies.
+
+----------------------------------------------------------------------------------------
+B. CATEGORICAL COLUMN — EMPLOYMENT TYPE (String)
+----------------------------------------------------------------------------------------
+
+  Column Name     | Type   | Allowed Values                          |
+  ----------------|--------|-----------------------------------------|
+  employment_type | string | "Salaried"                              | 
+                  |        | "SelfEmployed"                          | 
+                  |        | "Contract"                              | 
+                  |        | "Unemployed"                            |
+
+  Notes:
+    - Pass exact string values — case sensitive.
+    - Backend one-hot encodes into emp_Salaried, emp_SelfEmployed,
+      emp_Contract, emp_Unemployed automatically.
+
+
+----------------------------------------------------------------------------------------
+C. NUMERICAL COLUMNS — LOAN DYNAMIC / BEHAVIOURAL (at observation month)
+----------------------------------------------------------------------------------------
+
+  Column Name        | Type  | Min  | Max  | Description
+  -------------------|-------|------|------|----------------------------------------------
+  months_since_orig  | int   | 0    | 83   | Months elapsed since loan origination.
+                     |       |      |      | Observation window: 1–12 months pre-default.
+  outstanding        | float | 0    | —    | Current outstanding loan balance.
+                     |       |      |      | Should be ≤ original_loan_amount typically.
+                     |       |      |      | Used both as model feature AND in EAD calc.
+  dpd                | int   | 0    | 360  | Days Past Due at observation month.
+                     |       |      |      | > 30 triggers severe_dpd_flag.
+  missed_running     | int   | 0    | —    | Cumulative missed EMIs since origination.
+  emis_missed_6m     | int   | 0    | 6    | EMIs missed in the last 6 months.
+                     |       |      |      | ≥ 3 triggers multiple_missed_flag.
+
+----------------------------------------------------------------------------------------
+D. NUMERICAL COLUMNS — MACROECONOMIC (at observation month)
+----------------------------------------------------------------------------------------
+
+  Column Name   | Type  | Min    | Max    | Description
+  --------------|-------|--------|--------|----------------------------------------------
+  unemployment  | float | 0.0    | 25.0   | Unemployment rate (%).
+                |       |        |        | > 8.0 triggers downturn_flag.
+  gdp_growth    | float | —      | —      | GDP growth rate (%). Can be negative.
+  inflation     | float | —      | —      | Inflation rate (%). Combined with
+                |       |        |        | unemployment → economic_stress feature.
+  policy_rate   | float | —      | —      | Central bank policy rate (%).
+
+================================================================================
+ IDENTIFIER COLUMN
+================================================================================
+
+  Column Name | Type | Format      | Example   | Description
+  ------------|------|-------------|-----------|------------------------------
+  loan_id     | int  | Integer ≥ 0 | 1001      | Unique loan identifier.
+              |      |             |           | Passed through as-is;
+              |      |             |           | not used in model fitting.
+
+================================================================================
+ OUTPUT COLUMNS
+================================================================================
+
+  Column Name          | Type  | Range      | Description
+  ---------------------|-------|------------|------------------------------------------
+  loan_id              | int   | —          | Echo of input loan_id
+  predicted_k_factor   | float | 0.20–3.00  | Final K-factor after downturn calibration
+                       |       |            | and Margin of Conservatism applied.
+                       |       |            | K > 1.0 means EAD exceeds current balance.
+  predicted_ead        | float | 0+         | Final predicted EAD in currency units.
+                       |       |            | = K_final × outstanding
+  shap_values          | list  | —          | Top-10 feature contributions to K-factor.
+                       |       |            | Positive → increases K (more risk)
+                       |       |            | Negative → decreases K (less risk)
+
+================================================================================
+ SHAP EXPLAINABILITY OUTPUT
+================================================================================
+
+  Field        | Type  | Description
+  -------------|-------|------------------------------------------------------
+  base_value   | float | Model baseline K-factor (1.0356) — expected K before
+               |       | any feature contribution is applied.
+  shap_values  | list  | Top-10 per-feature marginal contributions to K.
+               |       | Positive impact → increases predicted K (higher EAD)
+               |       | Negative impact → decreases predicted K (lower EAD)
+
+  Features returned in SHAP output (top drivers):
+    - "Top-Up Flag"                 (maps to topup_flag)
+    - "Days Past Due"               (maps to dpd)
+    - "Original Tenure (Months)"    (maps to original_tenure_months)
+    - "Loan Utilisation"            (maps to utilisation)
+    - "Interest Rate"               (maps to interest_rate)
+    - "Cumulative Missed EMIs"      (maps to missed_running)
+    - "Credit Score"                (maps to credit_score)
+    - ... + remaining top features up to 10 total
+
+  Interpretation example:
+    base_value (avg K)       =  1.0356
+    topup_flag impact        = +0.2100  (top-up loan pushes K up)
+    dpd impact               = +0.1500  (high DPD pushes K up)
+    credit_score impact      = -0.0800  (good score reduces K)
+    ──────────────────────────────────
+    predicted_k_factor       =  ~1.32   (after all feature contributions)
+    predicted_ead            =  K × outstanding
+
+  Explainability:
+    SHAP Expected Value
+  
+--------------------------------------------------------------------------------
+MODEL COEFFICIENTS (Feature Importance — Mean |SHAP|)
+--------------------------------------------------------------------------------
+
+  Rank | Feature                  | Mean |SHAP|  | Direction
+  -----|--------------------------|--------------|-----------------------------
+   1   | topup_flag               |   0.049243   | Top-up loans → higher K
+   2   | dpd                      |   0.018317   | Higher DPD → higher K
+   3   | original_tenure_months   |   0.017831   | Longer tenure → affects K
+   4   | utilisation              |   0.013998   | Higher utilisation → higher K
+   5   | interest_rate            |   0.012900   | Higher rate → higher K
+   6   | missed_running           |   0.012133   | More missed EMIs → higher K
+   7   | credit_score             |   0.009657   | Lower score → higher K
+   8   | severe_dpd_flag          |   0.004241   | Severe delinquency → higher K
+   9   | economic_stress          |   0.003518   | Macro stress → higher K
+  10   | original_loan_amount     |   0.003116   | Loan size effect
+  11   | inflation                |   0.002918   | Macro effect
+  12   | dti                      |   0.002353   | Higher DTI → higher K
+  13   | emis_missed_6m           |   0.002103   | Recent missed payments → higher K
+  14   | income                   |   0.001792   | Lower income → higher K
+  15   | months_since_orig        |   0.001627   | Seasoning effect
+  16   | unemployment             |   0.001584   | Macro effect
+  17   | age                      |   0.001542   | Borrower age effect
+  18   | outstanding              |   0.001442   | Balance at observation
+  19   | gdp_growth               |   0.001353   | Macro effect
+  20   | policy_rate              |   0.001293   | Macro effect
+  21   | multiple_missed_flag     |   0.000961   | Distress flag
+  22   | prior_delinquencies      |   0.000950   | Historical delinquency
+  23   | emp_Salaried             |   0.000826   | Employment type effect
+  24   | tenure_progression       |   0.000535   | Loan lifecycle stage
+  25   | subprime_flag            |   0.000323   | Subprime indicator
+  26   | payment_to_income        |   0.000318   | Affordability ratio
+  27   | emp_SelfEmployed         |   0.000297   | Employment type effect
+  28   | downturn_flag            |   0.000275   | Macro regime flag
+  29   | restructured_flag        |   0.000231   | Restructured loan flag
+  30   | emp_Contract             |   0.000097   | Employment type effect
+  31   | emp_Unemployed           |   0.000029   | Employment type effect
+  32   | high_dti_flag            |   0.000012   | High DTI binary flag
+
+================================================================================
+ END OF DOCUMENT
+================================================================================

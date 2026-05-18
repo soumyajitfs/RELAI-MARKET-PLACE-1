@@ -1,0 +1,133 @@
+================================================================================
+         EAD_CC_MODEL - ACCEPTABLE VALUES SUMMARY FOR ALL COLUMNS
+================================================================================
+
+--------------------------------------------------------------------------------
+MODEL INFORMATION
+--------------------------------------------------------------------------------
+
+  Model Name        : Exposure at Default (EAD) Model — Retail Credit Card Portfolio
+  Model Type        : logistic Regression
+  Target Variable   : CCF_Flag
+  Feature Selection : Domain-driven selection of pre-default behavioral drivers
+
+  EAD Formula:
+    EAD_Predicted = Current_Exposure + Expected_CCF × Undrawn_Limit
+
+  Explainability:
+    SHAP Method       : Logistic Regression Coefficients × Feature Values
+                        (Per-feature marginal contribution to CCF prediction)
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+PERFORMANCE METRICS (In-Sample)
+--------------------------------------------------------------------------------
+
+  --- CCF / Classification Metrics ---
+
+  Metric                    | Value
+  --------------------------|----------------
+  Accuracy                  | 0.5900
+  ROC-AUC                   | 0.5154
+  Observations              | 5,000
+
+  --- EAD Prediction Metrics ---
+
+  Metric                    | Value
+  --------------------------|----------------
+  MAE                       | 2164.8513
+  RMSE                      | 3501.7592
+  EAD Bias                  | 1946.148111
+  Mean Actual EAD           | 15351.0696
+  Mean Predicted EAD        | 17297.2177
+  CCF Bias                  | 0.157625
+
+================================================================================
+ FINAL MODEL FEATURES
+================================================================================
+
+  The following 5 features are used in the final trained model:
+
+    1. Credit_Score              (Borrower credit score)
+    2. Utilization_Rate          (Current credit utilization ratio)
+    3. Months_on_Book            (Account tenure in months)
+    4. Past_Delinquencies        (Count of prior delinquency events)
+    5. Payment_to_Income_Ratio   (Monthly payment as proportion of income)
+
+================================================================================
+ INPUT FEATURES — ACCEPTABLE VALUES
+================================================================================
+
+----------------------------------------------------------------------------------------
+A. NUMERICAL COLUMNS — BORROWER & ACCOUNT CHARACTERISTICS
+----------------------------------------------------------------------------------------
+
+  Column Name              | Type  | Min    | Max    | Description
+  -------------------------|-------|--------|--------|----------------------------------------------
+  Credit_Score             | int   | 300    | 850    | Standard credit score range.
+                           |       |        |        | Higher score → lower CCF (negative coeff).
+  Utilization_Rate         | float | 0.0    | 1.0    | Proportion of credit limit currently used.
+                           |       |        |        | Higher utilization → higher CCF risk.
+                           |       |        |        | Do NOT pass as percentage (use 0.75, not 75).
+  Months_on_Book           | int   | 0      | —      | Account age in months (non-negative).
+  Past_Delinquencies       | int   | 0      | —      | Count of delinquency events (non-negative).
+                           |       |        |        | Negative coefficient — more delinquencies
+                           |       |        |        | are associated with lower undrawn drawdown.
+  Payment_to_Income_Ratio  | float | 0.0    | —      | Monthly payment divided by monthly income.
+                           |       |        |        | Higher ratio → lower predicted CCF.
+
+----------------------------------------------------------------------------------------
+B. BALANCE COLUMNS (Used in EAD Formula — Not Model Inputs)
+----------------------------------------------------------------------------------------
+
+  Column Name       | Type  | Min   | Description
+  ------------------|-------|-------|----------------------------------------------
+  Current_Exposure  | float | 0.0   | Outstanding drawn balance on the card.
+  Undrawn_Limit     | float | 0.0   | Remaining available credit (undrawn portion).
+
+  Notes:
+    - These two fields are NOT passed into the logistic regression model.
+    - They are used ONLY in the final EAD formula:
+        EAD_Predicted = Current_Exposure + Expected_CCF × Undrawn_Limit
+
+================================================================================
+ IDENTIFIER COLUMN
+================================================================================
+
+  Column Name   | Type   | Description
+  --------------|--------|------------------------------------------------------
+  Customer_ID   | int    | Unique customer identifier. Passed through as-is;
+                |        | not used in model fitting or prediction.
+
+================================================================================
+ OUTPUT COLUMNS
+================================================================================
+
+  Column Name      | Type  | Range     | Description
+  -----------------|-------|-----------|----------------------------------------------
+  Expected_CCF     | float | 0.0–1.0   | Predicted CCF probability from logistic model.
+                   |       |           | Represents expected fraction of undrawn limit
+                   |       |           | that will be drawn at default.
+  EAD_Predicted    | float | >= 0.0    | Final predicted Exposure at Default (currency).
+                   |       |           | EAD = Current_Exposure + CCF × Undrawn_Limit.
+
+================================================================================
+ SHAP EXPLAINABILITY OUTPUT
+================================================================================
+
+--------------------------------------------------------------------------------
+
+  Feature                   | feature value
+  --------------------------|-------------
+  const (Intercept)         | -0.327991
+  Credit_Score              | -0.000077
+  Utilization_Rate          |  0.113950
+  Months_on_Book            |  0.000506
+  Past_Delinquencies        | -0.011928
+  Payment_to_Income_Ratio   | -0.047547
+
+
+================================================================================
+ END OF DOCUMENT
+================================================================================

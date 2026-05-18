@@ -1,0 +1,103 @@
+================================================================================
+         PD MODEL - ACCEPTABLE VALUES SUMMARY FOR ALL COLUMNS
+================================================================================
+
+--------------------------------------------------------------------------------
+MODEL INFORMATION
+--------------------------------------------------------------------------------
+
+  Model Name       : Probability of Default (PD) Model
+  Model Type       : Logistic Regression
+  Algorithm        : sklearn.linear_model.LogisticRegression
+  Feature Selection: IV (Information Value) + Threshold + VIF Multicollinearity Check
+  Train/Test Split : Out-of-Time (OOT) Split — 80% Train / 20% Test (by date)
+
+  Performance Metrics :
+  --------------------------------------------------
+Accuracy : 0.9068203650336215		
+
+Test:
+AUC : 0.8199574920297558
+Gini: 0.6399149840595115
+Brier Score: 0.0730843900266988
+KS: 0.48724229543039316  
+
+================================================================================
+ FINAL MODEL FEATURES (Selected via IV + VIF)
+================================================================================
+
+  The following 8 features are used in the final trained model:
+
+    1. n_times_30plus_prior_12m
+    2. interest_rate
+    3. n_delinquent_elsewhere
+    4. bureau_utilization
+    5. current_foir
+    6. avg_monthly_credit_6m
+    7. bounce_count_prior_12m
+    8. months_on_book
+
+================================================================================
+ INPUT FEATURES — ACCEPTABLE VALUES
+================================================================================
+
+----------------------------------------------------------------------------------------
+A. NUMERICAL COLUMNS — LOAN CHARACTERISTICS (Integer / Float)
+----------------------------------------------------------------------------------------
+
+  Column Name                | Type    | Min           | Max           | Description
+  ---------------------------|---------|---------------|---------------|-----------------------------
+  interest_rate              | float   | 8.97          | 26.73         | Annual interest rate (%)
+  months_on_book             | int     | 3             | 186           | Months since loan origination
+
+----------------------------------------------------------------------------------------
+B. NUMERICAL COLUMNS — INCOME & AFFORDABILITY (Float)
+----------------------------------------------------------------------------------------
+
+  Column Name                | Type    | Min           | Max           | Description
+  ---------------------------|---------|---------------|---------------|-----------------------------
+  avg_monthly_credit_6m      | float   | 14,018.55     | 3,36,275.87   | Avg monthly salary credits last 6 months (INR)
+  current_foir               | float   | 0.00          | 1.00          | Current Fixed Obligations to Income Ratio
+
+----------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------
+C. NUMERICAL COLUMNS — BUREAU / CREDIT PROFILE (Integer / Float)
+----------------------------------------------------------------------------------------
+
+  Column Name                | Type    | Min      | Max         | Description
+  ---------------------------|---------|----------|-------------|-----------------------------
+  bureau_utilization         | float   | 0.00     | 1.00        | Overall bureau credit utilization ratio
+  n_delinquent_elsewhere     | int     | 0        | 4           | Count of delinquent accounts at other lenders
+
+
+----------------------------------------------------------------------------------------
+D. NUMERICAL COLUMNS — DPD / DELINQUENCY HISTORY (Integer)
+----------------------------------------------------------------------------------------
+
+ Column Name                | Type    | Min  | Max  | Description
+ ---------------------------|---------|------|------|-----------------------------
+  n_times_30plus_prior_12m   | int     | 0    | 6    | Number of times 30+ DPD in last 12 months
+
+----------------------------------------------------------------------------------------
+E. NUMERICAL COLUMNS — PAYMENT BEHAVIOUR (Integer / Float)
+----------------------------------------------------------------------------------------
+
+  Column Name                | Type    | Min     | Max      | Description
+  ---------------------------|---------|---------|----------|-----------------------------
+  bounce_count_prior_12m     | int     | 0       | 9        | Number of payment bounces in last 12 months
+
+================================================================================
+ OUTPUT COLUMN
+================================================================================
+
+  Column Name     | Type  | Range    | Description
+  ----------------|-------|----------|----------------------------------------------
+  default_flag    | int   | 0 or 1   | TARGET: 1 = Default, 0 = No default
+  (predicted_prob)| float | 0.0–1.0  | Model output: Probability of default (PD score)
+
+===============================================================================
+
+================================================================================
+ END OF DOCUMENT
+================================================================================

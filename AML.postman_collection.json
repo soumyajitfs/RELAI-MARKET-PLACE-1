@@ -1,0 +1,198 @@
+{
+  "info": {
+    "_postman_id": "82097f76-6026-4921-a233-226febd87848",
+    "name": "AML",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40564629"
+  },
+  "item": [
+    {
+      "name": "Generate Accounts",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "997hhEo876NHJo2AMbXl1i78895deK",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://ml-market-backend-aml.azurewebsites.net/api/aml/accounts/generate?n=5",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-aml",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "aml",
+            "accounts",
+            "generate"
+          ],
+          "query": [
+            {
+              "key": "n",
+              "value": "5"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Generate Accounts",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://ml-market-backend-aml.azurewebsites.net/api/aml/accounts/generate?n=5",
+              "protocol": "https",
+              "host": [
+                "ml-market-backend-aml",
+                "azurewebsites",
+                "net"
+              ],
+              "path": [
+                "api",
+                "aml",
+                "accounts",
+                "generate"
+              ],
+              "query": [
+                {
+                  "key": "n",
+                  "value": "5"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Length",
+              "value": "3591"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 25 Feb 2026 13:56:18 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "uvicorn"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"Response\": {\n        \"StatusCode\": 200,\n        \"Message\": \"Success\",\n        \"ResponseInfo\": {\n            \"data\": [\n                {\n                    \"accountId\": 31569,\n                    \"kycRiskScore\": 1,\n                    \"income\": 29800,\n                    \"tenureMonths\": 10,\n                    \"creditScore\": 758,\n                    \"nbrPurchases90d\": 33,\n                    \"avgTxnSize90d\": 242.03,\n                    \"totalSpend90d\": 8010.06,\n                    \"nbrDistinctMerch90d\": 16,\n                    \"nbrMerchCredits90d\": 3,\n                    \"nbrMerchCreditsRndDollarAmt90d\": 1,\n                    \"totalMerchCred90d\": 762.59,\n                    \"nbrMerchCreditsWoOffsettingPurch\": 2,\n                    \"nbrPayments90d\": 3,\n                    \"totalPaymentAmt90d\": 13271,\n                    \"overpaymentAmt90d\": 5260.76,\n                    \"indCustReqRefund90d\": 1,\n                    \"totalRefundsToCust90d\": 5304.04,\n                    \"nbrPaymentsCashLike90d\": 3,\n                    \"maxRevolveLine\": 13000,\n                    \"indOwnsHome\": 0,\n                    \"nbrInquiries1y\": 3,\n                    \"nbrCollections3y\": 0,\n                    \"nbrPointRed90d\": 2,\n                    \"PEP\": 0,\n                    \"txn_per_month\": 728.802,\n                    \"credit_utilization\": 0.616,\n                    \"risk_score_income_ratio\": 0.03,\n                    \"high_value_txn_ind\": 0,\n                    \"frequent_logins\": 0\n                },\n                {\n                    \"accountId\": 26792,\n                    \"kycRiskScore\": 30,\n                    \"income\": 103500,\n                    \"tenureMonths\": 33,\n                    \"creditScore\": 691,\n                    \"nbrPurchases90d\": 101,\n                    \"avgTxnSize90d\": 190.65,\n                    \"totalSpend90d\": 19255.65,\n                    \"nbrDistinctMerch90d\": 51,\n                    \"nbrMerchCredits90d\": 45,\n                    \"nbrMerchCreditsRndDollarAmt90d\": 2,\n                    \"totalMerchCred90d\": 2626.36,\n                    \"nbrMerchCreditsWoOffsettingPurch\": 6,\n                    \"nbrPayments90d\": 0,\n                    \"totalPaymentAmt90d\": 19255.65,\n                    \"overpaymentAmt90d\": 0,\n                    \"indCustReqRefund90d\": 1,\n                    \"totalRefundsToCust90d\": 45.33,\n                    \"nbrPaymentsCashLike90d\": 3,\n                    \"maxRevolveLine\": 11833,\n                    \"indOwnsHome\": 0,\n                    \"nbrInquiries1y\": 27,\n                    \"nbrCollections3y\": 5,\n                    \"nbrPointRed90d\": 1,\n                    \"PEP\": 0,\n                    \"txn_per_month\": 566.342647058824,\n                    \"credit_utilization\": 37,\n                    \"risk_score_income_ratio\": 0.0287,\n                    \"high_value_txn_ind\": 0,\n                    \"frequent_logins\": 0\n                },\n                {\n                    \"accountId\": 31569,\n                    \"kycRiskScore\": 1,\n                    \"income\": 29800,\n                    \"tenureMonths\": 10,\n                    \"creditScore\": 758,\n                    \"nbrPurchases90d\": 33,\n                    \"avgTxnSize90d\": 242.03,\n                    \"totalSpend90d\": 8010.06,\n                    \"nbrDistinctMerch90d\": 16,\n                    \"nbrMerchCredits90d\": 3,\n                    \"nbrMerchCreditsRndDollarAmt90d\": 1,\n                    \"totalMerchCred90d\": 762.59,\n                    \"nbrMerchCreditsWoOffsettingPurch\": 2,\n                    \"nbrPayments90d\": 3,\n                    \"totalPaymentAmt90d\": 13271,\n                    \"overpaymentAmt90d\": 5260.76,\n                    \"indCustReqRefund90d\": 1,\n                    \"totalRefundsToCust90d\": 5304.04,\n                    \"nbrPaymentsCashLike90d\": 3,\n                    \"maxRevolveLine\": 13000,\n                    \"indOwnsHome\": 0,\n                    \"nbrInquiries1y\": 3,\n                    \"nbrCollections3y\": 0,\n                    \"nbrPointRed90d\": 2,\n                    \"PEP\": 0,\n                    \"txn_per_month\": 728.802,\n                    \"credit_utilization\": 0.616,\n                    \"risk_score_income_ratio\": 0.03,\n                    \"high_value_txn_ind\": 0,\n                    \"frequent_logins\": 0\n                },\n                {\n                    \"accountId\": 24201,\n                    \"kycRiskScore\": 20,\n                    \"income\": 81200,\n                    \"tenureMonths\": 11,\n                    \"creditScore\": 762,\n                    \"nbrPurchases90d\": 26,\n                    \"avgTxnSize90d\": 728.78,\n                    \"totalSpend90d\": 18780.02,\n                    \"nbrDistinctMerch90d\": 12,\n                    \"nbrMerchCredits90d\": 59,\n                    \"nbrMerchCreditsRndDollarAmt90d\": 3,\n                    \"totalMerchCred90d\": 2947.5,\n                    \"nbrMerchCreditsWoOffsettingPurch\": 2,\n                    \"nbrPayments90d\": 1,\n                    \"totalPaymentAmt90d\": 18938.37,\n                    \"overpaymentAmt90d\": 0,\n                    \"indCustReqRefund90d\": 1,\n                    \"totalRefundsToCust90d\": 30.41,\n                    \"nbrPaymentsCashLike90d\": 2,\n                    \"maxRevolveLine\": 8000,\n                    \"indOwnsHome\": 0,\n                    \"nbrInquiries1y\": 20,\n                    \"nbrCollections3y\": 4,\n                    \"nbrPointRed90d\": 1,\n                    \"PEP\": 0,\n                    \"txn_per_month\": 1578.75125,\n                    \"credit_utilization\": 100,\n                    \"risk_score_income_ratio\": 0.03,\n                    \"high_value_txn_ind\": 1,\n                    \"frequent_logins\": 1\n                },\n                {\n                    \"accountId\": 20138,\n                    \"kycRiskScore\": 10,\n                    \"income\": 31400,\n                    \"tenureMonths\": 29,\n                    \"creditScore\": 616,\n                    \"nbrPurchases90d\": 2,\n                    \"avgTxnSize90d\": 87.03,\n                    \"totalSpend90d\": 174.06,\n                    \"nbrDistinctMerch90d\": 0,\n                    \"nbrMerchCredits90d\": 1,\n                    \"nbrMerchCreditsRndDollarAmt90d\": 1,\n                    \"totalMerchCred90d\": 94,\n                    \"nbrMerchCreditsWoOffsettingPurch\": 1,\n                    \"nbrPayments90d\": 3,\n                    \"totalPaymentAmt90d\": 60,\n                    \"overpaymentAmt90d\": 0,\n                    \"indCustReqRefund90d\": 1,\n                    \"totalRefundsToCust90d\": 40.04,\n                    \"nbrPaymentsCashLike90d\": 0,\n                    \"maxRevolveLine\": 18198,\n                    \"indOwnsHome\": 0,\n                    \"nbrInquiries1y\": 1,\n                    \"nbrCollections3y\": 1,\n                    \"nbrPointRed90d\": 1,\n                    \"PEP\": 0,\n                    \"txn_per_month\": 5.802,\n                    \"credit_utilization\": 0.0096,\n                    \"risk_score_income_ratio\": 0.123,\n                    \"high_value_txn_ind\": 0,\n                    \"frequent_logins\": 0\n                }\n            ],\n            \"modelName\": \"AML Data Generator\",\n            \"recordCount\": 5,\n            \"responseTimeMs\": 0\n        }\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Predict",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "997hhEo876NHJo2AMbXl1i78895deK",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "[                {\r\n                    \"accountId\": 31569,\r\n                    \"kycRiskScore\": 1,\r\n                    \"income\": 29800,\r\n                    \"tenureMonths\": 10,\r\n                    \"creditScore\": 758,\r\n                    \"nbrPurchases90d\": 33,\r\n                    \"avgTxnSize90d\": 242.03,\r\n                    \"totalSpend90d\": 8010.06,\r\n                    \"nbrDistinctMerch90d\": 16,\r\n                    \"nbrMerchCredits90d\": 3,\r\n                    \"nbrMerchCreditsRndDollarAmt90d\": 1,\r\n                    \"totalMerchCred90d\": 762.59,\r\n                    \"nbrMerchCreditsWoOffsettingPurch\": 2,\r\n                    \"nbrPayments90d\": 3,\r\n                    \"totalPaymentAmt90d\": 13271,\r\n                    \"overpaymentAmt90d\": 5260.76,\r\n                    \"indCustReqRefund90d\": 1,\r\n                    \"totalRefundsToCust90d\": 5304.04,\r\n                    \"nbrPaymentsCashLike90d\": 3,\r\n                    \"maxRevolveLine\": 13000,\r\n                    \"indOwnsHome\": 0,\r\n                    \"nbrInquiries1y\": 3,\r\n                    \"nbrCollections3y\": 0,\r\n                    \"nbrPointRed90d\": 2,\r\n                    \"PEP\": 0,\r\n                    \"txn_per_month\": 728.802,\r\n                    \"credit_utilization\": 0.616,\r\n                    \"risk_score_income_ratio\": 0.03,\r\n                    \"high_value_txn_ind\": 0,\r\n                    \"frequent_logins\": 0\r\n                }]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://ml-market-backend-aml.azurewebsites.net/api/aml/accounts/predict",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-aml",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "aml",
+            "accounts",
+            "predict"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Predict",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "[                {\r\n                    \"accountId\": 31569,\r\n                    \"kycRiskScore\": 1,\r\n                    \"income\": 29800,\r\n                    \"tenureMonths\": 10,\r\n                    \"creditScore\": 758,\r\n                    \"nbrPurchases90d\": 33,\r\n                    \"avgTxnSize90d\": 242.03,\r\n                    \"totalSpend90d\": 8010.06,\r\n                    \"nbrDistinctMerch90d\": 16,\r\n                    \"nbrMerchCredits90d\": 3,\r\n                    \"nbrMerchCreditsRndDollarAmt90d\": 1,\r\n                    \"totalMerchCred90d\": 762.59,\r\n                    \"nbrMerchCreditsWoOffsettingPurch\": 2,\r\n                    \"nbrPayments90d\": 3,\r\n                    \"totalPaymentAmt90d\": 13271,\r\n                    \"overpaymentAmt90d\": 5260.76,\r\n                    \"indCustReqRefund90d\": 1,\r\n                    \"totalRefundsToCust90d\": 5304.04,\r\n                    \"nbrPaymentsCashLike90d\": 3,\r\n                    \"maxRevolveLine\": 13000,\r\n                    \"indOwnsHome\": 0,\r\n                    \"nbrInquiries1y\": 3,\r\n                    \"nbrCollections3y\": 0,\r\n                    \"nbrPointRed90d\": 2,\r\n                    \"PEP\": 0,\r\n                    \"txn_per_month\": 728.802,\r\n                    \"credit_utilization\": 0.616,\r\n                    \"risk_score_income_ratio\": 0.03,\r\n                    \"high_value_txn_ind\": 0,\r\n                    \"frequent_logins\": 0\r\n                }]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://ml-market-backend-aml.azurewebsites.net/api/aml/accounts/predict",
+              "protocol": "https",
+              "host": [
+                "ml-market-backend-aml",
+                "azurewebsites",
+                "net"
+              ],
+              "path": [
+                "api",
+                "aml",
+                "accounts",
+                "predict"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Length",
+              "value": "705"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 25 Feb 2026 13:56:40 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "uvicorn"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"Response\": {\n        \"StatusCode\": 200,\n        \"Message\": \"Success\",\n        \"ResponseInfo\": {\n            \"data\": [\n                {\n                    \"acct_id\": 31569,\n                    \"probability\": 0.59,\n                    \"probability_percent\": \"59.0%\",\n                    \"category\": \"Low\",\n                    \"shap_values\": [\n                        {\n                            \"feature\": \"Total Spend\",\n                            \"impact\": 0.0692\n                        },\n                        {\n                            \"feature\": \"Transactions per Month\",\n                            \"impact\": 0.0284\n                        },\n                        {\n                            \"feature\": \"Tenure\",\n                            \"impact\": 0.0146\n                        },\n                        {\n                            \"feature\": \"Total Merchant Credits\",\n                            \"impact\": -0.0136\n                        },\n                        {\n                            \"feature\": \"Rebates\",\n                            \"impact\": -0.0114\n                        },\n                        {\n                            \"feature\": \"Total Payment Amount\",\n                            \"impact\": -0.0108\n                        },\n                        {\n                            \"feature\": \"Cash-like Payments\",\n                            \"impact\": -0.0072\n                        },\n                        {\n                            \"feature\": \"Inquiries\",\n                            \"impact\": 0.0059\n                        },\n                        {\n                            \"feature\": \"Owns Home\",\n                            \"impact\": 0.0056\n                        },\n                        {\n                            \"feature\": \"Distinct Merchants\",\n                            \"impact\": 0.0056\n                        }\n                    ]\n                }\n            ],\n            \"modelName\": \"AML Prediction Model\",\n            \"recordCount\": 1,\n            \"responseTimeMs\": 394\n        }\n    }\n}"
+        }
+      ]
+    }
+  ]
+}
