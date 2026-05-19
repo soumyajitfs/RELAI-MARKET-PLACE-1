@@ -25,6 +25,7 @@ import MortgageLgdPredictionPage from './pages/MortgageLgdPredictionPage';
 import PersonalLoanEadPredictionPage from './pages/PersonalLoanEadPredictionPage';
 import RetailLoanLgdPredictionPage from './pages/RetailLoanLgdPredictionPage';
 import ApplicationScorecardPredictionPage from './pages/ApplicationScorecardPredictionPage';
+import CollectionsScorecardPredictionPage from './pages/CollectionsScorecardPredictionPage';
 
 // Import styles
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -66,6 +67,10 @@ function App() {
           <Route
             path="/application-scorecard-prediction"
             element={withLayout(<ApplicationScorecardPredictionPage />)}
+          />
+          <Route
+            path="/collections-scorecard-prediction"
+            element={withLayout(<CollectionsScorecardPredictionPage />)}
           />
           <Route
             path="/customer-lifecycle-analytics"

@@ -201,6 +201,16 @@ const marketplaceCards = [
     enabled: true,
     route: '/application-scorecard-prediction',
   },
+  {
+    id: 'collections-scorecard',
+    title: 'Collections Scorecard',
+    description:
+      'Predicts the probability of delinquent personal loan accounts entering collections risk using payment history, overdue behavior, and recovery-related customer indicators.',
+    vertical: 'BFS',
+    modelType: 'Classification',
+    enabled: true,
+    route: '/collections-scorecard-prediction',
+  },
 ];
 
 export const verticals = ['Home', 'Provider', 'BFS', 'Payer', 'Utilities', 'Telecom', 'EdTech', 'Media'];

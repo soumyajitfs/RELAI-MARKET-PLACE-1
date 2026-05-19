@@ -1017,6 +1017,11 @@ html, body {
   white-space: nowrap;
 }
 
+.banner-description--wrap {
+  white-space: normal;
+  max-width: 100%;
+}
+
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

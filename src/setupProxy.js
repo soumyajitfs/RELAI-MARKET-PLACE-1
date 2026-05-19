@@ -170,6 +170,24 @@ module.exports = function (app) {
     })
   );
 
+  // Collections Scorecard backend
+  app.use(
+    '/api/collections/accounts',
+    createProxyMiddleware({
+      target: 'https://ml-market-backend-2-collections-scorecard.azurewebsites.net',
+      changeOrigin: true,
+      secure: false,
+      pathRewrite: restoreUpstreamPath('/api/collections/accounts'),
+      logLevel: 'debug',
+      onProxyRes: function (proxyRes, req, res) {
+        console.log('[Proxy-Collections-Scorecard] Response from:', req.url, 'Status:', proxyRes.statusCode);
+      },
+      onError: function (err, req, res) {
+        console.error('[Proxy-Collections-Scorecard] Error:', err.message);
+      },
+    })
+  );
+
   // Application Scorecard backend
   app.use(
     '/api/scorecard/applications',

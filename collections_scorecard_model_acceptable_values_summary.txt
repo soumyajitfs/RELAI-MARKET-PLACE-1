@@ -1,0 +1,301 @@
+================================================================================
+     COLLECTIONS_SCORECARD_MODEL - ACCEPTABLE VALUES SUMMARY FOR ALL COLUMNS
+================================================================================
+
+--------------------------------------------------------------------------------
+MODEL INFORMATION
+--------------------------------------------------------------------------------
+
+  Model Name        : Collections Scorecard — Retail Personal Loan Portfolio
+  Model Type        : Logistic Regression on WoE-Transformed Features
+  Target Variable   : bad6m
+                      (1 = account rolls to 90+ DPD or charge-off within 6 months;
+                       0 = account self-cures)
+  Feature Selection : WoE / Information Value (IV ≥ 0.02, IV < 1.8) —
+                      17 features selected from 26 raw input columns
+
+    Where:
+      OFFSET = 487.1229   (Base score at 50:1 odds, PDO = 20)
+      FACTOR = 28.8539    (Points-to-double-odds factor)
+      β₀     = −0.2116    (Intercept)
+      Higher score → safer account → lower probability of rolling bad
+
+  Score Scale:
+    PDO (Points-to-Double-Odds) : 20
+    Base Score                  : 600 at 50:1 Good:Bad odds
+    Range                       : 300 – 900
+
+  Explainability:
+    SHAP Method : SHAP LinearExplainer applied to WoE-transformed feature matrix
+                  (Per-feature marginal contribution to predicted bad probability)
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+PERFORMANCE METRICS
+--------------------------------------------------------------------------------
+
+  --- Classification Metrics (Bad = 1) ---
+
+  Metric                    | Train       | Test
+  --------------------------|-------------|-------------
+  ROC-AUC                   | 0.8130      | 0.8161
+  KS Statistic              | 47.07       | 47.64
+  Gini Coefficient          | 0.6260      | 0.6321
+  Brier Score               | —           | 0.1725
+  Observations              | 42,000      | 18,000
+  Bad Rate                  | 42.69%      | 42.69%
+
+  --- Score Distribution (Test Set) ---
+
+  Metric                    | Value
+  --------------------------|----------------
+  Score Min                 | 345.0
+  Score Max                 | 699.0
+  Score Mean                | 498.8
+
+================================================================================
+ SCORE BAND → TREATMENT QUEUE MAPPING
+================================================================================
+
+  Band  | Score Range | Population % | Treatment Queue
+  ------|-------------|--------------|----------------------------------------------
+  C5    | 300 – 454   |  Bottom 15%  | Specialist + legal / settlement offer ·
+        |             |              | charge-off provision
+  C4    | 455 – 480   |  15% – 35%   | Senior agent dialer · daily contact ·
+        |             |              | structured restructure offer
+  C3    | 481 – 508   |  35% – 60%   | Standard agent queue · standard cadence ·
+        |             |              | captures PTP
+  C2    | 509 – 544   |  60% – 85%   | Digital reminder + IVR ·
+        |             |              | 1 confirmation call mid-cycle
+  C1    | 545 – 900   |  Top 15%     | No-touch · auto-debit attempt + 1 SMS ·
+        |             |              | ~95% will self-cure
+
+  Note: Score band boundaries are FIXED thresholds derived from the full 60,000-
+        record training population (seed=11). They are NOT re-computed at runtime.
+
+================================================================================
+ DECILE LIFT TABLE (Test Set)
+================================================================================
+
+  Decile  | N      | Bads   | Bad Rate | Avg Score | Cum Bad % | Lift
+  --------|--------|--------|----------|-----------|-----------|-------
+  1       | 1,800  | 1,588  | 88.2%    | 0.886     | 20.7%     | 2.067
+  2       | 1,800  | 1,365  | 75.8%    | 0.761     | 38.4%     | 1.776
+  3       | 1,800  | 1,142  | 63.4%    | 0.655     | 53.3%     | 1.486
+  4       | 1,800  | 1,029  | 57.2%    | 0.556     | 66.7%     | 1.339
+  5       | 1,800  |   790  | 43.9%    | 0.459     | 77.0%     | 1.028
+  6       | 1,800  |   670  | 37.2%    | 0.367     | 85.7%     | 0.872
+  7       | 1,800  |   481  | 26.7%    | 0.278     | 91.9%     | 0.626
+  8       | 1,800  |   325  | 18.1%    | 0.196     | 96.2%     | 0.423
+  9       | 1,800  |   225  | 12.5%    | 0.120     | 99.1%     | 0.293
+  10      | 1,800  |    69  |  3.8%    | 0.048     | 100.0%    | 0.090
+
+  Note: Decile 1 = highest-risk (lowest score); Decile 10 = lowest-risk (highest score).
+        Lift = Decile Bad Rate / Overall Bad Rate (42.69%).
+
+================================================================================
+ FINAL MODEL FEATURES
+================================================================================
+
+  The following 17 features are used in the final trained model (selected by IV):
+
+    1.  num_on_time_6m              (On-time payment count, last 6 months)
+    2.  cibil_now                   (Current CIBIL bureau score)
+    3.  num_missed_6m               (Missed payment count, last 6 months)
+    4.  avg_pay_ratio_6m            (Avg ratio of amount paid vs. amount due, last 6m)
+    5.  current_dpd_bucket          (Current days-past-due bucket: 30 / 60 / 89)
+    6.  cibil_change_since_dlq      (CIBIL score change since delinquency onset)
+    7.  days_since_last_pay         (Days since most recent payment of any kind)
+    8.  ptp_broken_12m              (Promise-to-Pay commitments broken, last 12 months)
+    9.  months_in_bucket            (Cycles account has been in current DPD bucket)
+    10. contact_attempts_30d        (Outbound contact attempts by collections, last 30d)
+    11. salary_credit_regular       (Flag: regular salary credit observed in account)
+    12. ptp_kept_12m                (Promise-to-Pay commitments honoured, last 12 months)
+    13. num_nsf_6m                  (Non-Sufficient-Fund / cheque-bounce events, last 6m)
+    14. num_new_enq_3m              (New bureau enquiries, last 3 months)
+    15. cust_initiated_contact_30d  (Flag: customer themselves reached out, last 30d)
+    16. rpc_count_30d               (Right-Party Contacts achieved, last 30 days)
+    17. num_new_tl_6m               (New tradelines opened, last 6 months)
+
+================================================================================
+ INPUT FEATURES — ACCEPTABLE VALUES
+================================================================================
+
+  All 17 model features are WoE-transformed before being passed to the logistic
+  regression. Raw values are accepted by the API; WoE encoding is applied internally.
+
+  The 9 remaining columns in the 26-column input schema (below) are passed through
+  as contextual inputs but are NOT used in the logistic regression model.
+
+----------------------------------------------------------------------------------------
+A. MODEL INPUT COLUMNS — PAYMENT HISTORY (Last 6 Months)
+----------------------------------------------------------------------------------------
+
+  Column Name              | Type  | Min  | Max  | Notes
+  -------------------------|-------|------|------|----------------------------------------------
+  num_on_time_6m           | int   | 0    | 6    | Count of on-time payments.
+                           |       |      |      | Higher → lower bad probability.
+  num_partial_6m           | int   | 0    | 6    | Count of partial payments.
+                           |       |      |      | Contextual input; not in model.
+  num_missed_6m            | int   | 0    | 6    | Count of missed payments.
+                           |       |      |      | Higher → higher bad probability.
+  avg_pay_ratio_6m         | float | 0.0  | 1.4  | Average (amount paid / amount due).
+                           |       |      |      | Values > 1 indicate over-payment.
+                           |       |      |      | Do NOT pass as percentage.
+  days_since_last_pay      | int   | 0    | 200  | Days since most recent payment.
+                           |       |      |      | Higher → higher bad probability.
+
+----------------------------------------------------------------------------------------
+B. MODEL INPUT COLUMNS — ACCOUNT SNAPSHOT
+----------------------------------------------------------------------------------------
+
+  Column Name              | Type              | Accepted Values | Notes
+  -------------------------|-------------------|-----------------|-----------------------------
+  current_dpd_bucket       | int (categorical) | 30, 60, 89      | Current DPD bucket only.
+                           |                   |                 | 89 DPD = highest risk.
+  current_outstanding      | float             | 5,000 – 2,500,000 | Outstanding loan balance
+                           |                   |                 | in INR. Contextual only.
+  months_in_bucket         | int               | 1 – 3           | Cycles in current bucket.
+                           |                   |                 | Higher → higher risk.
+  cycles_delq_12m          | int               | 1 – 12          | Delinquency cycles, 12m.
+                           |                   |                 | Contextual input; not in model.
+
+----------------------------------------------------------------------------------------
+C. MODEL INPUT COLUMNS — COLLECTIONS INTERACTIONS (Last 30 Days)
+----------------------------------------------------------------------------------------
+
+  Column Name                | Type  | Min | Max | Notes
+  ---------------------------|-------|-----|-----|----------------------------------------------
+  contact_attempts_30d       | int   | 0   | 40  | Outbound attempts by collections team.
+  rpc_count_30d              | int   | 0   | 30  | Right-Party Contacts achieved.
+  ptp_broken_12m             | int   | 0   | 8   | Broken PTPs, last 12 months.
+                             |       |     |     | Higher broken count → higher risk.
+  ptp_kept_12m               | int   | 0   | 10  | Kept PTPs, last 12 months.
+                             |       |     |     | Higher kept count → lower risk.
+  cust_initiated_contact_30d | int   | 0   | 1   | Binary flag (0 / 1).
+                             |       |     |     | 1 = customer reached out; engaged signal.
+
+----------------------------------------------------------------------------------------
+D. MODEL INPUT COLUMNS — CUSTOMER FINANCIAL SIGNALS
+----------------------------------------------------------------------------------------
+
+  Column Name              | Type  | Min    | Max  | Notes
+  -------------------------|-------|--------|------|----------------------------------------------
+  salary_credit_regular    | int   | 0      | 1    | Binary flag (0 / 1).
+                           |       |        |      | 1 = regular salary credit visible.
+  num_nsf_6m               | int   | 0      | 12   | NSF / cheque-bounce events, last 6m.
+  cibil_now                | int   | 300    | 850  | Current CIBIL bureau score.
+                           |       |        |      | Higher score → lower bad probability.
+  cibil_change_since_dlq   | float | −200   | 30   | CIBIL change since delinquency onset.
+                           |       |        |      | Negative = score fell; typically −30 to −60.
+  num_new_tl_6m            | int   | 0      | 6    | New tradelines opened, last 6 months.
+  num_new_enq_3m           | int   | 0      | 12   | New bureau enquiries, last 3 months.
+
+----------------------------------------------------------------------------------------
+E. CONTEXTUAL COLUMNS — LOAN CHARACTERISTICS (Not Model Inputs)
+----------------------------------------------------------------------------------------
+
+  Column Name       | Type              | Accepted Values     | Notes
+  ------------------|-------------------|---------------------|-----------------------------
+  original_amt      | float             | 50,000 – 3,000,000  | Sanctioned loan amount, INR.
+  original_tenor    | int (categorical) | 24, 36, 48, 60      | Loan tenor in months.
+  months_on_book    | int               | 6 – 60              | Account age in months.
+  vintage_year      | int (categorical) | 2020, 2021, 2022,   | Origination year.
+                    |                   | 2023, 2024          |
+  restructured      | int               | 0, 1                | 1 = loan has been restructured.
+  co_applicant      | int               | 0, 1                | 1 = co-applicant / guarantor present.
+
+================================================================================
+ IDENTIFIER COLUMN
+================================================================================
+
+  Column Name   | Type   | Description
+  --------------|--------|------------------------------------------------------
+  cust_id       | str    | Unique customer / account identifier. Passed through
+                |        | as-is; not used in model fitting or prediction.
+                |        | Format: any non-empty string (e.g. "COL0001234").
+
+================================================================================
+ OUTPUT COLUMNS
+================================================================================
+
+  Column Name         | Type  | Range     | Description
+  --------------------|-------|-----------|----------------------------------------------
+  collections_score   | int   | 300–900   | Scaled scorecard output (PDO=20, Base=600).
+                      |       |           | Higher = safer. Score = OFFSET − FACTOR × logit.
+  probability_bad     | float | 0.0–1.0   | P(roll to 90+ DPD or charge-off in 6 months).
+  probability_pct     | str   | —         | probability_bad expressed as percentage string.
+  score_band          | str   | C1–C5     | Treatment queue band. C1 = safest; C5 = highest risk.
+  treatment_queue     | str   | —         | Recommended collections treatment for the band.
+  top_drivers         | list  | —         | Top-10 SHAP feature contributions (sorted by
+                      |       |           | absolute impact). Positive impact = pushes
+                      |       |           | toward bad; negative impact = pushes toward good.
+
+================================================================================
+ SHAP EXPLAINABILITY OUTPUT
+================================================================================
+
+  SHAP values are computed via SHAP LinearExplainer on the WoE-transformed feature
+  matrix. Each value represents the marginal contribution of that feature to the
+  model's log-odds output for a given account.
+
+  All model coefficients are negative (WoE encoding ensures alignment):
+  a positive WoE value for a risk-increasing feature produces a negative SHAP
+  contribution to the score (i.e. pushes the score down = more risk).
+
+  Feature                       | Coefficient (β)
+  ------------------------------|----------------
+  const (Intercept)             |  −0.211591
+  num_on_time_6m_woe            |  −0.419604
+  cibil_now_woe                 |  −0.590233
+  num_missed_6m_woe             |  −0.720778
+  avg_pay_ratio_6m_woe          |  −0.616775
+  current_dpd_bucket_woe        |  −1.150954
+  cibil_change_since_dlq_woe    |  −0.733270
+  days_since_last_pay_woe       |  −0.775656
+  ptp_broken_12m_woe            |  −0.810175
+  months_in_bucket_woe          |  −0.511377
+  contact_attempts_30d_woe      |  −0.225952
+  salary_credit_regular_woe     |  −0.853140
+  ptp_kept_12m_woe              |  −0.590062
+  num_nsf_6m_woe                |  −0.780476
+  num_new_enq_3m_woe            |  −0.591014
+  cust_initiated_contact_30d_woe|  −0.882169
+  rpc_count_30d_woe             |  −0.464305
+  num_new_tl_6m_woe             |  −0.226866
+
+  Note: All coefficients are negative because WoE is coded such that higher WoE
+        values correspond to better (lower-risk) bins. A negative coefficient on
+        a positive WoE value correctly reduces the log-odds of being bad.
+
+================================================================================
+ WoE ENCODING REFERENCE
+================================================================================
+
+  Each raw feature is mapped to a WoE value before entering the model.
+  Unknown values (outside training bins) are assigned WoE = 0.0 (neutral).
+
+  Feature                   | No. Bins | WoE Min   | WoE Max
+  --------------------------|----------|-----------|----------
+  num_on_time_6m            | 7        | −0.9884   |  6.3008
+  cibil_now                 | 10       | −1.0355   |  1.4123
+  num_missed_6m             | 7        | −1.1768   |  0.9392
+  avg_pay_ratio_6m          | 10       | −0.7458   |  0.8973
+  current_dpd_bucket        | 3        | −0.8392   |  0.3874
+  cibil_change_since_dlq    | 10       | −0.6856   |  0.8050
+  days_since_last_pay       | 10       | −0.8071   |  0.4278
+  ptp_broken_12m            | 9        | −2.8204   |  0.4558
+  months_in_bucket          | 3        | −1.2196   |  0.1383
+  contact_attempts_30d      | 10       | −0.4643   |  0.5984
+  salary_credit_regular     | 2        | −0.2855   |  0.2835
+  ptp_kept_12m              | 10       | −0.3183   |  3.7576
+  num_nsf_6m                | 6        | −0.5812   |  0.3723
+  num_new_enq_3m            | 10       | −1.6449   |  0.3494
+  cust_initiated_contact_30d| 2        | −0.0947   |  0.6174
+  rpc_count_30d             | 6        | −0.3320   |  0.4703
+  num_new_tl_6m             | 7        | −0.4539   |  0.1601
+
+================================================================================
+ END OF DOCUMENT
+================================================================================
