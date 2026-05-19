@@ -1,0 +1,194 @@
+{
+  "info": {
+    "_postman_id": "0c7b3a70-a32d-4db7-a676-9f1271d46b52",
+    "name": "Application Scorecard",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40564629"
+  },
+  "item": [
+    {
+      "name": "Generate Accounts",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "abcfdgetb564fsn",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://ml-market-backend-2-application-scorecard.azurewebsites.net/api/scorecard/applications/generate",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-2-application-scorecard",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "scorecard",
+            "applications",
+            "generate"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Generate Accounts",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://ml-market-backend-2-application-scorecard.azurewebsites.net/api/scorecard/applications/generate",
+              "protocol": "https",
+              "host": [
+                "ml-market-backend-2-application-scorecard",
+                "azurewebsites",
+                "net"
+              ],
+              "path": [
+                "api",
+                "scorecard",
+                "applications",
+                "generate"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Length",
+              "value": "2836"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Date",
+              "value": "Tue, 19 May 2026 07:08:41 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "uvicorn"
+            },
+            {
+              "key": "x-ms-middleware-request-id",
+              "value": "00000000-0000-0000-0000-000000000000"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"Response\": {\n        \"StatusCode\": 200,\n        \"Message\": \"Success\",\n        \"ResponseInfo\": {\n            \"data\": [\n                {\n                    \"app_id\": \"GEN-438218\",\n                    \"age\": 57,\n                    \"gender\": \"M\",\n                    \"marital\": \"Married\",\n                    \"education\": \"SSC\",\n                    \"dependents\": 4,\n                    \"residence\": \"Parental\",\n                    \"city_tier\": \"Tier-1\",\n                    \"emp_type\": \"Salaried\",\n                    \"employer_cat\": \"CatA\",\n                    \"emp_tenure\": 19,\n                    \"monthly_income\": 132304,\n                    \"existing_emi\": 25572,\n                    \"savings_balance\": 446573,\n                    \"cibil\": 584,\n                    \"total_tl\": 5,\n                    \"active_tl\": 2,\n                    \"oldest_tl_months\": 87,\n                    \"max_dpd_24m\": 60,\n                    \"num_enq_3m\": 2,\n                    \"num_enq_6m\": 0,\n                    \"num_writeoff\": 0,\n                    \"loan_amount\": 157000,\n                    \"tenor\": 48,\n                    \"loan_purpose\": \"Medical\",\n                    \"salary_with_us\": 1,\n                    \"banking_rel_months\": 79,\n                    \"avg_balance_6m\": 23702\n                },\n                {\n                    \"app_id\": \"GEN-545089\",\n                    \"age\": 27,\n                    \"gender\": \"M\",\n                    \"marital\": \"Single\",\n                    \"education\": \"HSC\",\n                    \"dependents\": 3,\n                    \"residence\": \"Rented\",\n                    \"city_tier\": \"Tier-3\",\n                    \"emp_type\": \"Self-Emp\",\n                    \"employer_cat\": \"SelfEmp\",\n                    \"emp_tenure\": 0.6,\n                    \"monthly_income\": 23547,\n                    \"existing_emi\": 13358,\n                    \"savings_balance\": 4778,\n                    \"cibil\": 373,\n                    \"total_tl\": 1,\n                    \"active_tl\": 2,\n                    \"oldest_tl_months\": 8,\n                    \"max_dpd_24m\": 60,\n                    \"num_enq_3m\": 5,\n                    \"num_enq_6m\": 10,\n                    \"num_writeoff\": 1,\n                    \"loan_amount\": 129000,\n                    \"tenor\": 60,\n                    \"loan_purpose\": \"Other\",\n                    \"salary_with_us\": 0,\n                    \"banking_rel_months\": 2,\n                    \"avg_balance_6m\": 5303\n                },\n                {\n                    \"app_id\": \"GEN-323872\",\n                    \"age\": 56,\n                    \"gender\": \"M\",\n                    \"marital\": \"Married\",\n                    \"education\": \"HSC\",\n                    \"dependents\": 4,\n                    \"residence\": \"Parental\",\n                    \"city_tier\": \"Tier-2\",\n                    \"emp_type\": \"Salaried\",\n                    \"employer_cat\": \"CatC\",\n                    \"emp_tenure\": 6.1,\n                    \"monthly_income\": 26899,\n                    \"existing_emi\": 12700,\n                    \"savings_balance\": 160227,\n                    \"cibil\": 620,\n                    \"total_tl\": 2,\n                    \"active_tl\": 3,\n                    \"oldest_tl_months\": 61,\n                    \"max_dpd_24m\": 0,\n                    \"num_enq_3m\": 3,\n                    \"num_enq_6m\": 7,\n                    \"num_writeoff\": 1,\n                    \"loan_amount\": 1266000,\n                    \"tenor\": 12,\n                    \"loan_purpose\": \"Home-Reno\",\n                    \"salary_with_us\": 1,\n                    \"banking_rel_months\": 53,\n                    \"avg_balance_6m\": 266210\n                },\n                {\n                    \"app_id\": \"GEN-424454\",\n                    \"age\": 38,\n                    \"gender\": \"M\",\n                    \"marital\": \"Married\",\n                    \"education\": \"Graduate\",\n                    \"dependents\": 1,\n                    \"residence\": \"Owned\",\n                    \"city_tier\": \"Tier-1\",\n                    \"emp_type\": \"Salaried\",\n                    \"employer_cat\": \"CatA\",\n                    \"emp_tenure\": 11,\n                    \"monthly_income\": 198076,\n                    \"existing_emi\": 2969,\n                    \"savings_balance\": 417226,\n                    \"cibil\": 777,\n                    \"total_tl\": 7,\n                    \"active_tl\": 4,\n                    \"oldest_tl_months\": 78,\n                    \"max_dpd_24m\": 0,\n                    \"num_enq_3m\": 1,\n                    \"num_enq_6m\": 1,\n                    \"num_writeoff\": 0,\n                    \"loan_amount\": 457000,\n                    \"tenor\": 36,\n                    \"loan_purpose\": \"Education\",\n                    \"salary_with_us\": 1,\n                    \"banking_rel_months\": 63,\n                    \"avg_balance_6m\": 148556\n                },\n                {\n                    \"app_id\": \"GEN-609895\",\n                    \"age\": 33,\n                    \"gender\": \"M\",\n                    \"marital\": \"Married\",\n                    \"education\": \"Graduate\",\n                    \"dependents\": 2,\n                    \"residence\": \"Rented\",\n                    \"city_tier\": \"Tier-2\",\n                    \"emp_type\": \"Salaried\",\n                    \"employer_cat\": \"CatB\",\n                    \"emp_tenure\": 2.2,\n                    \"monthly_income\": 48389,\n                    \"existing_emi\": 9764,\n                    \"savings_balance\": 37545,\n                    \"cibil\": 681,\n                    \"total_tl\": 4,\n                    \"active_tl\": 3,\n                    \"oldest_tl_months\": 56,\n                    \"max_dpd_24m\": 30,\n                    \"num_enq_3m\": 3,\n                    \"num_enq_6m\": 3,\n                    \"num_writeoff\": 0,\n                    \"loan_amount\": 311000,\n                    \"tenor\": 36,\n                    \"loan_purpose\": \"Other\",\n                    \"salary_with_us\": 0,\n                    \"banking_rel_months\": 20,\n                    \"avg_balance_6m\": 19498\n                }\n            ],\n            \"modelName\": \"Application Scorecard Generator\",\n            \"recordCount\": 5,\n            \"responseTimeMs\": 0\n        }\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Predict",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "abcfdgetb564fsn",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "[                                  {\r\n                    \"app_id\": \"GEN-932936\",\r\n                    \"age\": 47,\r\n                    \"gender\": \"M\",\r\n                    \"marital\": \"Married\",\r\n                    \"education\": \"SSC\",\r\n                    \"dependents\": 1,\r\n                    \"residence\": \"Company\",\r\n                    \"city_tier\": \"Tier-2\",\r\n                    \"emp_type\": \"Pensioner\",\r\n                    \"employer_cat\": \"SelfEmp\",\r\n                    \"emp_tenure\": 13.1,\r\n                    \"monthly_income\": 117273.0,\r\n                    \"existing_emi\": 35156.0,\r\n                    \"savings_balance\": 311012.0,\r\n                    \"cibil\": 665,\r\n                    \"total_tl\": 1,\r\n                    \"active_tl\": 4,\r\n                    \"oldest_tl_months\": 109.0,\r\n                    \"max_dpd_24m\": 0,\r\n                    \"num_enq_3m\": 2,\r\n                    \"num_enq_6m\": 2,\r\n                    \"num_writeoff\": 0,\r\n                    \"loan_amount\": 593000.0,\r\n                    \"tenor\": 24,\r\n                    \"loan_purpose\": \"Travel\",\r\n                    \"salary_with_us\": 0,\r\n                    \"banking_rel_months\": 59.0,\r\n                    \"avg_balance_6m\": 57348.0\r\n                },\r\n                {\r\n                    \"app_id\": \"GEN-118747\",\r\n                    \"age\": 27,\r\n                    \"gender\": \"F\",\r\n                    \"marital\": \"Single\",\r\n                    \"education\": \"HSC\",\r\n                    \"dependents\": 2,\r\n                    \"residence\": \"Rented\",\r\n                    \"city_tier\": \"Tier-3\",\r\n                    \"emp_type\": \"Self-Emp\",\r\n                    \"employer_cat\": \"SelfEmp\",\r\n                    \"emp_tenure\": 1.6,\r\n                    \"monthly_income\": 22898.0,\r\n                    \"existing_emi\": 13340.0,\r\n                    \"savings_balance\": 5461.0,\r\n                    \"cibil\": 578,\r\n                    \"total_tl\": 2,\r\n                    \"active_tl\": 2,\r\n                    \"oldest_tl_months\": 20.0,\r\n                    \"max_dpd_24m\": 180,\r\n                    \"num_enq_3m\": 5,\r\n                    \"num_enq_6m\": 8,\r\n                    \"num_writeoff\": 0,\r\n                    \"loan_amount\": 172000.0,\r\n                    \"tenor\": 60,\r\n                    \"loan_purpose\": \"Travel\",\r\n                    \"salary_with_us\": 0,\r\n                    \"banking_rel_months\": 9.0,\r\n                    \"avg_balance_6m\": 8096.0\r\n                }\r\n                    ]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://ml-market-backend-2-application-scorecard.azurewebsites.net/api/scorecard/applications/predict",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-2-application-scorecard",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "scorecard",
+            "applications",
+            "predict"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Predict",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "[                                  {\r\n                    \"app_id\": \"GEN-932936\",\r\n                    \"age\": 47,\r\n                    \"gender\": \"M\",\r\n                    \"marital\": \"Married\",\r\n                    \"education\": \"SSC\",\r\n                    \"dependents\": 1,\r\n                    \"residence\": \"Company\",\r\n                    \"city_tier\": \"Tier-2\",\r\n                    \"emp_type\": \"Pensioner\",\r\n                    \"employer_cat\": \"SelfEmp\",\r\n                    \"emp_tenure\": 13.1,\r\n                    \"monthly_income\": 117273.0,\r\n                    \"existing_emi\": 35156.0,\r\n                    \"savings_balance\": 311012.0,\r\n                    \"cibil\": 665,\r\n                    \"total_tl\": 1,\r\n                    \"active_tl\": 4,\r\n                    \"oldest_tl_months\": 109.0,\r\n                    \"max_dpd_24m\": 0,\r\n                    \"num_enq_3m\": 2,\r\n                    \"num_enq_6m\": 2,\r\n                    \"num_writeoff\": 0,\r\n                    \"loan_amount\": 593000.0,\r\n                    \"tenor\": 24,\r\n                    \"loan_purpose\": \"Travel\",\r\n                    \"salary_with_us\": 0,\r\n                    \"banking_rel_months\": 59.0,\r\n                    \"avg_balance_6m\": 57348.0\r\n                },\r\n                {\r\n                    \"app_id\": \"GEN-118747\",\r\n                    \"age\": 27,\r\n                    \"gender\": \"F\",\r\n                    \"marital\": \"Single\",\r\n                    \"education\": \"HSC\",\r\n                    \"dependents\": 2,\r\n                    \"residence\": \"Rented\",\r\n                    \"city_tier\": \"Tier-3\",\r\n                    \"emp_type\": \"Self-Emp\",\r\n                    \"employer_cat\": \"SelfEmp\",\r\n                    \"emp_tenure\": 1.6,\r\n                    \"monthly_income\": 22898.0,\r\n                    \"existing_emi\": 13340.0,\r\n                    \"savings_balance\": 5461.0,\r\n                    \"cibil\": 578,\r\n                    \"total_tl\": 2,\r\n                    \"active_tl\": 2,\r\n                    \"oldest_tl_months\": 20.0,\r\n                    \"max_dpd_24m\": 180,\r\n                    \"num_enq_3m\": 5,\r\n                    \"num_enq_6m\": 8,\r\n                    \"num_writeoff\": 0,\r\n                    \"loan_amount\": 172000.0,\r\n                    \"tenor\": 60,\r\n                    \"loan_purpose\": \"Travel\",\r\n                    \"salary_with_us\": 0,\r\n                    \"banking_rel_months\": 9.0,\r\n                    \"avg_balance_6m\": 8096.0\r\n                }\r\n                    ]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://ml-market-backend-2-application-scorecard.azurewebsites.net/api/scorecard/applications/predict",
+              "protocol": "https",
+              "host": [
+                "ml-market-backend-2-application-scorecard",
+                "azurewebsites",
+                "net"
+              ],
+              "path": [
+                "api",
+                "scorecard",
+                "applications",
+                "predict"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Length",
+              "value": "838"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Date",
+              "value": "Tue, 19 May 2026 07:14:06 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "uvicorn"
+            },
+            {
+              "key": "x-ms-middleware-request-id",
+              "value": "00000000-0000-0000-0000-000000000000"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"Response\": {\n        \"StatusCode\": 200,\n        \"Message\": \"Success\",\n        \"ResponseInfo\": {\n            \"data\": {\n                \"predictions\": [\n                    {\n                        \"app_id\": \"GEN-932936\",\n                        \"scorecard_score\": 553.25,\n                        \"decision\": \"Refer\",\n                        \"shap_values\": [\n                            {\n                                \"feature\": \"CIBIL Score\",\n                                \"impact\": 0.723577\n                            },\n                            {\n                                \"feature\": \"Max DPD (24m)\",\n                                \"impact\": -0.272733\n                            },\n                            {\n                                \"feature\": \"Debt-to-Income Ratio\",\n                                \"impact\": 0.269159\n                            },\n                            {\n                                \"feature\": \"Employment Tenure\",\n                                \"impact\": -0.17771\n                            },\n                            {\n                                \"feature\": \"Existing EMI\",\n                                \"impact\": 0.031616\n                            }\n                        ]\n                    },\n                    {\n                        \"app_id\": \"GEN-118747\",\n                        \"scorecard_score\": 450.93,\n                        \"decision\": \"Decline\",\n                        \"shap_values\": [\n                            {\n                                \"feature\": \"Max DPD (24m)\",\n                                \"impact\": 2.992263\n                            },\n                            {\n                                \"feature\": \"Debt-to-Income Ratio\",\n                                \"impact\": 0.572316\n                            },\n                            {\n                                \"feature\": \"CIBIL Score\",\n                                \"impact\": 0.475521\n                            },\n                            {\n                                \"feature\": \"Employment Tenure\",\n                                \"impact\": 0.041354\n                            },\n                            {\n                                \"feature\": \"Existing EMI\",\n                                \"impact\": 0.038672\n                            }\n                        ]\n                    }\n                ]\n            },\n            \"modelName\": \"Application Scorecard – Logistic Regression\",\n            \"recordCount\": 2,\n            \"responseTimeMs\": 2477\n        }\n    }\n}"
+        }
+      ]
+    }
+  ]
+}

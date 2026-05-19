@@ -170,6 +170,42 @@ module.exports = function (app) {
     })
   );
 
+  // Application Scorecard backend
+  app.use(
+    '/api/scorecard/applications',
+    createProxyMiddleware({
+      target: 'https://ml-market-backend-2-application-scorecard.azurewebsites.net',
+      changeOrigin: true,
+      secure: false,
+      pathRewrite: restoreUpstreamPath('/api/scorecard/applications'),
+      logLevel: 'debug',
+      onProxyRes: function (proxyRes, req, res) {
+        console.log('[Proxy-Scorecard] Response from:', req.url, 'Status:', proxyRes.statusCode);
+      },
+      onError: function (err, req, res) {
+        console.error('[Proxy-Scorecard] Error:', err.message);
+      },
+    })
+  );
+
+  // Retail Loan LGD backend — must come BEFORE /api/lgd (mortgage)
+  app.use(
+    '/api/lgd/loans',
+    createProxyMiddleware({
+      target: 'https://ml-market-backend-2-lgd-loan.azurewebsites.net',
+      changeOrigin: true,
+      secure: false,
+      pathRewrite: restoreUpstreamPath('/api/lgd/loans'),
+      logLevel: 'debug',
+      onProxyRes: function (proxyRes, req, res) {
+        console.log('[Proxy-LGD-Loan] Response from:', req.url, 'Status:', proxyRes.statusCode);
+      },
+      onError: function (err, req, res) {
+        console.error('[Proxy-LGD-Loan] Error:', err.message);
+      },
+    })
+  );
+
   // LGD (Mortgage Loss Given Default) backend — must come BEFORE the general /api proxy
   app.use(
     '/api/lgd',

@@ -181,6 +181,26 @@ const marketplaceCards = [
     enabled: true,
     route: '/personal-loan-ead-prediction',
   },
+  {
+    id: 'retail-loan-lgd-prediction',
+    title: 'Retail Loan LGD Prediction',
+    description:
+      'Predicts the expected loss percentage on retail loans after borrower default, considering recovery rates, collateral and downturn economic conditions.',
+    vertical: 'BFS',
+    modelType: 'Forecasting',
+    enabled: true,
+    route: '/retail-loan-lgd-prediction',
+  },
+  {
+    id: 'application-scorecard',
+    title: 'Application Scorecard',
+    description:
+      'Predicts the likelihood of a personal loan applicant defaulting at the onboarding stage.',
+    vertical: 'BFS',
+    modelType: 'Classification',
+    enabled: true,
+    route: '/application-scorecard-prediction',
+  },
 ];
 
 export const verticals = ['Home', 'Provider', 'BFS', 'Payer', 'Utilities', 'Telecom', 'EdTech', 'Media'];

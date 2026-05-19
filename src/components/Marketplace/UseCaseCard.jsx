@@ -34,7 +34,7 @@ const UseCaseCard = ({ card }) => {
         <div className="description-box">
           {description}
         </div>
-        
+
         {/* Footer */}
         <div className="card-footer-content">
           <span className="model-badge">{modelType}</span>

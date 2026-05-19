@@ -1,0 +1,317 @@
+================================================================================
+        BASEL DOWNTURN LGD MODEL — ACCEPTABLE VALUES SUMMARY
+        Retail Unsecured Personal Loans
+================================================================================
+
+--------------------------------------------------------------------------------
+MODEL INFORMATION
+--------------------------------------------------------------------------------
+
+  Model Name        : Basel-Compliant Downturn LGD Model — Retail Unsecured PL
+  Model Architecture: Two-Stage XGBoost Pipeline
+  Algorithm         : Stage 1 — XGBClassifier (Cure Probability)
+                      Stage 2 — XGBRegressor  (Severity | Non-Cure)
+  Calibration       : Downturn Scalar × Long-Run LGD ratio
+  Conservatism      : Margin of Conservatism (MoC) flat add-on
+  Feature Selection : 34 features (macroeconomic + borrower + loan + collections
+                      + derived proxies + engineered flags + employment dummies)
+  Train/Test Split  : 80% train (16,000) / 20% test (4,000), stratified on cure
+  Random Seed       : 42
+
+  Artifact Files:
+    stage1_cure_classifier.pkl      XGBClassifier — cure probability
+    stage2_severity_regressor.pkl   XGBRegressor  — LGD severity
+    shap_explainer_stage1.pkl       SHAP explainer for Stage 1
+    shap_explainer_stage2.pkl       SHAP explainer for Stage 2
+    calibration_params.pkl          lgd_when_cured, downturn_scalar, moc
+    feature_cols.pkl                Ordered list of 34 feature column names
+
+================================================================================
+  STAGE 1 — CURE CLASSIFIER
+  XGBClassifier  |  Target: y_cure = 1
+================================================================================
+
+  Hyperparameters:
+    n_estimators    : 300
+    learning_rate   : 0.05
+    max_depth       : 4
+    subsample       : 0.80
+    colsample_bytree: 0.80
+    eval_metric     : logloss
+    random_state    : 42
+
+  Training Data:
+    Total train samples        : 16,000
+    Cure observations (train)  :    469  (2.93%)
+    Non-cure observations      : 15,531  (97.07%)
+
+  Performance Metrics (held-out test set, n = 4,000):
+  ┌─────────────────────────────────┬────────────┐
+  │ Metric                          │ Value      │
+  ├─────────────────────────────────┼────────────┤
+  │ AUC-ROC                         │ 0.9358     │
+  │ Brier Score                     │ 0.0242     │
+  │ Predicted Cure Rate             │ 2.76%      │
+  │ Actual Cure Rate                │ 2.93%      │
+  └─────────────────────────────────┴────────────┘
+
+================================================================================
+  STAGE 2 — SEVERITY REGRESSOR
+  XGBRegressor  |  Target: LGD (continuous, 0–1)  |  Trained on non-cures only
+================================================================================
+
+  Hyperparameters:
+    n_estimators    : 300
+    learning_rate   : 0.05
+    max_depth       : 4
+    subsample       : 0.80
+    colsample_bytree: 0.80
+    random_state    : 42
+
+  Training Data:
+    Non-cure train samples     : 15,532
+    (Cure accounts excluded — Stage 2 sees only defaulted non-recoveries)
+
+  Performance Metrics (non-cure test accounts only, n = 3,883):
+  ┌─────────────────────────────────┬────────────┐
+  │ Metric                          │ Value      │
+  ├─────────────────────────────────┼────────────┤
+  │ MAE                             │ 0.1804     │
+  │ RMSE                            │ 0.2377     │
+  │ R²                              │ 0.2848     │
+  └─────────────────────────────────┴────────────┘
+
+================================================================================
+  COMBINED TWO-STAGE MODEL
+  raw_lgd = p_cure × E[LGD|cure]  +  (1 − p_cure) × E[LGD|non-cure]
+================================================================================
+
+  Performance Metrics (full test set, n = 4,000, pre-calibration):
+  ┌─────────────────────────────────┬────────────┐
+  │ Metric                          │ Value      │
+  ├─────────────────────────────────┼────────────┤
+  │ MAE                             │ 0.1932     │
+  │ RMSE                            │ 0.2548     │
+  │ R²                              │ 0.2865     │
+  │ Mean Predicted LGD              │ 0.7628     │
+  │ Mean Realised LGD               │ 0.7546     │
+  │ Prediction Bias (pred − actual) │ +0.0082    │
+  └─────────────────────────────────┴────────────┘
+
+================================================================================
+  DOWNTURN CALIBRATION LAYER
+  Scalar = Downturn LGD ÷ Long-Run LGD  (sourced from calibration_params.pkl)
+================================================================================
+
+  Calibration Inputs:
+    Long-run mean LGD (full portfolio)  : 0.7643
+    Downturn mean LGD (unemployment>8%) : 0.8238
+    Downturn share of observations      : 22.68%
+
+  Calibration Parameters (stored in calibration_params.pkl):
+  ┌─────────────────────────────────┬────────────┐
+  │ Parameter                       │ Value      │
+  ├─────────────────────────────────┼────────────┤
+  │ lgd_when_cured                  │ 0.067324   │
+  │ downturn_scalar                 │ 1.077809   │
+  │ moc (Margin of Conservatism)    │ 0.030000   │
+  └─────────────────────────────────┴────────────┘
+
+================================================================================
+  MARGIN OF CONSERVATISM (MoC)
+  final_lgd = clip(calibrated_lgd + 0.03, 0.0, 1.0)
+================================================================================
+
+  MoC Add-on                         : +0.03 (300 bps flat)
+  Regulatory basis                   : Basel III IRB — Pillar 1 capital buffer
+                                       for model uncertainty and data limitations
+
+================================================================================
+  END-TO-END PIPELINE SUMMARY
+================================================================================
+
+  ┌──────────────────────────────────────┬────────────┬────────────┐
+  │ Pipeline Stage                       │ Mean LGD   │ Lift       │
+  ├──────────────────────────────────────┼────────────┼────────────┤
+  │ Mean Realised LGD (actual)           │ 0.7546     │ —          │
+  │ Raw Two-Stage Prediction             │ 0.7628     │ baseline   │
+  │ After Downturn Scalar (×1.0778)      │ 0.8171     │ +0.0543    │
+  │ After MoC (+0.03)                    │ 0.8424     │ +0.0253    │
+  │ Total Lift over Raw ML               │ —          │ +0.0796    │
+  │ Final Basel Bias (pred − actual)     │ —          │ +0.0878    │
+  └──────────────────────────────────────┴────────────┴────────────┘
+
+  Positive final bias confirms the model is deliberately conservative
+  (over-predicts loss), as required for Basel IRB regulatory capital.
+
+  Cyclical Calibration Check:
+  ┌────────────────┬────────────────┬────────────────┐
+  │ Regime         │ Final Pred LGD │ Actual LGD     │
+  ├────────────────┼────────────────┼────────────────┤
+  │ Downturn       │ 0.8987         │ 0.8107         │
+  │ Normal         │ 0.8264         │ 0.7386         │
+  └────────────────┴────────────────┴────────────────┘
+
+================================================================================
+  DATASET SUMMARY
+================================================================================
+
+  Field                              Value
+  ─────────────────────────────────  ──────────────────────
+  Total Records                    : 20,000
+  Train Records                    : 16,000  (80%)
+  Test Records                     :  4,000  (20%)
+  Number of Features               : 34
+  Population                       : Defaulted facilities only
+  LGD Range (clipped)              : 0.0204 – 1.0000
+  Mean LGD (full dataset)          : 0.7643
+  Std LGD                          : 0.2943
+  Cure Rate (LGD < 0.10)           : 2.93%
+  Downturn Observations            : 22.68%  (unemployment > 8%)
+  Mean LGD — Downturn              : 0.8238
+  Mean LGD — Normal                : 0.7469
+  Discount Rate (workout cashflows) : 10% per annum
+  Workout Cost (avg)               : ~₹8,000  (clipped ₹1,000–₹30,000)
+
+================================================================================
+  INPUT FEATURES — ACCEPTABLE VALUES  (34 features, ordered as feature_cols.pkl)
+================================================================================
+
+  A. MACROECONOMIC (5 features)
+  ─────────────────────────────────────────────────────────────────────────────
+  Column                  Type    Min       Max       Description
+  ──────────────────────  ──────  ────────  ────────  ───────────────────────────
+  unemployment            float   0.00      30.00     Unemployment rate (%)
+                                                      > 8.0 → downturn_flag = 1
+  gdp_growth              float   -20.00    20.00     GDP growth rate (%)
+                                                      Negative in downturn
+  inflation               float   -5.00     30.00     Inflation rate (%)
+  policy_rate             float   0.00      25.00     Central bank policy rate (%)
+  consumer_confidence     float   0.00      200.00    Consumer confidence index
+
+  B. BORROWER CHARACTERISTICS (6 features)
+  ─────────────────────────────────────────────────────────────────────────────
+  Column                  Type    Min       Max       Description
+  ──────────────────────  ──────  ────────  ────────  ───────────────────────────
+  bureau_score            float   300.00    900.00    Credit bureau score
+                                                      Higher = better creditworthiness
+  income                  float   0.00      —         Annual income (₹)
+                                                      Training range: 15,000–250,000
+  age                     int     18        100       Borrower age (years)
+                                                      Training range: 21–69
+  prior_delinquencies     int     0         20        Count of prior delinquencies
+                                                      Training range: 0–10
+  dti                     float   0.00      1.00      Debt-to-income ratio
+                                                      Do NOT pass as percentage
+  employment_type         str     —         —         One of: Salaried, SelfEmployed,
+                                                      Contract, Unemployed
+                                                      (encoded to 4 dummy columns)
+
+  C. LOAN CHARACTERISTICS (6 features)
+  ─────────────────────────────────────────────────────────────────────────────
+  Column                  Type    Min       Max       Description
+  ──────────────────────  ──────  ────────  ────────  ───────────────────────────
+  loan_amount             float   0.00      —         Loan principal (₹)
+                                                      Training range: 50,000–1,000,000
+  interest_rate           float   0.00      1.00      Annual interest rate (decimal)
+                                                      Do NOT pass as percentage
+                                                      Training range: 0.06–0.35
+  tenure_months           int     1         360       Loan tenor in months
+                                                      Training range: 12–83
+  seasoning_months        int     0         360       Months since origination at default
+                                                      Training range: 1–84
+  restructured_flag       int     0         1         1 = loan was restructured, 0 = no
+  restructured_flag       int     0         1         1 = loan was restructured
+
+  D. COLLECTIONS VARIABLES (6 features)
+  ─────────────────────────────────────────────────────────────────────────────
+  Column                  Type    Min       Max       Description
+  ──────────────────────  ──────  ────────  ────────  ───────────────────────────
+  dpd                     int     0         1800      Days past due at scoring
+                                                      Training range: 90–719
+  broken_ptps             int     0         50        Count of broken promises-to-pay
+                                                      Training range: 0–15
+  legal_flag              int     0         1         1 = legal action initiated
+  agency_score            float   0.00      100.00    Collections agency quality score
+  contactability_score    float   0.00      1.00      Successful contact rate (0–1)
+  months_in_collection    int     0         120       Months account in collections
+                                                      Training range: 1–35
+
+  E. DERIVED RECOVERY-DRIVER PROXIES (4 features — computed internally)
+  ─────────────────────────────────────────────────────────────────────────────
+  Column                  Formula
+  ──────────────────────  ────────────────────────────────────────────────────
+  repayment_capacity      income / loan_amount
+  stress_index            dpd / bureau_score
+  economic_stress         unemployment − gdp_growth
+  collection_intensity    months_in_collection × (1 + legal_flag)
+
+  F. ENGINEERED BINARY FLAGS (4 features — computed internally)
+  ─────────────────────────────────────────────────────────────────────────────
+  Column                  Rule
+  ──────────────────────  ────────────────────────────────────────────────────
+  downturn_flag           1 if unemployment > 8.0
+  severe_dpd_flag         1 if dpd > 365
+  high_interest_flag      1 if interest_rate > 0.18
+  high_dti_flag           1 if dti > 0.50
+  low_contact_flag        1 if contactability_score < 0.40
+
+  G. EMPLOYMENT TYPE DUMMIES (4 features — one-hot, drop_first=False)
+  ─────────────────────────────────────────────────────────────────────────────
+  Column                  Value
+  ──────────────────────  ────────────────────────────────────────────────────
+  emp_Contract            1 if employment_type == "Contract"
+  emp_Salaried            1 if employment_type == "Salaried"
+  emp_SelfEmployed        1 if employment_type == "SelfEmployed"
+  emp_Unemployed          1 if employment_type == "Unemployed"
+
+================================================================================
+  IDENTIFIER COLUMN
+================================================================================
+
+  Column      Type    Format          Example         Description
+  ──────────  ──────  ──────────────  ──────────────  ───────────────────────────
+  loan_id     string  LN + digits     LN613990        Unique loan/facility ID.
+                                                      Passed through as-is.
+                                                      Not used in model fitting.
+
+================================================================================
+  OUTPUT COLUMNS
+================================================================================
+
+  Column                    Type    Range   Description
+  ────────────────────────  ──────  ──────  ──────────────────────────────────────
+  loan_id                   str     —       Echo of input identifier
+  p_cure                    float   0–1     Stage 1 output: P(LGD < 0.10)
+  e_lgd_given_non_cure      float   0–1     Stage 2 output: E[LGD | not cured]
+  raw_two_stage_lgd         float   0–1     Combined pipeline before calibration
+  downturn_calibrated_lgd   float   0–1     After ×downturn_scalar
+  final_basel_lgd           float   0–1     After +MoC — use this for capital
+  final_basel_lgd_pct       str     —       final_basel_lgd as percentage string
+  shap_stage1               list    —       Top-10 SHAP drivers for cure stage
+  shap_stage2               list    —       Top-10 SHAP drivers for severity stage
+
+================================================================================
+  SHAP EXPLAINABILITY
+================================================================================
+
+  Two independent SHAP explainers — one per stage.
+  Each returns top-10 features by absolute SHAP impact for every prediction.
+
+  Stage 1 SHAP (shap_explainer_stage1.pkl):
+    Explains what drives P(cure) up or down for each account.
+    Positive SHAP → increases cure probability (reduces LGD).
+    Negative SHAP → decreases cure probability (increases LGD).
+
+  Stage 2 SHAP (shap_explainer_stage2.pkl):
+    Explains what drives severity E[LGD | non-cure] for each account.
+    Positive SHAP → increases severity (higher LGD).
+    Negative SHAP → decreases severity (lower LGD).
+
+  Output per feature:
+    feature  : column name from feature_cols
+    impact   : SHAP value (float, 6 decimal places)
+
+================================================================================
+  END OF DOCUMENT
+================================================================================

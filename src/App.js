@@ -23,6 +23,8 @@ import BorrowerDefaultPredictionPage from './pages/BorrowerDefaultPredictionPage
 import CreditCardEadPredictionPage from './pages/CreditCardEadPredictionPage';
 import MortgageLgdPredictionPage from './pages/MortgageLgdPredictionPage';
 import PersonalLoanEadPredictionPage from './pages/PersonalLoanEadPredictionPage';
+import RetailLoanLgdPredictionPage from './pages/RetailLoanLgdPredictionPage';
+import ApplicationScorecardPredictionPage from './pages/ApplicationScorecardPredictionPage';
 
 // Import styles
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -60,6 +62,11 @@ function App() {
           <Route path="/credit-card-ead-prediction" element={withLayout(<CreditCardEadPredictionPage />)} />
           <Route path="/mortgage-lgd-prediction" element={withLayout(<MortgageLgdPredictionPage />)} />
           <Route path="/personal-loan-ead-prediction" element={withLayout(<PersonalLoanEadPredictionPage />)} />
+          <Route path="/retail-loan-lgd-prediction" element={withLayout(<RetailLoanLgdPredictionPage />)} />
+          <Route
+            path="/application-scorecard-prediction"
+            element={withLayout(<ApplicationScorecardPredictionPage />)}
+          />
           <Route
             path="/customer-lifecycle-analytics"
             element={withLayout(<CustomerLifecycleAnalyticsPage />)}

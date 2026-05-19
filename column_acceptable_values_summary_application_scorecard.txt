@@ -1,0 +1,236 @@
+================================================================================
+     APPLICATION SCORECARD – ACCEPTABLE VALUES SUMMARY FOR ALL COLUMNS
+================================================================================
+
+  Model Used   : Logistic Regression 
+  Score Scale  : 300–900  (PDO = 20, Base Score = 600 @ 50:1 good:bad odds)
+  Target       : bad  (1 = 90+ DPD within first 12 months on book; 0 = Good)
+  Total Features Used : 28 (mix of numeric, binary flag, and categorical)
+
+  ┌─────────────────────────────┬───────────────────────────────────────────────────────────┐
+  │ Component                   │ Description                                               │
+  ├─────────────────────────────┼───────────────────────────────────────────────────────────┤
+  │ Champion Model              │ Logistic Regression on WoE-transformed features                            │
+  │ WoE Bins                    │ Quantile coarse-classing (10 bins); min 5% per bin        │
+  │ Variable Selection          │ IV ≥ 0.02 and IV < 1.5 (leakage guard)                   │
+  └─────────────────────────────┴───────────────────────────────────────────────────────────┘
+
+  Dataset Split: Stratified 70% Train / 30% Test (random seed 42; production uses OOT)
+
+--------------------------------------------------------------------------------
+  OUTPUT TIER
+--------------------------------------------------------------------------------
+
+  Column Name  : scorecard_score
+  Description  : Scaled credit score (300–900) derived from Logistic Regression
+                 on WoE features. Higher score = Lower credit risk.
+                 Formula: Score = OFFSET – FACTOR × (β·WoE + intercept)
+                 Clipped to [300, 900] before output.
+
+  SCORE-BAND DECISION TABLE:
+
+  Band                | Score Range       | Approval Decision     | Pop. %
+  --------------------|-------------------|-----------------------|--------
+  B (low risk)        | top 10 percentile | Approve · Prime       | ~10%
+  C                   | P35 – P90         | Approve               | ~55%
+  D                   | P15 – P35         | Refer to Underwriter  | ~20%
+  E                   | P0  – P15 (lower) | Refer to Underwriter  | ~15%
+  F (very high risk)  | bottom 15 pct     | Decline               | ~15%
+
+  Scaling Parameters:
+  PDO         : 20  (score points to double the odds)
+  Base Score  : 600 (score at 50:1 good-to-bad odds)
+  Base Odds   : 50.0
+  Factor      : PDO / ln(2)  ≈ 28.85
+  Offset      : Base Score – Factor × ln(Base Odds)  ≈ 487.12
+
+================================================================================
+ INPUT FEATURES
+================================================================================
+
+========================
+ A. BINARY FLAG COLUMNS  (0 or 1 only)
+========================
+
+  Column Name          | Type | Acceptable Values | Description
+  ---------------------|------|-------------------|---------------------------------------------
+  salary_with_us       | int  | 0 or 1            | Applicant's salary credited to our bank
+                       |      |                   | (1=Yes, 0=No); only applicable for Salaried
+
+========================
+ B. NUMERICAL COLUMNS – INTEGER
+========================
+
+  Column Name          | Min  | Max  | Median | Description
+  ---------------------|------|------|--------|----------------------------------------------
+  age                  | 21   | 65   | 36     | Applicant age in years at application date
+  dependents           | 0    | 6    | 1      | Number of financial dependents
+  tenor                | 12   | 60   | 36     | Requested loan tenure in months;
+                       |      |      |        | accepted values: 12, 24, 36, 48, 60
+  total_tl             | 0    | 25   | 4      | Total tradelines (open + closed) from bureau
+  active_tl            | 0    | 25   | 3      | Active tradelines from bureau at application
+  oldest_tl_months     | 0    | 240  | 54     | Age of oldest tradeline in months (bureau)
+  max_dpd_24m          | 0    | 180  | 0      | Maximum DPD on any bureau tradeline —
+                       |      |      |        | last 24 months; typical values: 0, 30, 60,
+                       |      |      |        | 90, 180
+  num_enq_3m           | 0    | 15   | 1      | Bureau enquiries in last 3 months
+  num_enq_6m           | 0    | 15   | 2      | Bureau enquiries in last 6 months
+                       |      |      |        | (num_enq_6m ≥ num_enq_3m always)
+  num_writeoff         | 0    | 2    | 0      | Number of loan write-offs on bureau record
+  banking_rel_months   | 0    | 240  | 28     | Months of banking relationship with us
+                       |      |      |        | (0 = new-to-bank)
+
+========================
+ C. NUMERICAL COLUMNS – FLOAT (Continuous)
+========================
+
+  Column Name          | Min         | Max           | Median     | Description
+  ---------------------|-------------|---------------|------------|-----------------------------------------------
+  monthly_income       | 18,000      | 8,00,000      | 44,000     | Declared monthly income (INR); net take-home
+  existing_emi         | 0           | ~4,80,000     | ~7,920     | Total EMI obligations on existing loans (INR)
+                       |             |               |            | (≤ 60% of monthly_income by data gen rule)
+  dti                  | 0.000       | 1.000         | ~0.180     | Debt-to-income = existing_emi ÷ monthly_income
+                       |             |               |            | (0.0 = no existing obligations; 1.0 = fully burdened)
+  savings_balance      | 1,000       | 50,00,000     | ~36,000    | Average savings/current account balance (INR)
+  emp_tenure           | 0.0         | 35.0          | ~4.8       | Years with current employer (0.0 = fresher / <1 yr)
+  loan_amount          | 50,000      | 30,00,000     | ~2,50,000  | Requested loan amount (INR); rounded to nearest 1,000
+  avg_balance_6m       | 0           | 50,00,000     | ~27,000    | Average bank balance with us over last 6 months (INR)
+                       |             |               |            | (0 if new-to-bank)
+
+========================
+ D. NUMERICAL COLUMNS – INTEGER (Sentinel Values Apply)
+========================
+
+  These columns use -1 as a sentinel for missing/not-applicable.
+  The scoring pipeline converts -1 → NaN automatically before WoE transformation.
+
+  Column Name | Min  | Max  | Median | Sentinel | Sentinel Meaning
+  ------------|------|------|--------|----------|-----------------------------------------
+  cibil       | 300  | 900  | 700    | -1       | No-hit / thin-file applicant (~4% of apps)
+              |      |      |        |          | Treated as 600 in the bad-flag generator;
+              |      |      |        |          | mapped to dedicated "No-hit" WoE bin in model
+
+========================
+ E. CATEGORICAL COLUMNS
+========================
+
+  Column Name    | Acceptable Values                                           | Notes
+  ---------------|-------------------------------------------------------------|--------------------------------------------
+  gender         | M, F                                                        | Population split ~62% M / 38% F
+  marital        | Single, Married, Other                                      | Other includes divorced / widowed
+  education      | Postgrad, Graduate, Diploma, HSC, SSC                      | SSC = 10th pass; HSC = 12th pass
+  residence      | Owned, Rented, Parental, Company                           | Company = employer-provided accommodation
+  city_tier      | Tier-1, Tier-2, Tier-3                                     | Based on applicant's city of residence
+  emp_type       | Salaried, Self-Emp, Govt, Pensioner                        | Govts include PSU; Pensioner has no emp_tenure
+  employer_cat   | CatA, CatB, CatC, SelfEmp                                  | CatA = large listed / MNC; CatC = small private
+  loan_purpose   | Debt-Consol, Wedding, Education, Medical,                  | Used in WoE transformation; drives bad-rate
+                 | Travel, Home-Reno, Other                                    | differentials across purpose buckets
+
+  Note: All categoricals are one-hot encoded for the XGBoost challenger model.
+  For the Logistic Regression champion, they are WoE-transformed (no one-hot).
+  Unseen values at scoring time are mapped to the "Other" WoE bin where available,
+  or to WoE = 0 (neutral) as fallback.
+
+========================
+ F. SENTINEL / SURROGATE MISSING VALUES
+========================
+
+  The following columns use special numeric values to represent missing data.
+  The scoring pipeline handles all of these automatically — do not pre-process.
+
+  Column Name | Sentinel | Meaning                          | Treatment Applied
+  ------------|----------|----------------------------------|------------------------------------------
+  cibil       | -1       | No-hit / thin file (no bureau)   | Dedicated WoE bin "No-hit" in scorecard;
+              |          |                                  | XGBoost receives NaN (native handling)
+
+================================================================================
+ MODEL DETAILS
+================================================================================
+
+  Architecture        : Logistic Regression (Champion) on WoE-transformed features
+                        XGBoost Classifier  (Challenger) on one-hot encoded features
+  Training Strategy   : Stratified random 70% Train / 30% Test (random_state=42)
+                        Production deployment to use time-based OOT split
+
+  WoE / IV Configuration:
+  -------------------------
+  Binning method      : Quantile (pd.qcut, 10 bins), duplicates='drop'
+  Minimum bin size    : 5% of training sample
+  IV threshold        : ≥ 0.02 to enter model (predictive floor)
+  IV ceiling          : < 1.5 (leakage guard)
+  IV strength bands   : Unpredictive (<0.02), Weak (0.02–0.10), Medium (0.10–0.30),
+                        Strong (0.30–0.50), Suspicious (>0.50)
+
+  Logistic Regression Hyperparameters:
+  --------------------------------------
+  C (inverse reg.)    : 1.0
+  solver              : liblinear
+  max_iter            : 300
+  random_state        : 42
+
+  XGBoost Hyperparameters:
+  -------------------------
+  n_estimators        : 400
+  max_depth           : 4
+  learning_rate       : 0.05
+  subsample           : 0.8
+  colsample_bytree    : 0.8
+  eval_metric         : auc
+  random_state        : 42
+
+  Dataset Composition:
+  ---------------------
+  Total rows          : 50,000 simulated applicants
+  Train set           : 35,000 (70%)
+  Test set            : 15,000 (30%)
+  Target bad-rate     : ~15% (approx; logistic generation with noise)
+
+  Class distribution (approximate):
+  Good (bad=0)        : ~42,500  (~85%)
+  Bad  (bad=1)        : ~7,500   (~15%)
+
+  Score Scaling (300–900 scale):
+  --------------------------------
+  PDO                 : 20 (score points per doubling of odds)
+  Base Score          : 600 (at 50:1 good:bad odds)
+  Base Odds           : 50.0
+  Factor              : PDO / ln(2)  ≈ 28.854
+  Offset              : Base Score – Factor × ln(Base Odds) ≈ 487.12
+  Score formula       : Score = OFFSET – FACTOR × (Σ βᵢ·WoEᵢ + intercept)
+                        Clipped to [300, 900]
+
+  SHAP Explainability : LinearExplainer (LR champion); TreeExplainer (XGB challenger)
+  Output Column       : scorecard_score  (integer, 300–900)
+  Decision Output     : Decline / Refer / Approve / Approve-Prime (band overlay)
+
+================================================================================
+ PERFORMANCE METRICS (TEST SET — indicative; actual values from run)
+================================================================================
+AUC : 0.7495
+KS  : 36.64
+Gini: 0.4990
+
+  Decile Lift Table   : Top decile expected to capture ~3–4× average bad rate
+  Calibration         : Logistic Regression is natively calibrated (sigmoid output)
+
+================================================================================
+ PRODUCTION NOTES
+================================================================================
+
+  1. Decisioning API  : Wrap scorecard artefact (scorecard_bundle.pkl) in FastAPI;
+                        called by LOS at application submission stage.
+  2. Reject Inference : Run quarterly using parcel / proxy methods on declined
+                        applications to correct for selection bias.
+  3. Monitoring       : PSI on score distribution, monthly bad-rate by score band
+                        vs benchmark; alert thresholds at PSI > 0.10 (watch),
+                        PSI > 0.25 (redevelop).
+  4. Governance       : Champion / Challenger framework; annual revalidation;
+                        model risk documentation aligned with SR 11-7 / RBI MRM.
+  5. Artefact keys    : lr_model, woe_pipeline (selected_features, woe_maps,
+                        binners, scaling, lr_coef, lr_intercept),
+                        
+  6. Companion Model  : Behavioural_Scorecard_PersonalLoan.ipynb — runs on the
+                        existing performing book for limit management, cross-sell
+                        prioritisation, and EWS input.
+
+================================================================================

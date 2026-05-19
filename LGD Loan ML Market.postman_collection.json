@@ -1,0 +1,86 @@
+{
+  "info": {
+    "_postman_id": "52094e86-7ea3-4707-9cd9-d3ff50f8d078",
+    "name": "LGD Loan ML Market",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40626210"
+  },
+  "item": [
+    {
+      "name": "Generate Accounts",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "997hhEo876NHJo2AMbXl1i78895deK",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://ml-market-backend-2-lgd-loan.azurewebsites.net//api/lgd/loans/generate",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-2-lgd-loan",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "",
+            "api",
+            "lgd",
+            "loans",
+            "generate"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Predict",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "997hhEo876NHJo2AMbXl1i78895deK",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "[{\r\n                    \"loan_id\": \"LN628718\",\r\n                    \"unemployment\": 11.49,\r\n                    \"gdp_growth\": 4.55,\r\n                    \"inflation\": 3.02,\r\n                    \"policy_rate\": 9.43,\r\n                    \"consumer_confidence\": 99.12,\r\n                    \"bureau_score\": 786,\r\n                    \"income\": 99968.16,\r\n                    \"age\": 45,\r\n                    \"employment_type\": \"Salaried\",\r\n                    \"prior_delinquencies\": 6,\r\n                    \"dti\": 0.356,\r\n                    \"loan_amount\": 324088.25,\r\n                    \"interest_rate\": 0.1525,\r\n                    \"tenure_months\": 25,\r\n                    \"seasoning_months\": 16,\r\n                    \"restructured_flag\": 0,\r\n                    \"dpd\": 488,\r\n                    \"broken_ptps\": 6,\r\n                    \"legal_flag\": 1,\r\n                    \"agency_score\": 51.75,\r\n                    \"contactability_score\": 0.459,\r\n                    \"months_in_collection\": 30\r\n                },\r\n                {\r\n                    \"loan_id\": \"LN304255\",\r\n                    \"unemployment\": 9.46,\r\n                    \"gdp_growth\": 2.34,\r\n                    \"inflation\": 3.9,\r\n                    \"policy_rate\": 5.67,\r\n                    \"consumer_confidence\": 87.34,\r\n                    \"bureau_score\": 610,\r\n                    \"income\": 64190.56,\r\n                    \"age\": 45,\r\n                    \"employment_type\": \"SelfEmployed\",\r\n                    \"prior_delinquencies\": 4,\r\n                    \"dti\": 0.396,\r\n                    \"loan_amount\": 475307.97,\r\n                    \"interest_rate\": 0.1635,\r\n                    \"tenure_months\": 41,\r\n                    \"seasoning_months\": 19,\r\n                    \"restructured_flag\": 0,\r\n                    \"dpd\": 282,\r\n                    \"broken_ptps\": 2,\r\n                    \"legal_flag\": 1,\r\n                    \"agency_score\": 60.41,\r\n                    \"contactability_score\": 0.35,\r\n                    \"months_in_collection\": 18\r\n                }]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://ml-market-backend-2-lgd-loan.azurewebsites.net/api/lgd/loans/predict",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-2-lgd-loan",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "lgd",
+            "loans",
+            "predict"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
