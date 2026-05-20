@@ -188,6 +188,24 @@ module.exports = function (app) {
     })
   );
 
+  // Behavioural Scorecard backend
+  app.use(
+    '/api/scorecard/accounts',
+    createProxyMiddleware({
+      target: 'https://ml-market-backend-2-behavioural-scorecard.azurewebsites.net',
+      changeOrigin: true,
+      secure: false,
+      pathRewrite: restoreUpstreamPath('/api/scorecard/accounts'),
+      logLevel: 'debug',
+      onProxyRes: function (proxyRes, req, res) {
+        console.log('[Proxy-Behavioural-Scorecard] Response from:', req.url, 'Status:', proxyRes.statusCode);
+      },
+      onError: function (err, req, res) {
+        console.error('[Proxy-Behavioural-Scorecard] Error:', err.message);
+      },
+    })
+  );
+
   // Application Scorecard backend
   app.use(
     '/api/scorecard/applications',

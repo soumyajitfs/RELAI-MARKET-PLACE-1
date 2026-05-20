@@ -1,0 +1,235 @@
+================================================================================
+     BEHAVIOURAL_SCORECARD_PERSONAL_LOAN - ACCEPTABLE VALUES SUMMARY
+================================================================================
+
+--------------------------------------------------------------------------------
+MODEL INFORMATION
+--------------------------------------------------------------------------------
+
+  Model Name        : Behavioural Scorecard – Retail Personal Loan
+  Model Type        : Logistic Regression
+  Target Variable   : bad12
+  Target Definition : 1 = customer goes 90+ DPD within next 12 months from observation date
+  Population        : Active personal-loan customers, MOB ≥ 6, currently < 60 DPD
+  Feature Selection : WoE / Information Value (IV ≥ 0.02 and IV < 1.8)
+
+
+  Score Scaling Parameters:
+    PDO (Points to Double Odds) : 20
+    Base Score                  : 600  (at odds 50:1 good:bad)
+    Factor                      : 28.853901
+    Offset                      : 487.122876
+    Intercept                   : -1.970935
+
+  Explainability:
+    SHAP Method : shap.LinearExplainer  (interventional feature perturbation)
+                  Per-feature marginal contribution to default probability prediction
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATASET SUMMARY
+--------------------------------------------------------------------------------
+
+  Total eligible observations   : 68,931
+  Bad rate (90+ DPD, 12m)       : 7.31%
+  Train observations            : 48,251  (70%  stratified)
+  Test observations             : 20,680  (30%  stratified)
+  Eligibility filter            : max_dpd_6m < 60  (60+ DPD accounts excluded)
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+PERFORMANCE METRICS 
+--------------------------------------------------------------------------------
+
+  --- Discrimination Metrics ---
+
+  Metric                         |      Train |       Test
+  -------------------------------+------------+-----------
+  ROC-AUC                        |     0.8040 |     0.8008
+  KS Statistic (%)               |          — |      44.92
+  Gini Coefficient               |          — |     0.6015
+
+  --- Classification Metrics (threshold = 0.5) ---
+
+  Metric                         |      Value
+  -------------------------------+-----------
+  Accuracy                       |     0.9297
+  Precision                      |     0.6250
+  Recall (Sensitivity)           |     0.0991
+  
+
+
+                        Predicted Good   Predicted Bad
+    Actual Good               19,077             90
+    Actual Bad                 1,363            150
+
+  --- Score Distribution (test set) ---
+
+  Mean Score                     : 577.0
+  Std Dev                        : 33.6
+  Min Score                      : 414.9
+  Max Score                      : 659.8
+  Score Range                    : 300 – 900 (clipped)
+
+--------------------------------------------------------------------------------
+
+================================================================================
+ FINAL MODEL FEATURES
+================================================================================
+
+  The following 15 features are used in the final trained model
+  (selected by IV: 0.02 ≤ IV < 1.8, ordered by IV descending):
+
+  #    Feature                          IV   Description
+  ---- -------------------------- --------   ------------------------------------
+  1    on_time_pay_pct_6m           0.8447   Proportion of EMIs paid on-time in last 6 months
+  2    cibil_now                    0.5874   Current CIBIL bureau score
+  3    num_emi_paid_6m              0.4643   Full EMIs paid in last 6 months
+  4    num_nsf_6m                   0.4043   Non-sufficient fund / bounce events in last 6 months
+  5    num_partial_pay_6m           0.3858   Partial payments made in last 6 months
+  6    cibil_change_6m              0.3564   Change in CIBIL score over last 6 months
+  7    salary_credit_regular        0.1419   1 = salary credited regularly, 0 = irregular or absent
+  8    num_new_enq_3m               0.1288   New bureau enquiries in last 3 months
+  9    num_dpd30_6m                 0.0736   Count of months with 30+ DPD in last 6 months
+  10   salary_drop_pct              0.0607   Salary drop % vs prior period
+  11   num_new_tl_6m                0.0581   New trade-lines opened in last 6 months
+  12   restructured                 0.0528   1 = loan has been restructured, 0 = not restructured
+  13   max_dpd_6m                   0.0466   Max DPD in last 6 months
+  14   avg_dpd_6m                   0.0241   Average DPD across last 6 months
+  15   avg_balance_3m               0.0212   Average bank balance over last 3 months (INR)
+
+--------------------------------------------------------------------------------
+
+================================================================================
+ INPUT FEATURES — ACCEPTABLE VALUES
+================================================================================
+
+----------------------------------------------------------------------------------------
+A. PAYMENT BEHAVIOUR (Last 6 Months)
+----------------------------------------------------------------------------------------
+
+  Column                     | Type   | Min      | Max      | Description
+  ---------------------------+--------+----------+----------+-----------------------------------------
+  on_time_pay_pct_6m         | float  | 0.0      | 1.0      | Proportion of EMIs paid on-time in last 6 months. Higher → lower risk.
+  num_emi_paid_6m            | int    | 0        | 6        | Full EMIs paid in last 6 months. Higher → lower risk.
+  num_partial_pay_6m         | int    | 0        | 6        | Partial payments made in last 6 months. Higher → higher risk.
+
+----------------------------------------------------------------------------------------
+B. DPD HISTORY (Last 6 Months)  —  Eligibility: max_dpd_6m must be < 60
+----------------------------------------------------------------------------------------
+
+  Column                     | Type   | Min      | Max      | Description
+  ---------------------------+--------+----------+----------+-----------------------------------------
+  max_dpd_6m                 | int    | 0        | 59       | Max DPD in last 6 months. Eligibility rule: must be < 60.
+  avg_dpd_6m                 | float  | 0.0      | 59.0     | Average DPD across last 6 months.
+  num_dpd30_6m               | int    | 0        | 6        | Count of months with 30+ DPD in last 6 months. Higher → higher risk.
+
+----------------------------------------------------------------------------------------
+C. BANKING BEHAVIOUR
+----------------------------------------------------------------------------------------
+
+  Column                     | Type   | Min      | Max      | Description
+  ---------------------------+--------+----------+----------+-----------------------------------------
+  salary_credit_regular      | int    | 0        | 1        | 1 = salary credited regularly, 0 = irregular or absent.
+  avg_balance_3m             | float  | 200.0    | —        | Average bank balance over last 3 months (INR). Higher → lower risk.
+  num_nsf_6m                 | int    | 0        | 8        | Non-sufficient fund / bounce events in last 6 months. Higher → higher risk.
+  salary_drop_pct            | float  | -10.0    | 60.0     | Salary drop % vs prior period. Higher drop → higher risk.
+
+----------------------------------------------------------------------------------------
+D. BUREAU REFRESH (Last 6 Months)
+----------------------------------------------------------------------------------------
+
+  Column                     | Type   | Min      | Max      | Description
+  ---------------------------+--------+----------+----------+-----------------------------------------
+  cibil_now                  | int    | 300      | 900      | Current CIBIL bureau score. Higher → lower risk.
+  cibil_change_6m            | float  | -180.0   | 60.0     | Change in CIBIL score over last 6 months. Negative = deterioration.
+  num_new_tl_6m              | int    | 0        | 8        | New trade-lines opened in last 6 months. Higher → higher risk.
+  num_new_enq_3m             | int    | 0        | 12       | New bureau enquiries in last 3 months. Higher → higher risk.
+
+----------------------------------------------------------------------------------------
+E. LOAN STATE
+----------------------------------------------------------------------------------------
+
+  Column                     | Type   | Min      | Max      | Description
+  ---------------------------+--------+----------+----------+-----------------------------------------
+  restructured               | int    | 0        | 1        | 1 = loan has been restructured, 0 = not restructured.
+
+----------------------------------------------------------------------------------------
+F. IDENTIFIER COLUMN  (pass-through, not used in model)
+----------------------------------------------------------------------------------------
+
+  Column                     | Type   | Description
+  ---------------------------+--------+---------------------------------------------------
+  cust_id                    | str    | Unique customer identifier. Not used in model fitting.
+
+--------------------------------------------------------------------------------
+
+================================================================================
+ OUTPUT COLUMNS
+================================================================================
+
+  Column                 | Type   | Range        | Description
+  -----------------------+--------+--------------+----------------------------------------------
+  pd_score               | float  | 300 – 900    | Behavioural score. Higher = lower default risk.
+  prob_bad_12m           | float  | 0.0 – 1.0    | Predicted probability of 90+ DPD in next 12 months.
+  prob_bad_pct           | str    | —            | prob_bad_12m expressed as percentage string.
+  score_band             | str    | B1 – B5      | Risk band (see Score Band table below).
+  recommended_action     | str    | —            | Business action mapped to score band.
+  shap_values            | list   | —            | Top-10 SHAP contributors (feature, woe_value, shap_impact).
+
+--------------------------------------------------------------------------------
+
+================================================================================
+ SCORE BAND → BUSINESS ACTION MAPPING
+================================================================================
+
+  Bands are defined by quantile thresholds on the test-set score distribution:
+  B5 = bottom 10%,  B4 = 10–30%,  B3 = 30–60%,  B2 = 60–85%,  B1 = top 15%
+
+  Band               | Score Range    | Bad Rate | N (test) | Recommended Action
+  -------------------+----------------+----------+----------+---------------------------------------------------
+  B5 · High risk     |   415 –   532 |   31.38% |    2,068 | Pre-emptive outreach · feed EWS · hold cross-sell
+  B4 · Watch         |   532 –   563 |   10.30% |    4,136 | Monitor · soft-touch digital nudge · review limit
+  B3 · Standard      |   563 –   589 |    4.85% |    6,204 | Maintain · eligible for normal cross-sell
+  B2 · Good          |   589 –   611 |    2.05% |    5,170 | Eligible for limit increase / pre-approved top-up
+  B1 · Excellent     |   611 –   660 |    1.00% |    3,102 | Top-tier · best pricing · loyalty offers · refer-a-friend
+
+--------------------------------------------------------------------------------
+
+================================================================================
+ LOGISTIC REGRESSION COEFFICIENTS & SHAP EXPLAINABILITY
+================================================================================
+
+  SHAP method: LinearExplainer — coefficient × WoE value per feature
+  Values below show: raw LR coefficient on WoE feature, and mean SHAP impact
+  (coefficient × mean WoE on training set, reflecting average marginal contribution).
+
+  Feature                      |  LR Coeff (on WoE) |   Mean SHAP Impact
+  -----------------------------+--------------------+-------------------
+  Intercept                    |          -1.970935 |                  —
+  on_time_pay_pct_6m           |          -0.721103 |          -0.343801
+  cibil_now                    |          -0.700996 |          -0.258040
+  num_emi_paid_6m              |          -0.350976 |          -0.059271
+  num_nsf_6m                   |          -0.696294 |          -0.100194
+  num_partial_pay_6m           |          -0.338188 |          -0.047744
+  cibil_change_6m              |          -0.807767 |          -0.205098
+  salary_credit_regular        |          -0.550951 |          -0.027801
+  num_new_enq_3m               |          -0.594276 |          -0.028469
+  num_dpd30_6m                 |          -0.697843 |          -0.019652
+  salary_drop_pct              |          -0.215117 |           0.001928
+  num_new_tl_6m                |          -0.283366 |          -0.006358
+  restructured                 |          -0.634687 |          -0.011079
+  max_dpd_6m                   |          -1.026042 |          -0.019815
+  avg_dpd_6m                   |          -0.040094 |           0.002242
+  avg_balance_3m               |          -0.503984 |          -0.020140
+
+  Note: Positive coefficient → higher WoE → lower default risk (WoE encodes good:bad ratio).
+        Negative coefficient → feature increases default risk when WoE rises.
+
+--------------------------------------------------------------------------------
+
+================================================================================
+ END OF DOCUMENT
+================================================================================

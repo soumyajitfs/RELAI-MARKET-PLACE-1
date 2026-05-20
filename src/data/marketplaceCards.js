@@ -211,6 +211,16 @@ const marketplaceCards = [
     enabled: true,
     route: '/collections-scorecard-prediction',
   },
+  {
+    id: 'behavioural-scorecard',
+    title: 'Behavioural Scorecard',
+    description:
+      'Predicts the likelihood of existing personal loan customers becoming 90+ DPD within the next 12 months using repayment behavior, delinquency trends, and customer performance indicators.',
+    vertical: 'BFS',
+    modelType: 'Classification',
+    enabled: true,
+    route: '/behavioural-scorecard-prediction',
+  },
 ];
 
 export const verticals = ['Home', 'Provider', 'BFS', 'Payer', 'Utilities', 'Telecom', 'EdTech', 'Media'];

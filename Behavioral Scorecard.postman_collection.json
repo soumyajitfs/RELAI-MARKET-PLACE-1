@@ -1,0 +1,85 @@
+{
+  "info": {
+    "_postman_id": "c6eadc3d-609e-4e55-9f69-1dc287ca91aa",
+    "name": "Behavioral Scorecard",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40626210"
+  },
+  "item": [
+    {
+      "name": "Generate Accounts",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "replace_with_your_secret_key_here",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://ml-market-backend-2-behavioural-scorecard.azurewebsites.net/api/scorecard/accounts/generate",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-2-behavioural-scorecard",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "scorecard",
+            "accounts",
+            "generate"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Predict",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "replace_with_your_secret_key_here",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "[{\r\n                    \"on_time_pay_pct_6m\": 0.985,\r\n                    \"num_emi_paid_6m\": 6,\r\n                    \"num_partial_pay_6m\": 0,\r\n                    \"max_dpd_6m\": 0,\r\n                    \"avg_dpd_6m\": 0.0,\r\n                    \"num_dpd30_6m\": 0,\r\n                    \"salary_credit_regular\": 1,\r\n                    \"avg_balance_3m\": 299899.0,\r\n                    \"num_nsf_6m\": 0,\r\n                    \"salary_drop_pct\": 0.4,\r\n                    \"cibil_now\": 829,\r\n                    \"cibil_change_6m\": 21.1,\r\n                    \"num_new_tl_6m\": 0,\r\n                    \"num_new_enq_3m\": 0,\r\n                    \"restructured\": 0,\r\n                    \"cust_id\": \"CUST5618875\"\r\n                },\r\n                {\r\n                    \"on_time_pay_pct_6m\": 0.344,\r\n                    \"num_emi_paid_6m\": 1,\r\n                    \"num_partial_pay_6m\": 4,\r\n                    \"max_dpd_6m\": 43,\r\n                    \"avg_dpd_6m\": 19.5,\r\n                    \"num_dpd30_6m\": 3,\r\n                    \"salary_credit_regular\": 0,\r\n                    \"avg_balance_3m\": 3924.0,\r\n                    \"num_nsf_6m\": 5,\r\n                    \"salary_drop_pct\": 32.5,\r\n                    \"cibil_now\": 342,\r\n                    \"cibil_change_6m\": -100.5,\r\n                    \"num_new_tl_6m\": 2,\r\n                    \"num_new_enq_3m\": 7,\r\n                    \"restructured\": 1,\r\n                    \"cust_id\": \"CUST5618876\"\r\n                }]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://ml-market-backend-2-behavioural-scorecard.azurewebsites.net/api/scorecard/accounts/predict",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-2-behavioural-scorecard",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "scorecard",
+            "accounts",
+            "predict"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

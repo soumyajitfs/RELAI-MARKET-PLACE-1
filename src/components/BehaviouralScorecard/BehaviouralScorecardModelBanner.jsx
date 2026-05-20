@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ApplicationScorecardModelBanner = () => (
+const BehaviouralScorecardModelBanner = () => (
   <div className="model-banner">
     <div className="banner-content">
       <div className="banner-left">
@@ -13,8 +13,8 @@ const ApplicationScorecardModelBanner = () => (
         </div>
 
         <p className="banner-description banner-description--wrap">
-          Scores personal loan applications at onboarding using a WoE-transformed logistic regression scorecard
-          (300–900). Higher score indicates lower credit risk; decision bands drive approve, refer, or decline.
+          Predicts the likelihood of existing personal loan customers becoming 90+ DPD within the next
+          12 months using a WoE-transformed logistic regression scorecard (300–900).
         </p>
 
         <div className="stats-grid">
@@ -32,7 +32,7 @@ const ApplicationScorecardModelBanner = () => (
               Training Data
             </div>
             <div className="stat-value">
-              <span className="big">35,000</span>
+              <span className="big">48,251</span>
               <span className="small">records</span>
             </div>
           </div>
@@ -42,7 +42,7 @@ const ApplicationScorecardModelBanner = () => (
               <span className="stat-icon yellow"></span>
               Output
             </div>
-            <div className="stat-value">Scorecard Score (300–900)</div>
+            <div className="stat-value">Behavioural Score (300–900)</div>
           </div>
         </div>
       </div>
@@ -50,11 +50,11 @@ const ApplicationScorecardModelBanner = () => (
       <div className="banner-right">
         <div className="accuracy-card">
           <span className="accuracy-label">Accuracy</span>
-          <span className="accuracy-value">75.0%</span>
+          <span className="accuracy-value">93.0%</span>
         </div>
       </div>
     </div>
   </div>
 );
 
-export default ApplicationScorecardModelBanner;
+export default BehaviouralScorecardModelBanner;
