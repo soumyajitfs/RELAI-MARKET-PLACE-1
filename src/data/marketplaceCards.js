@@ -144,7 +144,7 @@ const marketplaceCards = [
   },
   {
     id: 'borrower-default-prediction',
-    title: 'Borrower Default Prediction',
+    title: 'Basel Probability of Default Model',
     description:
       'Predicts the likelihood of a borrower defaulting on payments using behavioral and financial indicators.',
     vertical: 'BFS',
@@ -154,7 +154,7 @@ const marketplaceCards = [
   },
   {
     id: 'credit-card-ead-prediction',
-    title: 'Credit Card EAD Prediction',
+    title: 'Basel Exposure at Default for Credit Cards',
     description: 'Predicts the expected credit card exposure at the time of default.',
     vertical: 'BFS',
     modelType: 'Forecasting',
@@ -163,7 +163,7 @@ const marketplaceCards = [
   },
   {
     id: 'mortgage-lgd-prediction',
-    title: 'Mortgage LGD Prediction',
+    title: 'Basel Loss Given Default (LGD) for Mortgages',
     description:
       'Predicts the expected loss percentage on mortgage loans after borrower default.',
     vertical: 'BFS',
@@ -173,7 +173,7 @@ const marketplaceCards = [
   },
   {
     id: 'personal-loan-ead-prediction',
-    title: 'Personal Loan EAD Prediction',
+    title: 'Basel Exposure at Default for Personal Loans',
     description:
       'Predicts the expected exposure amount on personal loans at the time of borrower default.',
     vertical: 'BFS',
@@ -183,7 +183,7 @@ const marketplaceCards = [
   },
   {
     id: 'retail-loan-lgd-prediction',
-    title: 'Retail Loan LGD Prediction',
+    title: 'Basel Loss Given Default (LGD) for Retail Loans',
     description:
       'Predicts the expected loss percentage on retail loans after borrower default, considering recovery rates, collateral and downturn economic conditions.',
     vertical: 'BFS',
@@ -220,6 +220,16 @@ const marketplaceCards = [
     modelType: 'Classification',
     enabled: true,
     route: '/behavioural-scorecard-prediction',
+  },
+  {
+    id: 'roll-rate-prediction-score',
+    title: 'Roll Rate Prediction Score',
+    description:
+      'Predicts the likelihood of a delinquent borrower rolling into a deeper DPD bucket to enable proactive intervention and minimise portfolio deterioration.',
+    vertical: 'BFS',
+    modelType: 'Classification',
+    enabled: true,
+    route: '/roll-rate-prediction-score',
   },
 ];
 

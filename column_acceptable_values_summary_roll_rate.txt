@@ -1,0 +1,287 @@
+================================================================================
+       ROLL RATE MODEL - ACCEPTABLE VALUES SUMMARY FOR ALL COLUMNS
+================================================================================
+
+  Model Used   : XGBoost (5-Bucket Architecture — one model per DPD bucket)
+  Accuracy     : See per-bucket breakdown below
+  Target       : next_month_transition (Stay | Roll_Forward | Cure)
+  Total Features Used : 57 numeric + 5 categorical (label-encoded)
+
+  ┌─────────┬──────────────────────────────────────┬────────────┬────────────────────────────────────┐
+  │ Bucket  │ Description                          │ Task       │ Classes                            │
+  ├─────────┼──────────────────────────────────────┼────────────┼────────────────────────────────────┤
+  │   0     │ Current (0 DPD)                      │ Binary     │ Stay vs Roll_Forward               │
+  │   1     │ 1–30 DPD                             │ Multiclass │ Cure / Stay / Roll_Forward         │
+  │   2     │ 31–60 DPD                            │ Multiclass │ Cure / Stay / Roll_Forward         │
+  │   3     │ 61–90 DPD                            │ Multiclass │ Cure / Stay / Roll_Forward         │
+  │   4     │ 90+ DPD (Absorbing)                  │ Binary     │ Stay vs Cure                       │
+  └─────────┴──────────────────────────────────────┴────────────┴────────────────────────────────────┘
+
+  Dataset Split: Temporal 75% Train / 25% OOT | Account-level 85% Fit / 15% Val (within Train)
+
+--------------------------------------------------------------------------------
+  OUTPUT TIER
+--------------------------------------------------------------------------------
+
+  Column Name  : rag_rating
+  Description  : RAG classification based on Roll_Forward probability
+                 (Buckets 0–3: probability of Roll_Forward)
+                 (Bucket 4: inverted — probability of Cure; higher = better)
+
+  RAG THRESHOLDS BY BUCKET:
+
+  Bucket 0 (0 DPD — Roll_Forward prob):
+  Value   | Probability Range     | Meaning                        | Hex Colour
+  --------|------------------------|--------------------------------|------------
+  Green   | prob < 0.08           | Low roll risk — stable account | #43A047
+  Amber   | 0.08 <= prob < 0.20   | Elevated risk — watch closely  | #FB8C00
+  Red     | prob >= 0.20          | High roll risk — intervene     | #E53935
+
+  Bucket 1 (1–30 DPD — Roll_Forward prob):
+  Value   | Probability Range     | Meaning                        | Hex Colour
+  --------|------------------------|--------------------------------|------------
+  Green   | prob < 0.20           | Likely to stay or cure         | #43A047
+  Amber   | 0.20 <= prob < 0.40   | Moderate deterioration risk    | #FB8C00
+  Red     | prob >= 0.40          | High deterioration risk        | #E53935
+
+  Bucket 2 (31–60 DPD — Roll_Forward prob):
+  Value   | Probability Range     | Meaning                        | Hex Colour
+  --------|------------------------|--------------------------------|------------
+  Green   | prob < 0.25           | Manageable — recovery possible | #43A047
+  Amber   | 0.25 <= prob < 0.50   | Significant roll risk          | #FB8C00
+  Red     | prob >= 0.50          | Likely to worsen               | #E53935
+
+  Bucket 3 (61–90 DPD — Roll_Forward prob):
+  Value   | Probability Range     | Meaning                        | Hex Colour
+  --------|------------------------|--------------------------------|------------
+  Green   | prob < 0.30           | Containable — cure is possible | #43A047
+  Amber   | 0.30 <= prob < 0.55   | High probability of 90+ DPD   | #FB8C00
+  Red     | prob >= 0.55          | Near-certain roll to 90+ DPD  | #E53935
+
+  Bucket 4 (90+ DPD — Cure prob, INVERTED):
+  Value   | Probability Range     | Meaning                        | Hex Colour
+  --------|------------------------|--------------------------------|------------
+  Green   | prob >= 0.40          | Recovery likely                | #43A047
+  Amber   | 0.20 <= prob < 0.40   | Uncertain recovery             | #FB8C00
+  Red     | prob < 0.20           | Likely to remain in 90+ DPD   | #E53935
+
+================================================================================
+ INPUT FEATURES
+================================================================================
+
+========================
+ A. ROUTING COLUMN
+========================
+
+  Column Name          | Type | Acceptable Values | Description
+  ---------------------|------|-------------------|-----------------------------------------------
+  starting_dpd_bucket  | int  | 0, 1, 2, 3, 4    | DPD bucket at current snapshot — determines
+                       |      |                   | which of the 5 XGBoost models scores the row.
+                       |      |                   | 0=Current, 1=1-30 DPD, 2=31-60 DPD,
+                       |      |                   | 3=61-90 DPD, 4=90+ DPD
+
+
+========================
+ B. BINARY FLAG COLUMNS  (0 or 1 only)
+========================
+
+  Column Name                          | Type | Acceptable Values | Description
+  -------------------------------------|------|-------------------|------------------------------------------
+  is_restructured_flag                 | int  | 0 or 1            | Loan has been restructured (1=Yes, 0=No)
+  moratorium_exited_recently_flag      | int  | 0 or 1            | Exited moratorium recently (1=Yes, 0=No)
+  salary_account_flag                  | int  | 0 or 1            | Salary account linked to loan (1=Yes, 0=No)
+  ever_90plus_flag                     | int  | 0 or 1            | Ever reached 90+ DPD historically (1=Yes, 0=No)
+  partial_payment_flag                 | int  | 0 or 1            | Made partial payment last month (1=Yes, 0=No)
+  nach_mandate_active                  | int  | 0 or 1            | NACH auto-debit mandate active (1=Yes, 0=No)
+  salary_credited_this_month_flag      | int  | 0 or 1            | Salary credited this month (1=Yes, 0=No)
+  active_ptp_open_flag                 | int  | 0 or 1            | Active promise-to-pay open (1=Yes, 0=No)
+  legal_notice_issued_flag             | int  | 0 or 1            | Legal notice issued to borrower (1=Yes, 0=No)
+  is_festival_month_flag               | int  | 0 or 1            | Snapshot in a festival month (1=Yes, 0=No)
+  is_march_flag                        | int  | 0 or 1            | Snapshot is in March (1=Yes, 0=No)
+
+
+========================
+ C. NUMERICAL COLUMNS - INTEGER
+========================
+
+  Column Name                           | Min    | Max     | Median | Description
+  --------------------------------------|--------|---------|--------|----------------------------------------------
+  months_on_book                        | 3      | 46      | 19     | Months since loan disbursement
+  months_to_maturity                    | 2      | 57      | 22     | Months remaining until loan maturity
+  loan_amount                           | 100000 | 1170000 | 450000 | Original loan disbursement amount (INR)
+  tenure_months                         | 12     | 60      | 36     | Total loan tenure in months
+  borrower_age                          | 21     | 65      | 37     | Borrower age in years
+  salary_date_day_of_month              | 0      | 28      | 1      | Day of month salary is typically credited
+  monthly_income                        | 20000  | 177400  | 44600  | Borrower declared monthly income (INR)
+  dpd_days                              | 0      | 199     | 0      | Exact days past due at snapshot
+  months_in_current_bucket              | 1      | 47      | 7      | Months spent in current DPD bucket
+  dpd_1m_ago                            | 0      | 199     | 0      | DPD value 1 month ago
+  dpd_2m_ago                            | 0      | 199     | 0      | DPD value 2 months ago
+  dpd_3m_ago                            | 0      | 199     | 0      | DPD value 3 months ago
+  max_dpd_3m                            | 0      | 199     | 0      | Maximum DPD in last 3 months
+  max_dpd_6m                            | 0      | 199     | 0      | Maximum DPD in last 6 months
+  max_dpd_12m                           | 0      | 199     | 1      | Maximum DPD in last 12 months
+  consecutive_months_delinq             | 0      | 19      | 0      | Consecutive months in delinquency
+  n_times_delinquent_12m               | 0      | 12      | 1      | Number of times delinquent in last 12 months
+  n_times_rolled_forward_12m           | 0      | 7       | 0      | Times rolled to worse DPD bucket in 12 months
+  n_times_cured_12m                    | 0      | 5       | 0      | Times cured (improved DPD bucket) in 12 months
+  months_in_bucket_0_lifetime          | 1      | 47      | 17     | Total months spent in Bucket 0 across loan life
+  n_partial_payments_6m                | 0      | 6       | 0      | Partial payments made in last 6 months
+  days_since_last_payment              | 1      | 9999    | 22     | Days since any payment received (9999=never paid)
+  avg_days_late_6m                     | 0      | 99      | 5      | Average days late on payments in last 6 months
+  bounce_count_6m                      | 0      | 6       | 0      | Payment bounces (ECS/NACH failures) in 6 months
+  days_since_salary_credit             | 0      | 9999    | 86     | Days since salary credited (9999=no salary account)
+  n_bank_account_debits_bounced_30d    | 0      | 9       | 0      | Bank debit bounces in last 30 days
+  credit_score                         | 416    | 886     | 715    | Current bureau credit score (CIBIL)
+  credit_score_at_origination          | 481    | 871     | 718    | Bureau score at loan origination
+  n_delinquent_elsewhere               | 0      | 9       | 0      | Number of other loans currently delinquent
+  n_inquiries_6m                       | 0      | 8       | 1      | Bureau enquiries made in last 6 months
+  new_tradelines_opened_3m             | 0      | 5       | 0      | New credit lines opened in last 3 months
+  n_calls_this_month                   | 0      | 30      | 0      | Collections calls made this month
+  n_rpc_this_month                     | 0      | 10      | 0      | Right Party Contacts this month
+  n_rpc_6m                             | 0      | 25      | 0      | Right Party Contacts in last 6 months
+  n_contact_attempts_6m               | 0      | 50      | 0      | Total contact attempts in last 6 months
+  days_since_last_collections_action   | 1      | 9999    | 9999   | Days since any collections action (9999=no action)
+  n_ptp_captured_6m                   | 0      | 10      | 0      | PTPs captured in last 6 months
+  n_ptp_broken_6m                     | 0      | 7       | 0      | PTPs broken in last 6 months
+  n_distinct_treatment_channels_30d   | 0      | 3       | 0      | Distinct collections channels used in 30 days
+  month_of_year                        | 1      | 12      | 6      | Snapshot month (1=Jan, 12=Dec)
+
+
+========================
+ D. NUMERICAL COLUMNS - INTEGER (Sentinel Values Apply)
+========================
+
+  These columns use -1 as a sentinel for missing/not-applicable.
+  The scoring pipeline converts -1 → NaN automatically before model inference.
+
+  Column Name                    | Min    | Max  | Median | Sentinel | Sentinel Meaning
+  -------------------------------|--------|------|--------|----------|------------------------------------------
+  dpd_6m_ago                    | 0      | 199  | 0      | -1       | Account < 6 months old — no 6m history
+  dpd_velocity_1m               | -199   | 139  | 0      | -1       | Insufficient history (< 1 month)
+  dpd_velocity_3m               | -199   | 196  | 0      | -1       | Insufficient history (< 3 months)
+  dpd_acceleration              | -308   | 255  | 0      | -1       | Insufficient history for acceleration calc
+  days_late_on_last_payment     | -5     | 199  | 13     | -1       | No late payment on record
+  credit_score_delta_1m         | -127   | 174  | 0      | -1       | Bureau score unavailable for 1m delta
+  credit_score_delta_6m         | -192   | 115  | 0      | -1       | Bureau score unavailable for 6m delta
+
+
+========================
+ E. NUMERICAL COLUMNS - FLOAT (Continuous)
+========================
+
+  Column Name                      | Min          | Max            | Median    | Description
+  ---------------------------------|--------------|----------------|-----------|----------------------------------------------
+  emi_amount                       | 2,027.64     | 96,223.89      | 13,254.86 | Monthly EMI amount (INR)
+  outstanding_balance              | 5,132.97     | 10,99,719.06   | 2,41,567.97 | Total outstanding loan balance (INR)
+  principal_repaid                 | -1,73,176.12 | 10,60,064.99   | 1,59,089.72 | Cumulative principal repaid (INR; negative = restructure)
+  balance_to_original_ratio        | 0.0483       | 1.2384         | 0.6027    | Outstanding balance ÷ original loan amount
+  avg_pmt_to_emi_3m                | 0.0000       | 1.1500         | 0.9835    | Avg payment as ratio of EMI — last 3 months
+  avg_pmt_to_emi_6m                | 0.0000       | 1.1000         | 0.9802    | Avg payment as ratio of EMI — last 6 months
+  pmt_to_emi_trend                 | -0.8500      | 0.6142         | -0.0069   | Trend in payment-to-EMI ratio (positive = improving)
+  last_payment_to_emi_ratio        | 0.0000       | 1.2000         | 0.9945    | Most recent payment ÷ EMI
+  payment_regularity               | 0.0000       | 1.0000         | 1.0000    | Payment consistency score (0=irregular, 1=regular)
+  avg_balance_at_emi_due_date_3m   | 100.00       | 2,57,274.65    | 19,137.14 | Avg bank balance on EMI due date — last 3 months (INR)
+  current_foir                     | 0.0276       | 2.8469         | 0.3798    | Fixed Obligation to Income Ratio (all loans)
+  emi_burden_ratio                 | 0.0234       | 2.8469         | 0.2895    | This loan's EMI ÷ monthly income
+  outstanding_to_income_ratio      | 0.0552       | 41.7693        | 5.2470    | Outstanding balance ÷ monthly income
+  bureau_utilization               | 0.0006       | 0.9922         | 0.3183    | Credit utilization ratio from bureau
+  bureau_overdue_amount_delta_3m   | -64,825.13   | 74,326.51      | -13.76    | Change in bureau overdue amount over 3 months (INR)
+  rpc_rate_6m                      | 0.0000       | 1.0000         | 0.0000    | Right Party Contact rate in last 6 months
+  ptp_keep_rate_6m                 | 0.0000       | 1.0000         | 0.5000    | PTP fulfilment rate in last 6 months
+  unemployment_rate_state          | 3.5000       | 11.0000        | 5.6000    | State-level unemployment rate (macro signal)
+  repo_rate                        | 4.0000       | 6.5000         | 5.9000    | RBI repo rate at snapshot date (macro signal)
+
+
+========================
+ F. CATEGORICAL COLUMNS
+========================
+
+  Column Name                    | Acceptable Values
+  -------------------------------|---------------------------------------------------------------------
+  vintage_maturity_band          | 0-6m, 6-12m, 12-24m, 24m+
+  product_subtype                | Balance_Transfer, Flexi_Loan, Personal_Loan, Top_Up_Loan
+  employer_category              | Government, Informal, Large_Private, PSU, Self_Employed,
+                                 | Small_Private, Unemployed
+  city_tier                      | Tier_1, Tier_2, Tier_3
+  collections_treatment_strategy | Agency_Assigned, Digital_Only, Field_Visit, Legal_Notice,
+                                 | No_Action, Tele_Calling
+
+  Note: All categoricals are label-encoded (not one-hot) inside the scoring pipeline using
+  LabelEncoders saved in the model pickle. Any unseen value at scoring time is mapped to -1.
+
+
+========================
+ G. SENTINEL / SURROGATE MISSING VALUES
+========================
+
+  The following columns use special numeric values to represent missing data.
+  The scoring pipeline handles all of these automatically — do not pre-process.
+
+  Column Name                      | Sentinel | Meaning                             | Treatment Applied
+  ---------------------------------|----------|-------------------------------------|---------------------------
+  dpd_6m_ago                       | -1       | Account < 6 months old              | Replace with NaN (XGBoost native)
+  dpd_velocity_1m                  | -1       | Insufficient history (< 1m)         | Replace with NaN (XGBoost native)
+  dpd_velocity_3m                  | -1       | Insufficient history (< 3m)         | Replace with NaN (XGBoost native)
+  dpd_acceleration                 | -1       | Insufficient history for accel calc | Replace with NaN (XGBoost native)
+  days_late_on_last_payment        | -1       | No late payment on record           | Replace with NaN (XGBoost native)
+  credit_score_delta_1m            | -1       | Bureau score unavailable (1m delta) | Replace with NaN (XGBoost native)
+  credit_score_delta_6m            | -1       | Bureau score unavailable (6m delta) | Replace with NaN (XGBoost native)
+  days_since_last_payment          | 9999     | Account has never made a payment    | Pass through (model trained on 9999)
+  days_since_salary_credit         | 9999     | No salary account linked            | Pass through (model trained on 9999)
+  days_since_last_collections_action| 9999    | No collections action ever taken    | Pass through (model trained on 9999)
+
+
+================================================================================
+ MODEL DETAILS
+================================================================================
+
+  Architecture        : 5 independent XGBoost classifiers, one per DPD bucket
+  Training Strategy   : Temporal split — 75th percentile month as cutoff
+                        Account-level 85%/15% Fit/Val split within Train
+                        Early stopping: 30 rounds on Val AUC (binary) / mlogloss (multiclass)
+
+  XGBoost Hyperparameters (shared across all buckets):
+  -----------------------------------------------------
+  n_estimators        : 500 (with early stopping)
+  max_depth           : 5
+  learning_rate       : 0.05
+  min_child_weight    : 10
+  subsample           : 0.8
+  colsample_bytree    : 0.8
+  reg_alpha           : 0.1
+  reg_lambda          : 1.0
+  tree_method         : hist
+
+  Per-Bucket Configuration:
+  --------------------------
+  Bucket 0 : objective=binary:logistic  | eval_metric=auc        | scale_pos_weight=class ratio
+  Bucket 1 : objective=multi:softprob   | eval_metric=mlogloss   | num_class=3
+  Bucket 2 : objective=multi:softprob   | eval_metric=mlogloss   | num_class=3
+  Bucket 3 : objective=multi:softprob   | eval_metric=mlogloss   | num_class=3
+  Bucket 4 : objective=binary:logistic  | eval_metric=auc        | scale_pos_weight=class ratio
+
+  Dataset Composition (post Censored removal):
+  ---------------------------------------------
+  Total rows          : 90,238
+  Unique accounts     : 6,146
+  Avg snapshots/acct  : ~14.7
+  Date range          : 24-month panel
+
+  Class distribution:
+  Stay                : 72,461  (80.3%)
+  Roll_Forward        : 12,293  (13.6%)
+  Cure                :  5,484  ( 6.1%)
+
+  Bucket row distribution:
+  Bucket 0 (0 DPD)    : 71,359  (79.1%)
+  Bucket 1 (1-30 DPD) :  8,256  ( 9.1%)
+  Bucket 2 (31-60 DPD):  4,496  ( 5.0%)
+  Bucket 3 (61-90 DPD):  3,199  ( 3.5%)
+  Bucket 4 (90+ DPD)  :  2,928  ( 3.2%)
+
+  SHAP Explainability : TreeExplainer — top 10 drivers per account returned by the API
+  Output Column       : rag_rating
+  Output Values       : Green (#43A047) | Amber (#FB8C00) | Red (#E53935)
+
+================================================================================

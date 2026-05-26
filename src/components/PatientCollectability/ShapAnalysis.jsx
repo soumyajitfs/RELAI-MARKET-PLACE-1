@@ -115,7 +115,8 @@ const ShapAnalysis = ({ shapData }) => {
     categoryContextLabel === 'Retail Loan LGD Prediction' ||
     categoryContextLabel === 'Application Scorecard' ||
     categoryContextLabel === 'Collections Scorecard' ||
-    categoryContextLabel === 'Behavioural Scorecard';
+    categoryContextLabel === 'Behavioural Scorecard' ||
+    categoryContextLabel === 'Roll Rate Prediction Score';
   const catBadgeLabel = hideTierPrefix
     ? categoryContextLabel
     : `${resolvedDisplayCategory} — ${categoryContextLabel}`;
@@ -140,6 +141,7 @@ const ShapAnalysis = ({ shapData }) => {
     'Application Scorecard': 'Scorecard score',
     'Collections Scorecard': 'Probability of bad (6M)',
     'Behavioural Scorecard': 'Probability of bad (12M)',
+    'Roll Rate Prediction Score': 'Primary transition probability',
   };
   const probabilityLabel = probabilityLabelMap[categoryContextLabel] || 'P2P Probability';
 

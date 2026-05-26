@@ -1,0 +1,85 @@
+{
+  "info": {
+    "_postman_id": "e1f8b8ba-4167-4c32-a846-ae4a028b7d69",
+    "name": "Roll Rate",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40626210"
+  },
+  "item": [
+    {
+      "name": "Generate Accounts",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "rollrate_internal_marketplace_key_2024",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://ml-market-backend-2-roll-rate.azurewebsites.net/api/rollrate/accounts/generate",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-2-roll-rate",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "rollrate",
+            "accounts",
+            "generate"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Predict",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "rollrate_internal_marketplace_key_2024",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"account_ids\": [\r\n    \"ACC_001075\",\r\n    \"ACC_003321\",\r\n    \"ACC_000933\",\r\n    \"ACC_001831\",\r\n    \"ACC_002842\"\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://ml-market-backend-2-roll-rate.azurewebsites.net/api/rollrate/accounts/predict",
+          "protocol": "https",
+          "host": [
+            "ml-market-backend-2-roll-rate",
+            "azurewebsites",
+            "net"
+          ],
+          "path": [
+            "api",
+            "rollrate",
+            "accounts",
+            "predict"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

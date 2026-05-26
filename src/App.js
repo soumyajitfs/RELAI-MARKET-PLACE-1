@@ -27,6 +27,7 @@ import RetailLoanLgdPredictionPage from './pages/RetailLoanLgdPredictionPage';
 import ApplicationScorecardPredictionPage from './pages/ApplicationScorecardPredictionPage';
 import CollectionsScorecardPredictionPage from './pages/CollectionsScorecardPredictionPage';
 import BehaviouralScorecardPredictionPage from './pages/BehaviouralScorecardPredictionPage';
+import RollRatePredictionPage from './pages/RollRatePredictionPage';
 
 // Import styles
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -76,6 +77,10 @@ function App() {
           <Route
             path="/behavioural-scorecard-prediction"
             element={withLayout(<BehaviouralScorecardPredictionPage />)}
+          />
+          <Route
+            path="/roll-rate-prediction-score"
+            element={withLayout(<RollRatePredictionPage />)}
           />
           <Route
             path="/customer-lifecycle-analytics"

@@ -188,6 +188,24 @@ module.exports = function (app) {
     })
   );
 
+  // Roll Rate Prediction backend
+  app.use(
+    '/api/rollrate/accounts',
+    createProxyMiddleware({
+      target: 'https://ml-market-backend-2-roll-rate.azurewebsites.net',
+      changeOrigin: true,
+      secure: false,
+      pathRewrite: restoreUpstreamPath('/api/rollrate/accounts'),
+      logLevel: 'debug',
+      onProxyRes: function (proxyRes, req, res) {
+        console.log('[Proxy-Roll-Rate] Response from:', req.url, 'Status:', proxyRes.statusCode);
+      },
+      onError: function (err, req, res) {
+        console.error('[Proxy-Roll-Rate] Error:', err.message);
+      },
+    })
+  );
+
   // Behavioural Scorecard backend
   app.use(
     '/api/scorecard/accounts',
